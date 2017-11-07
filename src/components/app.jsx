@@ -6,15 +6,31 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
+    // TODO
+    // each track is { sequence, bpm?, base_note_value, voice }
+
     this.state = {
-      sequence: [
-        ['C4', 'D4'],
-        ['E4'],
-        ['C5', 'B4', 'A4', 'G4', 'F4', 'E4', 'D4'],
-        ['A4']
-      ],
+      playing: false,
       bpm: 75,
-      synth: new Tone.Synth().toMaster()
+      tracks: [
+        {
+          sequence: [
+            ['C4', 'D4'],
+            ['E4'],
+            ['C5', 'B4', 'A4', 'G4', 'F4', 'E4', 'D4'],
+            ['A4'],
+            ['G4', 'F4', 'E4', 'D4'],
+            ['C4'],
+            ['C4', 'D4', 'E4'],
+            ['C4']
+          ]
+        },
+        {
+          sequence: [
+            ['C5', 'E5', 'G5', 'C5', 'E5', 'G5']
+          ]
+        }
+      ]
     };
   }
 
@@ -22,19 +38,33 @@ class App extends React.Component {
     Tone.Transport.bpm.value = this.state.bpm;
   }
 
+  // toggles playing
   play() {
-    const part = new Tone.Part((time, event) => {
-      this.state.synth.triggerAttackRelease(event.note, event.dur, time);
-    }, this.extractNotes(this.state.sequence));
+    if (this.state.playing) {
+      Tone.Transport.stop();
+      this.setState({ playing: false });
+    }
+    else {
+      this.setState({ playing: true });
+      // generate a part for each track
+      this.state.tracks.forEach(track => {
+        const synth = new Tone.Synth().toMaster();
+        const part = new Tone.Part((time, event) => {
+          synth.triggerAttackRelease(event.note, event.dur, time);
+        }, this.extractNotes(track.sequence));
 
-    part.start(0);
+        part.start(0);
 
-    part.loop = 10;
-    part.loopEnd = '1m';
+        part.loop = true;
+        part.loopEnd = `${track.sequence.length}*4n`;
+      });
 
-    Tone.Transport.start('+0.1');
+      Tone.Transport.start('+0.1');
+    }
+    
   }
 
+  // TODO: (arr, base_note_value) so that you can set the base to 1/4 or 1/8 etc.
   extractNotes(arr) {
     const result = [];
     arr.forEach((bucket, bucketIndex) => {
@@ -46,6 +76,7 @@ class App extends React.Component {
     return result;
   }
 
+  // TODO: (..., base_note_value)
   getDurAndTime(bucketLength, bucketIndex, noteIndex) {
     const _dur = 1 / bucketLength;
     const dur = `0:${_dur}`;
