@@ -1,7 +1,7 @@
 {
-  "name": "react-flask",
+  "name": "beatbucket",
   "version": "1.0.0",
-  "description": "React + Flask Starter Template",
+  "description": "sequencer and drum machine",
   "main": "index.js",
   "scripts": {
     "build": "webpack -p --progress --config webpack.config.js",
@@ -10,8 +10,9 @@
     "watch": "webpack --progress -d --config webpack.config.js --watch"
   },
   "keywords": [
-    "React",
-    "Flask"
+    "music",
+    "sequencer",
+    "drum machine"
   ],
   "author": "Joe Beach",
   "license": "MIT",
@@ -30,5 +31,8 @@
       "env",
       "react"
     ]
+  },
+  "dependencies": {
+    "tone": "^0.11.11"
   }
 }
