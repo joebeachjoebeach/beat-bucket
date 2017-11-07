@@ -1,0 +1,9 @@
+# npm stuff
+node_modules/
+npm-debug.log
+
+# mac
+.DS_Store
+
+# webpack build
+dist/bundle.js
