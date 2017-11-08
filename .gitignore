@@ -7,6 +7,7 @@ npm-debug.log
 
 # webpack build
 dist/bundle.js
+dist/style.css
 
 #sublime files
 **.sublime-project

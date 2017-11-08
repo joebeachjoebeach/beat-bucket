@@ -1,5 +1,6 @@
 import React from 'react';
 import Tone from 'tone';
+import './app.css';
 
 class App extends React.Component {
 
@@ -90,7 +91,12 @@ class App extends React.Component {
       <div>
         Beatbucket Playtime
         <hr />
-        <button onMouseDown={this.play.bind(this)}>Play</button>
+        <button 
+          className="btn"
+          onMouseDown={this.play.bind(this)}
+        >
+          Play
+        </button>
       </div>
     );
   }
