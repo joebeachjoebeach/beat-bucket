@@ -8,7 +8,7 @@ class App extends React.Component {
     super(props);
 
     // TODO
-    // each track is { sequence, bpm?, base_note_value, voice }
+    // each track is { sequence, bpm?, baseNote, voice }
 
     this.state = {
       playing: false,
@@ -24,12 +24,14 @@ class App extends React.Component {
             ['C4'],
             ['C4', 'D4', 'E4'],
             ['C4']
-          ]
+          ],
+          baseNote: 1
         },
         {
           sequence: [
-            ['C5', 'E5', 'G5', 'C5', 'E5', 'G5']
-          ]
+            ['C5', 'E5', 'G5']
+          ],
+          baseNote: 0.5
         }
       ]
     };
@@ -49,15 +51,16 @@ class App extends React.Component {
       this.setState({ playing: true });
       // generate a part for each track
       this.state.tracks.forEach(track => {
+        // synth can live in the track state
         const synth = new Tone.Synth().toMaster();
         const part = new Tone.Part((time, event) => {
           synth.triggerAttackRelease(event.note, event.dur, time);
-        }, this.extractNotes(track.sequence));
+        }, this.extractNotes(track.sequence, track.baseNote));
 
         part.start(0);
 
         part.loop = true;
-        part.loopEnd = `${track.sequence.length}*4n`;
+        part.loopEnd = `${track.sequence.length}*0:${track.baseNote}`;
       });
 
       Tone.Transport.start('+0.1');
@@ -65,21 +68,19 @@ class App extends React.Component {
     
   }
 
-  // TODO: (arr, base_note_value) so that you can set the base to 1/4 or 1/8 etc.
-  extractNotes(arr) {
+  extractNotes(arr, baseNote) {
     const result = [];
     arr.forEach((bucket, bucketIndex) => {
       bucket.forEach((note, noteIndex) => {
-        const [ dur, time ] = this.getDurAndTime(bucket.length, bucketIndex, noteIndex);
+        const [ dur, time ] = this.getDurAndTime(bucket.length, bucketIndex, noteIndex, baseNote);
         result.push({ note, dur, time });
       });
     });
     return result;
   }
 
-  // TODO: (..., base_note_value)
-  getDurAndTime(bucketLength, bucketIndex, noteIndex) {
-    const _dur = 1 / bucketLength;
+  getDurAndTime(bucketLength, bucketIndex, noteIndex, baseNote) {
+    const _dur = baseNote / bucketLength;
     const dur = `0:${_dur}`;
     const start = `0:${bucketIndex}`;
     const time = `${start} + 0:${noteIndex * _dur}`;
