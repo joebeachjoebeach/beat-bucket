@@ -1,6 +1,13 @@
+// APP
+
 import React from 'react';
 import Tone from 'tone';
 import './app.css';
+
+import Header from '../header';
+import Sidebar from '../../containers/sidebar';
+import BucketHeader from '../../containers/bucket-header';
+import Track from '../../containers/track';
 
 class App extends React.Component {
 
@@ -65,7 +72,6 @@ class App extends React.Component {
 
       Tone.Transport.start('+0.1');
     }
-    
   }
 
   extractNotes(arr, baseNote) {
@@ -87,17 +93,30 @@ class App extends React.Component {
     return [dur, time];
   }
 
+  // render() {
+  //   return (
+  //     <div class="app">
+  //       <Header />
+  //       <button 
+  //         className="btn"
+  //         onMouseDown={this.play.bind(this)}
+  //       >
+  //         Play
+  //       </button>
+  //     </div>
+  //   );
+  // }
   render() {
     return (
-      <div>
-        Beatbucket Playtime
-        <hr />
-        <button 
-          className="btn"
-          onMouseDown={this.play.bind(this)}
-        >
-          Play
-        </button>
+      <div className="app">
+        <Header />
+        <div className="wrapper">
+          <Sidebar />
+          <div className="subwrapper">
+            <BucketHeader />
+            <Track />
+          </div>
+        </div>
       </div>
     );
   }

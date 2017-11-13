@@ -1,0 +1,14 @@
+.bucket {
+  border: 1px solid black;
+  border-top: none;
+  display: flex;
+  flex-direction: column-reverse;
+  height: 80px;
+  margin: 0 4px;
+  width: 40px;
+}
+
+.note {
+  height: 30px;
+  width: 30px;
+}

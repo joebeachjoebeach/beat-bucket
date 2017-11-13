@@ -1,0 +1,12 @@
+.bucketheader {
+  align-items: center;
+  background-color: #023A5B;
+  color: white;
+  display: flex;
+  height: 40px;
+  width: 100%;
+}
+
+.bucketheader-title {
+  margin: 0 0 0 5px;
+}

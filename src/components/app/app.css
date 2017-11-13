@@ -1,7 +1,26 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
 .btn {
   background-color: #04395E;
   border: none;
   border-radius: 0;
   color: white;
   font-size: 1rem;
+}
+
+.wrapper {
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+  width: 100%;
+}
+
+.subwrapper {
+  height: 100%;
+  width: 100%;
 }

@@ -1,0 +1,11 @@
+.sidebar {
+  background-color: #04395E;
+  color: white;
+  height: 100%;
+  max-width: 300px;
+  width: 30%;
+}
+
+.tracklist {
+  margin: 10px 0 0 10px;
+}
