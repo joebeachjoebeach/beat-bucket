@@ -1,5 +1,4 @@
 import React from 'react';
-import Tone from 'tone';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { play, stop } from '../../actions';
@@ -8,16 +7,14 @@ import { playSequence } from '../../sequencer';
 
 import './transport.css';
 
-const Transport = ({ bpm, tracks, play, stop }) => {
+const Transport = ({ play, stop }) => {
 
   function handlePlayClick() {
     play();
-    // playSequence(tracks, console.log);
   }
 
   function handleStopClick() {
     stop();
-    // Tone.Transport.stop();
   }
 
   return (
@@ -32,8 +29,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ play, stop }, dispatch);
 }
 
-function mapStateToProps({ globals: { bpm, playing }, tracks }) {
-  return { bpm, playing, tracks };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Transport);
+export default connect(null, mapDispatchToProps)(Transport);

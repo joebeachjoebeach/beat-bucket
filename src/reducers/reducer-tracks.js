@@ -1,6 +1,8 @@
+import { TOGGLE_MUTE, TOGGLE_SOLO } from '../actions';
 
-const dummy = [
-  {
+
+const dummy = {
+  0: {
     name: 'Track 1',
     sequence: [
       ['C4', 'D4'],
@@ -13,17 +15,58 @@ const dummy = [
       ['C4']
     ],
     baseNote: 1,
-    id: 1
+    id: 0,
+    muted: false,
+    soloed: false
   },
-  // {
-  //   sequence: [
-  //     ['C5', 'D5', 'E5']
-  //   ],
-  //   baseNote: 0.5
-  // }
-];
+  1: {
+    name: 'Track 2',
+    sequence: [
+      ['C5', 'D5', 'E5']
+    ],
+    baseNote: 0.5,
+    id: 1,
+    muted: false,
+    soloed: false
+  }
+};
 
 export default function TracksReducer(state = dummy, action) {
-  return state;
+  let newState;
+
+  // in both of these cases I am making a SHALLOW copy, and the nested objects (each track)
+  // are being re-referenced, NOT COPIED
+  switch (action.type) {
+  case TOGGLE_MUTE:
+    newState = {};
+    Object.entries(state).forEach(([ key, value ]) => {
+      let currentTrack = Object.assign({}, value);
+      if (value.id === action.payload)
+        currentTrack.muted = !currentTrack.muted;
+      newState[key] = currentTrack;
+    });
+
+    return newState;
+
+  case TOGGLE_SOLO:
+    newState = {};
+    Object.entries(state).forEach(({ key, value }) => {
+      newState[key] = value;
+
+      if (key === action.payload) {
+        newState[key].muted = false;
+        newState[key].soloed = true;
+      }
+      else {
+        newState[key].muted = true;
+        newState[key].soloed = false;
+      }
+    });
+    return newState;
+
+  default:
+    return state;
+
+  }
 }
 

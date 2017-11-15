@@ -1,0 +1,22 @@
+.tracklistitem {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+  .tracklistitem-section {
+    cursor: pointer;
+    display: flex;
+  }
+
+    .tracklistitem-section-mutesolo {
+      margin: 0 5px;
+    }
+
+.current {
+  color: yellow;
+}
+
+.activated {
+  color: red;
+}

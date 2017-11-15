@@ -2,30 +2,63 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateCurrentTrack } from '../../actions';
 import './sidebar.css';
 
 import Transport from '../transport';
+import TrackList from '../track-list';
 
-const Sidebar = ({ trackNames }) => {
+const Sidebar = ({ tracks, updateCurrentTrack, currentTrack }) => {
   function renderTrackNames() {
-    return trackNames.map((name, i) => {
-      return <div className="tracklist-name" key={i}>{name}</div>;
+    return tracks.map(({ name, id }) => {
+      return (
+        <div
+          className="tracklist-name"
+          key={id}
+          onClick={onTrackClick(id)}
+        >
+          {name}
+        </div>
+      );
     });
   }
+
+  function onTrackClick(trackId) {
+    return () => {
+      if (trackId !== currentTrack)
+        updateCurrentTrack(trackId);
+    };
+  }
+
+  // return (
+  //   <div className="sidebar">
+  //     <Transport />
+  //     <div className="tracklist">
+  //       {renderTrackNames()}
+  //     </div>
+  //   </div>
+  // );
 
   return (
     <div className="sidebar">
       <Transport />
-      <div className="tracklist">
-        {renderTrackNames()}
-      </div>
+      <TrackList />
     </div>
   );
+
 };
 
-function mapStateToProps({ tracks }) {
-  return { trackNames: tracks.map(track => track.name) };
+function mapStateToProps({ tracks, globals: { currentTrack } }) {
+  const trackNamesIds = Object.values(tracks).map(({ name, id }) => {
+    return { name, id };
+  });
+
+  return { tracks: trackNamesIds, currentTrack };
 }
 
-// export default Sidebar;
-export default connect(mapStateToProps)(Sidebar);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ updateCurrentTrack }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

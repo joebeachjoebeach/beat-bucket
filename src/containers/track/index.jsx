@@ -2,12 +2,11 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import Tone from 'tone';
 import './track.css';
 
 import BucketRow from '../bucket-row';
 
-const Track = ({ name, sequence, baseNote }) => {
+const Track = ({ name, sequence }) => {
   return (
     <div className="track">
       <div>{name}</div>
@@ -16,9 +15,8 @@ const Track = ({ name, sequence, baseNote }) => {
   );
 };
 
-function mapStateToProps({ tracks }) {
-  const [ { name, sequence, baseNote } ] = tracks;
-  return { name, sequence, baseNote };
+function mapStateToProps({ tracks, globals: { currentTrack } }) {
+  return tracks[currentTrack];
 }
 
 export default connect(mapStateToProps)(Track);
