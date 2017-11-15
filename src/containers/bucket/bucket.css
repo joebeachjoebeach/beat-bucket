@@ -12,3 +12,7 @@
   height: 30px;
   width: 30px;
 }
+
+.note-current {
+  color: red;
+}

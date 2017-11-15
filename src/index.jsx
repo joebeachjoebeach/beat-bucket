@@ -9,10 +9,11 @@ import './index.css';
 
 import App from './components/app';
 
+import Sequencer from './sequencer';
+
 const store = createStore(reducers);
 
-
-// ReactDOM.render(<App />, document.getElementById('main'));
+const sequencer = new Sequencer(store);
 
 ReactDOM.render(
   <Provider store={store}>

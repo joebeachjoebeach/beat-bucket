@@ -9,7 +9,7 @@ const BucketRow = ({ sequence }) => {
 
   function renderBuckets() {
     return sequence.map((bucket, i) => {
-      return <Bucket notes={bucket} key={i} />;
+      return <Bucket notes={bucket} key={i} id={i} />;
     });
   }
 

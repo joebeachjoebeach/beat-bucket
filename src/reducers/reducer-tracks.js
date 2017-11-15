@@ -12,7 +12,8 @@ const dummy = [
       ['C4', 'D4', 'E4'],
       ['C4']
     ],
-    baseNote: 1
+    baseNote: 1,
+    id: 1
   },
   // {
   //   sequence: [

@@ -7,7 +7,7 @@ const Bucket = ({ notes }) => {
 
   function renderNotes() {
     return notes.map((note, i) => {
-      return <div className="note" key={i}>{note}</div>;
+      return <div className="note" key={i} id={i}>{note}</div>;
     });
   }
 

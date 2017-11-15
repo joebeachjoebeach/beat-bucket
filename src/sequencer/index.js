@@ -1,51 +1,112 @@
 import Tone from 'tone';
 
-export function playSequence(tracks, callback) {
-  tracks.forEach(({ sequence, baseNote }) => {
-    const part = new Tone.Part(partProcessor(callback), extractNotes(sequence, baseNote));
+export default class Sequencer {
+  constructor(store) {
+    this.store = store;
+    this.unsubscribePlaying = this.observeStore(store, this.selectPlaying, this.onPlayingChange);
+  }
 
-    part.start(0);
-    part.loop = true;
-    part.loopEnd = `${sequence.length}*0:${baseNote}`;
-  });
+  // function to subscribe to a specific part of the store and respond with an onChange function
+  observeStore(store, select, onChange) {
+    let currentState;
 
-  Tone.Transport.start('+0.1');
-}
+    const handleChange = () => {
+      let newState = select(store.getState());
+      if (newState !== currentState) {
+        currentState = newState;
+        // onChange(currentState);
+        onChange.bind(this)(currentState);
+      }
+    };
 
-function partProcessor(callback) {
-  const synth = new Tone.Synth().toMaster();
+    let unsubscribe = store.subscribe(handleChange);
+    handleChange();
+    return unsubscribe;
+  }
 
-  return (time, event) => {
-    synth.triggerAttackRelease(event.note, event.dur, time);
-    callback(time, event);
-  };
-  
-}
+  selectPlaying(state) {
+    return state.globals.playing;
+  }
 
-function extractNotes(arr, baseNote) {
-  const result = [];
-  arr.forEach((bucket, bucketIndex) => {
-    bucket.forEach((note, noteIndex) => {
-      const [ dur, time ] = getDurAndTime(bucket.length, bucketIndex, noteIndex, baseNote);
-      result.push({ note, dur, time });
+  selectTracks(state) {
+    return state.tracks;
+  }
+
+  onPlayingChange(playing) {
+    if (playing === false)
+      this.stop();
+    else
+      this.playSequence(this.selectTracks(this.store.getState()), this.updateCurrentNote);
+  } 
+
+  updateCurrentNote({ bucketIndex, noteIndex, trackId }) {
+    // console.log(note);
+    console.log(`bucket: ${bucketIndex}`);
+    console.log(`note: ${noteIndex}`);
+    console.log(`track: ${trackId}`);
+  }
+
+
+  playSequence(tracks, callback) {
+    tracks.forEach(track => {
+      const part = new Tone.Part(
+        this.partProcessor(callback),
+        this.extractNotes(track)
+      );
+
+      const { sequence, baseNote } = track;
+      part.start(0);
+      part.loop = true;
+      part.loopEnd = `${sequence.length}*0:${baseNote}`;
     });
-  });
-  return result;
+
+    Tone.Transport.start('+0.1');
+  }
+
+  partProcessor(callback) {
+    const synth = new Tone.Synth().toMaster();
+
+    return (time, event) => {
+      synth.triggerAttackRelease(event.note, event.dur, time);
+
+      // now we can access event.bucketIndex, .noteIndex, and .trackId
+      callback(event);
+    };
+    
+  }
+
+  // have this add { bucketId, noteId } so that they can be sent to globals "current note"?
+  // but we need to keep track of current track too...
+  extractNotes({ sequence, id: trackId, baseNote }) {
+    const result = [];
+    sequence.forEach((bucket, bucketIndex) => {
+      bucket.forEach((note, noteIndex) => {
+        const [ dur, time ] = this.getDurAndTime(bucket.length, bucketIndex, noteIndex, baseNote);
+        result.push({ note, dur, time, bucketIndex, noteIndex, trackId });
+      });
+    });
+    return result;
+  }
+
+  getDurAndTime(bucketLength, bucketIndex, noteIndex, baseNote) {
+    const _dur = baseNote / bucketLength;
+    const dur = `0:${_dur}`;
+    const start = `0:${bucketIndex}`;
+    const time = `${start} + 0:${noteIndex * _dur}`;
+    return [dur, time];
+  }
+
+  stop() {
+    Tone.Transport.stop();
+  }
+
+
 }
 
-function getDurAndTime(bucketLength, bucketIndex, noteIndex, baseNote) {
-  const _dur = baseNote / bucketLength;
-  const dur = `0:${_dur}`;
-  const start = `0:${bucketIndex}`;
-  const time = `${start} + 0:${noteIndex * _dur}`;
-  return [dur, time];
-}
 
 
 
-function stop() {
-  Tone.Transport.stop();
-}
+
 
 
 

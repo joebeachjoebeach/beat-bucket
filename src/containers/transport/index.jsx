@@ -12,12 +12,12 @@ const Transport = ({ bpm, tracks, play, stop }) => {
 
   function handlePlayClick() {
     play();
-    playSequence(tracks, console.log);
+    // playSequence(tracks, console.log);
   }
 
   function handleStopClick() {
     stop();
-    Tone.Transport.stop();
+    // Tone.Transport.stop();
   }
 
   return (

@@ -1,6 +1,13 @@
 import { PLAY, STOP } from '../actions';
 
-export default function(state = { bpm: 75, playing: false, currentNote: null }, action) {
+const dummy_data = {
+  bpm: 75,
+  playing: false,
+  currentNote: null,
+  currentTrack: 1
+};
+
+export default function(state = dummy_data, action) {
   const { bpm, playing, currentNote } = state;
 
   switch (action.type) {
