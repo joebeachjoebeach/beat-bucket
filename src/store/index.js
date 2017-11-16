@@ -32,6 +32,6 @@ export function selectBpm(state) {
 
 export function selectMuted(id) {
   return state => {
-    return state.tracks[id].muted;
+    return state.tracks[id].data.muted;
   };
 }

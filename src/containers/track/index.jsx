@@ -6,11 +6,11 @@ import './track.css';
 
 import BucketRow from '../bucket-row';
 
-const Track = ({ name, sequence }) => {
+const Track = ({ data: { name, sequence }, currentNote }) => {
   return (
     <div className="track">
       <div>{name}</div>
-      <BucketRow sequence={sequence} />
+      <BucketRow sequence={sequence} currentNote={currentNote} />
     </div>
   );
 };

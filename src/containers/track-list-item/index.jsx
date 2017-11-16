@@ -26,6 +26,10 @@ const TrackListItem = ({
     toggleMute(id);
   }
 
+  function handleSoloClick() {
+    toggleSolo(id);
+  }
+
   function renderCurrent() {
     return <div className="tracklistitem-section current" onClick={handleNameClick}>{name}</div>;
   }
@@ -42,6 +46,14 @@ const TrackListItem = ({
     return <div className="tracklistitem-section-mutesolo" onClick={handleMuteClick}>Mute</div>;
   }
 
+  function renderSoloed() {
+    return <div className="tracklistitem-section-mutesolo activated" onClick={handleSoloClick}>Solo</div>;
+  }
+
+  function renderUnsoloed() {
+    return <div className="tracklistitem-section-mutesolo" onClick={handleSoloClick}>Solo</div>;
+  }
+
   return (
     <div className="tracklistitem">
       {current && renderCurrent()}
@@ -49,7 +61,8 @@ const TrackListItem = ({
       <div className="tracklistitem-section">
         {muted && renderMuted()}
         {!muted && renderUnmuted()}
-        <div className="tracklistitem-section-mutesolo">Solo</div>
+        {soloed && renderSoloed()}
+        {!soloed && renderUnsoloed()}
       </div>
     </div>
   );

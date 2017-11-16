@@ -3,7 +3,7 @@ import { PLAY, STOP, UPDATE_CURRENT_NOTE, UPDATE_CURRENT_TRACK } from '../action
 const dummy_data = {
   bpm: 75,
   playing: false,
-  currentNote: [],
+  currentNote: [0, 0],
   currentTrack: 0
 };
 

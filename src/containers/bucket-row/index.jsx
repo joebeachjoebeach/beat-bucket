@@ -5,11 +5,11 @@ import './bucket-row.css';
 
 import Bucket from '../bucket';
 
-const BucketRow = ({ sequence }) => {
+const BucketRow = ({ sequence, currentNote }) => {
 
   function renderBuckets() {
     return sequence.map((bucket, i) => {
-      return <Bucket notes={bucket} key={i} id={i} />;
+      return <Bucket notes={bucket} currentNote={currentNote} key={i} id={i} />;
     });
   }
 

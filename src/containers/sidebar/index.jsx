@@ -31,15 +31,6 @@ const Sidebar = ({ tracks, updateCurrentTrack, currentTrack }) => {
     };
   }
 
-  // return (
-  //   <div className="sidebar">
-  //     <Transport />
-  //     <div className="tracklist">
-  //       {renderTrackNames()}
-  //     </div>
-  //   </div>
-  // );
-
   return (
     <div className="sidebar">
       <Transport />

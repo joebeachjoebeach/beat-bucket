@@ -12,7 +12,7 @@ export default class Track {
     this.synth = new Tone.Synth().toMaster();
 
     // get sequence and baseNote of track from the store
-    const { sequence, baseNote } = selectTracks(store.getState())[id];
+    const { sequence, baseNote } = selectTracks(store.getState())[id].data;
     this.sequence = sequence;
     this.baseNote = baseNote;
 
@@ -46,13 +46,12 @@ export default class Track {
 
   partProcessor(time, { note, dur, bucketIndex, noteIndex }) {
     this.synth.triggerAttackRelease(note, dur, time);
-    if (this.current)
-      this.dispatchCurrentNote(bucketIndex, noteIndex);
+    this.dispatchCurrentNote(bucketIndex, noteIndex);
   }
 
   dispatchCurrentNote(bucketIndex, noteIndex) {
     this.store.dispatch(
-      updateCurrentNote([ bucketIndex, noteIndex ])
+      updateCurrentNote({ bucketIndex, noteIndex, trackId: this.id })
     );
   }
 

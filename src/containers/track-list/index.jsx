@@ -9,10 +9,19 @@ import TrackListItem from '../track-list-item';
 
 const TrackList = ({ tracks, currentTrack }) => {
 
+  // console.log(tracks);
+
   function renderTrackList() {
-    return Object.values(tracks).map(({ muted, soloed, name, id }) => {
+    return Object.values(tracks).map(({ data: { muted, soloed, name, id } }) => {
       const current = id === currentTrack;
-      return <TrackListItem name={name} muted={muted} soloed={soloed} current={current} id={id} key={id} />;
+      return <TrackListItem
+        name={name}
+        muted={muted}
+        soloed={soloed}
+        current={current}
+        id={id}
+        key={id}
+      />;
     });
   }
 
