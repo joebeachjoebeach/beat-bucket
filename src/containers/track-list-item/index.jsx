@@ -3,7 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { toggleMute, toggleSolo, updateCurrentTrack } from '../../actions';
+import { mute, solo, unmute, unsolo, updateCurrentTrack } from '../../actions';
 
 import './track-list-item.css';
 
@@ -13,9 +13,11 @@ const TrackListItem = ({
   muted,
   name,
   soloed,
-  toggleMute,
-  toggleSolo,
-  updateCurrentTrack }) => {
+  mute,
+  solo,
+  unmute,
+  unsolo,
+  updateCurrentTrack}) => {
 
   function handleNameClick() {
     if (!current)
@@ -23,11 +25,17 @@ const TrackListItem = ({
   }
 
   function handleMuteClick() {
-    toggleMute(id);
+    if (muted)
+      unmute(id);
+    else
+      mute(id);
   }
 
   function handleSoloClick() {
-    toggleSolo(id);
+    if (soloed)
+      unsolo(id);
+    else
+      solo(id);
   }
 
   function renderCurrent() {
@@ -70,7 +78,7 @@ const TrackListItem = ({
 
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ toggleMute, toggleSolo, updateCurrentTrack }, dispatch);
+  return bindActionCreators({ mute, solo, unmute, unsolo, updateCurrentTrack }, dispatch);
 }
 
 export default connect(null, mapDispatchToProps)(TrackListItem);

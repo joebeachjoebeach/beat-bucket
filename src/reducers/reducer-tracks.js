@@ -1,4 +1,4 @@
-import { TOGGLE_MUTE, TOGGLE_SOLO, UPDATE_CURRENT_NOTE } from '../actions';
+import { MUTE, SOLO, UNMUTE, UNSOLO, UPDATE_CURRENT_NOTE } from '../actions';
 import TrackReducer from './reducer-track';
 
 const dummy = {
@@ -42,20 +42,34 @@ export default function TracksReducer(state = dummy, action) {
   let targetTrack;
 
   switch (action.type) {
-  case TOGGLE_MUTE:
+  case MUTE:
     newState = { ...state };
     targetTrack = newState[action.payload];
     newState[action.payload] = TrackReducer(targetTrack, action);
     return newState;
 
-  // TODO: figure out how this is *supposed* to work
-  // does it also *mute* the other tracks?
-  // it also needs to make sure any currently soloed tracks are unsoloed
-  // compare it to a DAW like ableton
-  case TOGGLE_SOLO:
+  case UNMUTE:
     newState = { ...state };
     targetTrack = newState[action.payload];
-    newState[action.payload] = TrackReducer(targetTrack, action);
+    // only unmute the track if no other tracks are soloed
+    if (!~getSoloedTrack(state))
+      newState[action.payload] = TrackReducer(targetTrack, action);
+    return newState;
+
+  case SOLO:
+    newState = { ...state };
+    targetTrack = newState[action.payload.id];
+    newState = {};
+    Object.values(state).forEach(track => {
+      newState[track.data.id] = TrackReducer(track, action);
+    });
+    return newState;
+
+  case UNSOLO:
+    newState = {};
+    Object.values(state).forEach(track => {
+      newState[track.data.id] = TrackReducer(track, action);
+    });
     return newState;
 
   case UPDATE_CURRENT_NOTE:
@@ -70,3 +84,9 @@ export default function TracksReducer(state = dummy, action) {
   }
 }
 
+function getSoloedTrack(state) {
+  const soloed = Object.values(state).filter(track => track.data.soloed);
+  if (soloed.length > 0)
+    return soloed[0].id;
+  return -1;
+}

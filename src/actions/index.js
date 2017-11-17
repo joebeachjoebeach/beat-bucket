@@ -2,8 +2,10 @@ export const PLAY = 'play';
 export const STOP = 'stop';
 export const UPDATE_CURRENT_NOTE = 'update_current_note';
 export const UPDATE_CURRENT_TRACK = 'update_current_track';
-export const TOGGLE_MUTE = 'toggle_mute';
-export const TOGGLE_SOLO = 'toggle_solo';
+export const MUTE = 'mute';
+export const SOLO = 'solo';
+export const UNMUTE = 'unmute';
+export const UNSOLO = 'unsolo';
 
 export function play() {
   return {
@@ -32,16 +34,30 @@ export function updateCurrentTrack(trackId) {
   };
 }
 
-export function toggleMute(trackId) {
+export function mute(trackId) {
   return {
-    type: TOGGLE_MUTE,
+    type: MUTE,
     payload: trackId
   };
 }
 
-export function toggleSolo(trackId) {
+export function unmute(trackId) {
   return {
-    type: TOGGLE_SOLO,
+    type: UNMUTE,
+    payload: trackId
+  };
+}
+
+export function solo(trackId) {
+  return {
+    type: SOLO,
+    payload: trackId
+  };
+}
+
+export function unsolo(trackId) {
+  return {
+    type: UNSOLO,
     payload: trackId
   };
 }
