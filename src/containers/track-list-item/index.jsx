@@ -20,57 +20,43 @@ const TrackListItem = ({
   updateCurrentTrack}) => {
 
   function handleNameClick() {
-    if (!current)
+    !current &&
       updateCurrentTrack(id);
   }
 
   function handleMuteClick() {
-    if (muted)
-      unmute(id);
-    else
-      mute(id);
+    muted
+      ? unmute(id)
+      : mute(id);
   }
 
   function handleSoloClick() {
-    if (soloed)
-      unsolo(id);
-    else
-      solo(id);
+    soloed
+      ? unsolo(id)
+      : solo(id);
   }
 
-  function renderCurrent() {
-    return <div className="tracklistitem-section current" onClick={handleNameClick}>{name}</div>;
+  function renderTrackName() {
+    let cName = 'tracklistitem-button trackname' + (current ? ' active' : '');
+    return <button className={cName} onClick={handleNameClick}>{name}</button>;
   }
 
-  function renderNormal() {
-    return <div className="tracklistitem-section" onClick={handleNameClick}>{name}</div>;
+  function renderMute() {
+    let cName = 'tracklistitem-button mutesolo-button' + (muted ? ' active' : '');
+    return <button aria-label="mute" className={cName} onClick={handleMuteClick}>m</button>;
   }
 
-  function renderMuted() {
-    return <div className="tracklistitem-section-mutesolo activated" onClick={handleMuteClick}>Mute</div>;
-  }
-
-  function renderUnmuted() {
-    return <div className="tracklistitem-section-mutesolo" onClick={handleMuteClick}>Mute</div>;
-  }
-
-  function renderSoloed() {
-    return <div className="tracklistitem-section-mutesolo activated" onClick={handleSoloClick}>Solo</div>;
-  }
-
-  function renderUnsoloed() {
-    return <div className="tracklistitem-section-mutesolo" onClick={handleSoloClick}>Solo</div>;
+  function renderSolo() {
+    let cName = 'tracklistitem-button mutesolo-button' + (soloed ? ' active' : '');
+    return <button aria-label="solo" className={cName} onClick={handleSoloClick}>s</button>;
   }
 
   return (
     <div className="tracklistitem">
-      {current && renderCurrent()}
-      {!current && renderNormal()}
-      <div className="tracklistitem-section">
-        {muted && renderMuted()}
-        {!muted && renderUnmuted()}
-        {soloed && renderSoloed()}
-        {!soloed && renderUnsoloed()}
+      {renderTrackName()}
+      <div className="mutesolo">
+        {renderMute()}
+        {renderSolo()}
       </div>
     </div>
   );

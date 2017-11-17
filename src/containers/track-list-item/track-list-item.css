@@ -1,22 +1,36 @@
 .tracklistitem {
+  border-bottom: 1px solid white;
   display: flex;
   justify-content: space-between;
   margin: 10px 0;
+  padding: 0 0 5px 0;
 }
 
-  .tracklistitem-section {
+  .tracklistitem-button {
+    align-items: center;
     cursor: pointer;
     display: flex;
+    margin: 0 5px;
   }
 
-    .tracklistitem-section-mutesolo {
-      margin: 0 5px;
-    }
-
-.current {
-  color: yellow;
+.trackname {
+  background-color: inherit;
+  border: none;
+  color: white;
 }
 
-.activated {
-  color: red;
+.mutesolo {
+  display: flex;
+}
+
+  .mutesolo-button {
+    background-color: inherit;
+    border: 1px solid white;
+    border-radius: 0;
+    color: white;
+    font-family: monospace;
+  }
+
+.active{
+  color: yellow;
 }
