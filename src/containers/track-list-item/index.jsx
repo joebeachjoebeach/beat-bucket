@@ -37,17 +37,17 @@ const TrackListItem = ({
   }
 
   function renderTrackName() {
-    let cName = 'tracklistitem-button trackname' + (current ? ' active' : '');
+    let cName = 'tracklistitem-button trackname' + (current ? ' trackname-active' : '');
     return <button className={cName} onClick={handleNameClick}>{name}</button>;
   }
 
   function renderMute() {
-    let cName = 'tracklistitem-button mutesolo-button' + (muted ? ' active' : '');
+    let cName = 'tracklistitem-button mutesolo-button' + (muted ? ' mutesolo-button-active' : '');
     return <button aria-label="mute" className={cName} onClick={handleMuteClick}>m</button>;
   }
 
   function renderSolo() {
-    let cName = 'tracklistitem-button mutesolo-button' + (soloed ? ' active' : '');
+    let cName = 'tracklistitem-button mutesolo-button' + (soloed ? ' mutesolo-button-active' : '');
     return <button aria-label="solo" className={cName} onClick={handleSoloClick}>s</button>;
   }
 

@@ -5,11 +5,13 @@ import { connect } from 'react-redux';
 import './track.css';
 
 import BucketRow from '../bucket-row';
+import Notebar from '../notebar';
 
 const Track = ({ data: { name, sequence }, currentNote }) => {
   return (
     <div className="track">
       <div>{name}</div>
+      <Notebar />
       <BucketRow sequence={sequence} currentNote={currentNote} />
     </div>
   );

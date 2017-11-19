@@ -19,6 +19,10 @@
   color: white;
 }
 
+.trackname-active{
+  color: yellow;
+}
+
 .mutesolo {
   display: flex;
 }
@@ -31,6 +35,8 @@
     font-family: monospace;
   }
 
-.active{
-  color: yellow;
-}
+  .mutesolo-button-active {
+    background-color: black;
+  }
+
+
