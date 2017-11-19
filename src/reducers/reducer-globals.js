@@ -4,24 +4,33 @@ const dummy_data = {
   bpm: 75,
   playing: false,
   currentNote: [0, 0],
-  currentTrack: 0
+  currentTrack: 0,
+  octave: 0
 };
 
 export default function(state = dummy_data, action) {
-  const { bpm, playing, currentNote, currentTrack } = state;
+  let newState;
 
   switch (action.type) {
   case PLAY:
-    return { bpm, currentNote, currentTrack, playing: true };
+    newState = { ...state };
+    newState.playing = true;
+    return newState;
 
   case STOP:
-    return { bpm, currentNote, currentTrack, playing: false };
+    newState = { ...state };
+    newState.playing = false;
+    return newState;
 
   case UPDATE_CURRENT_NOTE:
-    return { bpm, currentTrack, playing, currentNote: action.payload };
+    newState = { ...state };
+    newState.currentNote = action.payload;
+    return newState;
 
   case UPDATE_CURRENT_TRACK:
-    return { bpm, playing, currentNote, currentTrack: action.payload };
+    newState = { ...state };
+    newState.currentTrack = action.payload;
+    return newState;
 
   default:
     return state;
