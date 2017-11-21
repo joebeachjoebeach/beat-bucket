@@ -6,6 +6,7 @@ export const MUTE = 'mute';
 export const SOLO = 'solo';
 export const UNMUTE = 'unmute';
 export const UNSOLO = 'unsolo';
+export const DROP_NOTE = 'drop_note';
 
 export function play() {
   return {
@@ -19,11 +20,10 @@ export function stop() {
   };
 }
 
-// note[]; note[0] = bucket; note[1] = note;
-export function updateCurrentNote(note) {
+export function updateCurrentNote({ bucketIndex, noteIndex, trackId }) {
   return {
     type: UPDATE_CURRENT_NOTE,
-    payload: note
+    payload: { bucketIndex, noteIndex, trackId }
   };
 }
 
@@ -59,5 +59,12 @@ export function unsolo(trackId) {
   return {
     type: UNSOLO,
     payload: trackId
+  };
+}
+
+export function dropNote(note, bucketId, trackId) {
+  return {
+    type: DROP_NOTE,
+    payload: { note, bucketId, trackId }
   };
 }

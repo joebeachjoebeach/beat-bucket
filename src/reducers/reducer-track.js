@@ -1,4 +1,4 @@
-import { MUTE, SOLO, UNMUTE, UNSOLO, UPDATE_CURRENT_NOTE } from '../actions';
+import { MUTE, SOLO, UNMUTE, UNSOLO, UPDATE_CURRENT_NOTE, DROP_NOTE } from '../actions';
 
 export default function TrackReducer(state = {}, action) {
   let newState;
@@ -30,6 +30,11 @@ export default function TrackReducer(state = {}, action) {
     newState.currentNote = [ action.payload.bucketIndex, action.payload.noteIndex ];
     return newState;
 
+  case DROP_NOTE:
+    newState = { ...state };
+    newState.data = TrackDataReducer(state.data, action);
+    return newState;
+
   default:
     return state;
   }
@@ -56,6 +61,11 @@ function TrackDataReducer(state = {}, action) {
     if (state.id === action.payload)
       return unsolo(state);
     return unmute(state);
+
+  case DROP_NOTE:
+    if (state.id === action.payload.trackId)
+      return dropNote(action.payload.note, action.payload.bucketId, state);
+    return state;
 
   default:
     return state;
@@ -87,6 +97,14 @@ function unsolo(trackData) {
   const newState = { ...trackData };
   newState.soloed = false;
   newState.muted = false;
+  return newState;
+}
+
+function dropNote(note, bucketId, trackData) {
+  const newState = { ...trackData };
+  const newSequence = [ ...newState.sequence ];
+  newSequence[bucketId].push(note);
+  newState.sequence = newSequence;
   return newState;
 }
 

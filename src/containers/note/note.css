@@ -1,5 +1,6 @@
 .note {
   align-items: center;
+  background-color: #F3A712;
   border: 1px solid black;
   display: flex;
   justify-content: center;

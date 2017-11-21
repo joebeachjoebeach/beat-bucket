@@ -1,6 +1,11 @@
 import Tone from 'tone';
 import { createPartEvents } from './utils';
-import { observeStore, selectTracks, selectCurrentTrack, selectMuted } from '../store';
+import {
+  observeStore,
+  selectTracks,
+  selectCurrentTrack,
+  selectMuted,
+  selectSequence } from '../store';
 import { updateCurrentNote } from '../actions';
 
 export default class Track {
@@ -30,7 +35,11 @@ export default class Track {
       this.onMutedChange.bind(this)
     );
 
-    // console.log(this.synth.volume.value);
+    this.unsubscribeSequenceChange = observeStore(
+      store,
+      selectSequence(id),
+      this.onSequenceChange.bind(this)
+    );
   }
 
   initPart() {
@@ -67,6 +76,14 @@ export default class Track {
     muted
       ? this.synth.volume.value = -Infinity
       : this.synth.volume.value = 0;
+  }
+
+  onSequenceChange(sequence) {
+    this.part.removeAll();
+    createPartEvents(sequence, this.baseNote).forEach(event => {
+      this.part.add(event.time, event);
+    });
+    // this.part = this.initPart();
   }
 
 }

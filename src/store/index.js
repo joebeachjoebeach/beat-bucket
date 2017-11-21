@@ -10,7 +10,7 @@ export function observeStore(store, select, onChange) {
   };
 
   let unsubscribe = store.subscribe(handleChange);
-  handleChange();
+  // handleChange();
   return unsubscribe;
 }
 
@@ -31,7 +31,9 @@ export function selectBpm(state) {
 }
 
 export function selectMuted(id) {
-  return state => {
-    return state.tracks[id].data.muted;
-  };
+  return state => state.tracks[id].data.muted;
+}
+
+export function selectSequence(id) {
+  return state => state.tracks[id].data.sequence;
 }

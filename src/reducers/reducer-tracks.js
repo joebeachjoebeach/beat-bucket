@@ -1,4 +1,4 @@
-import { MUTE, SOLO, UNMUTE, UNSOLO, UPDATE_CURRENT_NOTE } from '../actions';
+import { MUTE, SOLO, UNMUTE, UNSOLO, UPDATE_CURRENT_NOTE, DROP_NOTE } from '../actions';
 import TrackReducer from './reducer-track';
 
 const dummy = {
@@ -73,7 +73,13 @@ export default function TracksReducer(state = dummy, action) {
     return newState;
 
   case UPDATE_CURRENT_NOTE:
-    newState = { ... state };
+    newState = { ...state };
+    targetTrack = newState[action.payload.trackId];
+    newState[action.payload.trackId] = TrackReducer(targetTrack, action);
+    return newState;
+
+  case DROP_NOTE:
+    newState = { ...state };
     targetTrack = newState[action.payload.trackId];
     newState[action.payload.trackId] = TrackReducer(targetTrack, action);
     return newState;
