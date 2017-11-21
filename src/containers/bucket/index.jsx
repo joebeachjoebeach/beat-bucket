@@ -2,6 +2,10 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { DragSource } from 'react-dnd';
+
 import './bucket.css';
 
 import Note from '../note';
