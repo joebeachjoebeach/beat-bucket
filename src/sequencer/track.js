@@ -29,6 +29,8 @@ export default class Track {
       selectMuted(id),
       this.onMutedChange.bind(this)
     );
+
+    // console.log(this.synth.volume.value);
   }
 
   initPart() {
@@ -56,17 +58,15 @@ export default class Track {
   }
 
   onCurrentChange(currentTrack) {
-    if (currentTrack === this.id)
-      this.current = true;
-    else
-      this.current = false;
+    currentTrack === this.id
+      ? this.current = true
+      : this.current = false;
   }
 
   onMutedChange(muted) {
-    if (muted)
-      this.synth.disconnect(Tone.Master);
-    else
-      this.synth.toMaster();
+    muted
+      ? this.synth.volume.value = -Infinity
+      : this.synth.volume.value = 0;
   }
 
 }

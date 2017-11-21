@@ -16,10 +16,9 @@ export default class Sequencer {
 
   // play or stop the loop when global 'playing' changes
   handlePlayingChange(playing) {
-    if (playing)
-      Tone.Transport.start('+0.1');
-    else
-      Tone.Transport.stop();
+    playing
+      ? Tone.Transport.start('+0.1')
+      : Tone.Transport.stop();
   }
 
   // initialize Track objects for each track in the store

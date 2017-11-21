@@ -2,13 +2,15 @@
 
 import React from 'react';
 import { connect } from 'react-redux';                        
-import { bindActionCreators } from 'redux';
+// import { bindActionCreators } from 'redux';
 import './note.css';
 
-const Note = (props) => {                    
+const Note = ({ name, styleName }) => {                    
 
   return (
-    <div className="note" />
+    <div className={`note ${styleName}`}>
+      {name}
+    </div>
   );                    
 };
 
@@ -16,8 +18,8 @@ function mapStateToProps(state) {
   return state;                            
 }                             
 
-function mapDispatchToProps(dispatch) {                            
-  return bindActionCreators(_, dispatch);                            
-}
+// function mapDispatchToProps(dispatch) {                            
+//   return bindActionCreators(_, dispatch);                            
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Note);
+export default connect(mapStateToProps)(Note);
