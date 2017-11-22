@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DragSource } from 'react-dnd';
 import { dropNote } from '../../actions';
+import ItemTypes from '../../item-types';
 import './note-in-keyboard.css';
 
 import Note from '../note';
@@ -51,6 +52,6 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ dropNote }, dispatch);
 }
 
-const NoteInKeyboard_DS = DragSource('note', noteInKeyboardSource, collect)(NoteInKeyboard);
+const NoteInKeyboard_DS = DragSource(ItemTypes.KEYBOARD_NOTE, noteInKeyboardSource, collect)(NoteInKeyboard);
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteInKeyboard_DS);

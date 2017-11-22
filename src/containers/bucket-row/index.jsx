@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { DropTarget } from 'react-dnd';
+import ItemTypes from '../../item-types';
 import './bucket-row.css';
 
 import Bucket from '../bucket';
@@ -14,7 +15,7 @@ const BucketRow = ({ connectDropTarget, sequence, currentNote }) => {
     });
   }
 
-  return (
+  return connectDropTarget(
     <div className="bucketrow">
       {renderBuckets()}
     </div>
@@ -27,12 +28,12 @@ const bucketRowTarget = {
   }
 };
 
-function collect(connect) {
+function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget()
   };
 }
 
 
-export default BucketRow;
-// export default DropTarget('note', bucketRowTarget, collect)(BucketRow);
+// export default BucketRow;
+export default DropTarget(ItemTypes.BUCKET_NOTE, bucketRowTarget, collect)(BucketRow);

@@ -1,4 +1,11 @@
-import { MUTE, SOLO, UNMUTE, UNSOLO, UPDATE_CURRENT_NOTE, DROP_NOTE } from '../actions';
+import {
+  MUTE,
+  SOLO,
+  UNMUTE,
+  UNSOLO,
+  UPDATE_CURRENT_NOTE,
+  DROP_NOTE,
+  DELETE_NOTE } from '../actions';
 
 export default function TrackReducer(state = {}, action) {
   let newState;
@@ -27,6 +34,10 @@ export default function TrackReducer(state = {}, action) {
 
   case DROP_NOTE:
     return dropNote(action.payload.note, action.payload.bucketId, state);
+
+  case DELETE_NOTE:
+    // payload: { noteIndex, bucketId, trackid }
+    return deleteNote(action.payload, state);
 
   default:
     return state;
@@ -69,6 +80,13 @@ function dropNote(note, bucketId, trackData) {
   return newState;
 }
 
+function deleteNote({ noteIndex, bucketId }, trackData) {
+  const newState = { ...trackData };
+  const newSequence = [ ...newState.sequence ];
+  newSequence[bucketId].splice(noteIndex, 1);
+  newState.sequence = newSequence;
+  return newState;
+}
 
 /*
 TRACK MODEL:

@@ -2,11 +2,11 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
 import { DropTarget } from 'react-dnd';
+import ItemTypes from '../../item-types';
 import './bucket.css';
 
-import Note from '../note';
+import NoteInBucket from '../note-in-bucket';
 
 const Bucket = ({ connectDropTarget, notes, currentNote, bucketId }) => {
 
@@ -17,7 +17,7 @@ const Bucket = ({ connectDropTarget, notes, currentNote, bucketId }) => {
         styleName = 'note-current';
 
       return (
-        <Note name={note} styleName={styleName} key={i} id={i} />
+        <NoteInBucket name={note} styleName={styleName} key={i} id={i} bucketId={bucketId} />
       );
     });
   }
@@ -45,6 +45,6 @@ function mapStateToProps({ tracks }) {
   return { tracks };
 }
 
-const dt_Bucket = DropTarget('note', bucketTarget, collect)(Bucket);
+const dt_Bucket = DropTarget(ItemTypes.KEYBOARD_NOTE, bucketTarget, collect)(Bucket);
 
 export default connect(mapStateToProps)(dt_Bucket);
