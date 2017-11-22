@@ -9,9 +9,11 @@ import './track.css';
 import BucketRow from '../bucket-row';
 import Notebar from '../notebar';
 
-const Track = ({ connectDropTarget, name, sequence, currentNote }) => {
+const Track = ({ connectDropTarget, isOver, name, sequence, currentNote }) => {
+  const styleName = isOver ? 'track hover' : 'track';
+
   return connectDropTarget(
-    <div className="track">
+    <div className={styleName}>
       <div>{name}</div>
       <Notebar />
       <BucketRow sequence={sequence} currentNote={currentNote} />
@@ -20,7 +22,10 @@ const Track = ({ connectDropTarget, name, sequence, currentNote }) => {
 };
 
 const trackTarget = {
-  drop() {
+  drop(props, monitor) {
+    // if the item has been dropped on a child target, then we don't want to do anything
+    if (monitor.didDrop())
+      return;
     return { target: 'delete' };
   }
 };
@@ -28,7 +33,7 @@ const trackTarget = {
 function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver()
+    isOver: monitor.isOver({ shallow: true })
   };
 }
 

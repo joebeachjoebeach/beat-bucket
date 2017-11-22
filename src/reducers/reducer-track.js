@@ -5,7 +5,8 @@ import {
   UNSOLO,
   UPDATE_CURRENT_NOTE,
   DROP_NOTE,
-  DELETE_NOTE } from '../actions';
+  DELETE_NOTE,
+  MOVE_NOTE } from '../actions';
 
 export default function TrackReducer(state = {}, action) {
   let newState;
@@ -36,8 +37,10 @@ export default function TrackReducer(state = {}, action) {
     return dropNote(action.payload.note, action.payload.bucketId, state);
 
   case DELETE_NOTE:
-    // payload: { noteIndex, bucketId, trackid }
     return deleteNote(action.payload, state);
+
+  case MOVE_NOTE:
+    return moveNote(action.payload, state);
 
   default:
     return state;
@@ -83,7 +86,19 @@ function dropNote(note, bucketId, trackData) {
 function deleteNote({ noteIndex, bucketId }, trackData) {
   const newState = { ...trackData };
   const newSequence = [ ...newState.sequence ];
-  newSequence[bucketId].splice(noteIndex, 1);
+  const newBucket = [ ...newSequence[bucketId] ];
+  newBucket.splice(noteIndex, 1);
+  newSequence[bucketId] = newBucket;
+  newState.sequence = newSequence;
+  return newState;
+}
+
+function moveNote({ originalIndex, newIndex, bucketId }, trackData) {
+  const newState = { ...trackData };
+  const newSequence = [ ...newState.sequence ];
+  const newBucket = [ ...newSequence[bucketId] ];
+  newBucket.splice(newIndex, 0, newBucket.splice(originalIndex, 1)[0]);
+  newSequence[bucketId] = newBucket;
   newState.sequence = newSequence;
   return newState;
 }

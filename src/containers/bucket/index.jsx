@@ -30,10 +30,18 @@ const Bucket = ({ connectDropTarget, notes, currentNote, bucketId }) => {
 };
 
 const bucketTarget = {
-  drop(props) {
+  drop(props, monitor) {
+    if (monitor.didDrop())
+      return;
     return { target: props.bucketId };
   }
 };
+
+/*
+    if (monitor.didDrop())
+      return;
+    return { target: 'delete' };
+    */
 
 function collect(connect) {
   return {
@@ -45,6 +53,6 @@ function mapStateToProps({ tracks }) {
   return { tracks };
 }
 
-const dt_Bucket = DropTarget(ItemTypes.KEYBOARD_NOTE, bucketTarget, collect)(Bucket);
+const dt_Bucket = DropTarget([ItemTypes.KEYBOARD_NOTE, ItemTypes.BUCKET_NOTE], bucketTarget, collect)(Bucket);
 
 export default connect(mapStateToProps)(dt_Bucket);

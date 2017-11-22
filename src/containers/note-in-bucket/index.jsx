@@ -3,43 +3,100 @@
 import React from 'react';
 import { connect } from 'react-redux';                        
 import { bindActionCreators } from 'redux';
-import { DragSource } from 'react-dnd';
-import { deleteNote } from '../../actions';
+import { DragSource, DropTarget } from 'react-dnd';
+import { findDOMNode } from 'react-dom';
+import flow from 'lodash/flow';
+import { deleteNote, dropNote, moveNote } from '../../actions';
 import ItemTypes from '../../item-types';
 import './note-in-bucket.css';
 
 import Note from '../note';
 
-const NoteInBucket = ({ name, styleName, connectDragSource }) => {                    
+const NoteInBucket = ({ name, styleName, connectDragSource, connectDropTarget, isDragging }) => {                    
 
-  return connectDragSource(
-    <div className={`note-in-bucket ${styleName}`}>
+  const thisStyle = isDragging ? 'note-in-bucket dragging' : 'note-in-bucket';
+
+  return connectDragSource(connectDropTarget(
+    <div className={thisStyle}>
       <Note name={name} styleName={styleName} />
     </div>
-  );                    
+  ));                    
 };
 
 const noteInBucketSource = {
   beginDrag(props) {
-    return { name: props.name };
-  },
-
-  isDragging(props, monitor) {
-    return monitor.getItem().name === props.name;
+    return {
+      name: props.name,
+      noteIndex: props.id
+    };
   },
 
   endDrag(props, monitor) {
     if (monitor.didDrop()) {
-      const { id, bucketId, currentTrack, deleteNote } = props;
+      const { name, id, bucketId, currentTrack, deleteNote, dropNote } = props;
+      const { target } = monitor.getDropResult();
+      if (target === 'note')
+        return;
+
+      if (target !== 'delete') {
+        dropNote({ note: name, bucketId: target, trackId: currentTrack });
+      }
       deleteNote({ noteIndex: id, bucketId: bucketId, trackId: currentTrack });
+
     }
   }
 };
 
-function collect(connect, monitor) {
+const noteInBucketTarget = {
+  drop() {
+    return { target: 'note' };
+  },
+
+  hover(props, monitor, component) {
+    const dragIndex = monitor.getItem().noteIndex;
+    const hoverIndex = props.id;
+
+    // don't replace an item with itself
+    if (dragIndex === hoverIndex)
+      return;
+
+    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+    const clientOffset = monitor.getClientOffset();
+    const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+    if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY)
+      return;
+
+    if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY)
+      return;
+
+    const out = {
+      originalIndex: dragIndex,
+      newIndex: hoverIndex,
+      bucketId: props.bucketId,
+      trackId: props.currentTrack
+    };
+
+    props.moveNote(out);
+
+    monitor.getItem().index = hoverIndex;
+
+  }
+};
+
+// dropNote({ note: name, bucketId: target, trackId: currentTrack });
+
+function sourceCollect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging()
+  };
+}
+
+function targetCollect(connect) {
+  return { 
+    connectDropTarget: connect.dropTarget()
   };
 }
 
@@ -48,9 +105,26 @@ function mapStateToProps({ globals: { currentTrack }}) {
 }                             
 
 function mapDispatchToProps(dispatch) {                            
-  return bindActionCreators({ deleteNote }, dispatch);
+  return bindActionCreators({ deleteNote, dropNote, moveNote }, dispatch);
 }
 
-const NoteInBucket_DS = DragSource(ItemTypes.BUCKET_NOTE, noteInBucketSource, collect)(NoteInBucket);
+// const NoteInBucket_DS = DragSource(ItemTypes.BUCKET_NOTE, noteInBucketSource, sourceCollect)(NoteInBucket);
+// const NoteInBucket_DT = DropTarget(ItemTypes.BUCKET_NOTE, noteInBucketTarget, targetCollect)(NoteInBucket_DS);
 
-export default connect(mapStateToProps, mapDispatchToProps)(NoteInBucket_DS);
+// export default connect(mapStateToProps, mapDispatchToProps)(NoteInBucket_DT);
+
+
+const NoteInBucket_DTDS =  flow([
+  DragSource(ItemTypes.BUCKET_NOTE, noteInBucketSource, sourceCollect),
+  DropTarget(ItemTypes.BUCKET_NOTE, noteInBucketTarget, targetCollect)
+])(NoteInBucket);
+
+export default connect(mapStateToProps, mapDispatchToProps)(NoteInBucket_DTDS);
+
+
+/*
+export default flow([
+  DragSource(),
+  DropTarget()]
+)(YourComponent);
+*/
