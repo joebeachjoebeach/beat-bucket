@@ -7,6 +7,7 @@ export const SOLO = 'solo';
 export const UNMUTE = 'unmute';
 export const UNSOLO = 'unsolo';
 export const DROP_NOTE = 'drop_note';
+export const DELETE_NOTE = 'delete_note';
 
 export function play() {
   return {
@@ -62,9 +63,16 @@ export function unsolo(trackId) {
   };
 }
 
-export function dropNote(note, bucketId, trackId) {
+export function dropNote({ note, bucketId, trackId }) {
   return {
     type: DROP_NOTE,
     payload: { note, bucketId, trackId }
+  };
+}
+
+export function deleteNote({ noteIndex, bucketId, trackId }) {
+  return {
+    type: DELETE_NOTE,
+    payload: { noteIndex, bucketId, trackId }
   };
 }

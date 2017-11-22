@@ -66,6 +66,7 @@ export default class Track {
     );
   }
 
+  // is this necessary anymore?
   onCurrentChange(currentTrack) {
     currentTrack === this.id
       ? this.current = true
@@ -83,7 +84,6 @@ export default class Track {
     createPartEvents(sequence, this.baseNote).forEach(event => {
       this.part.add(event.time, event);
     });
-    // this.part = this.initPart();
   }
 
 }

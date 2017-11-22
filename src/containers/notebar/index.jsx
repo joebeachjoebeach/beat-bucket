@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import './notebar.css';
 
-import Note from '../note';
+import NoteInKeyboard from '../note-in-keyboard';
 
 const Notebar = ({ octave }) => {                    
   const left = '<';
@@ -13,20 +13,20 @@ const Notebar = ({ octave }) => {
     <div className="notebar">                    
       <div>{left}</div>
       <div className="notebar-notes">
-        <Note name="C#4" styleName="csharp" />
-        <Note name="D#4" styleName="dsharp" />
-        <Note name="F#4" styleName="esharp" />
-        <Note name="G#4" styleName="fsharp" />
-        <Note name="A#4" styleName="gsharp" />
+        <NoteInKeyboard name="C#4" styleName="csharp" />
+        <NoteInKeyboard name="D#4" styleName="dsharp" />
+        <NoteInKeyboard name="F#4" styleName="esharp" />
+        <NoteInKeyboard name="G#4" styleName="fsharp" />
+        <NoteInKeyboard name="A#4" styleName="gsharp" />
         
-        <Note name="C4" styleName="c" />
-        <Note name="D4" styleName="d" />
-        <Note name="E4" styleName="e" />
-        <Note name="F4" styleName="f" />
-        <Note name="G4" styleName="g" />
-        <Note name="A4" styleName="a" />
-        <Note name="B4" styleName="b" />
-        <Note name="C5" styleName="c2" />
+        <NoteInKeyboard name="C4" styleName="c" />
+        <NoteInKeyboard name="D4" styleName="d" />
+        <NoteInKeyboard name="E4" styleName="e" />
+        <NoteInKeyboard name="F4" styleName="f" />
+        <NoteInKeyboard name="G4" styleName="g" />
+        <NoteInKeyboard name="A4" styleName="a" />
+        <NoteInKeyboard name="B4" styleName="b" />
+        <NoteInKeyboard name="C5" styleName="c2" />
       </div>
       <div>{right}</div>
     </div>
