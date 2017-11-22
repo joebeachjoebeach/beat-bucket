@@ -23,7 +23,7 @@ export default class Sequencer {
 
   // initialize Track objects for each track in the store
   generateTracks() {
-    return Object.values(selectTracks(this.store.getState())).map(({ data: { id } }) => {
+    return Object.values(selectTracks(this.store.getState())).map(({ id }) => {
       return new Track(this.store, id);
     });
   }

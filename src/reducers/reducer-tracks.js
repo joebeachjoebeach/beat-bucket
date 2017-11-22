@@ -3,36 +3,32 @@ import TrackReducer from './reducer-track';
 
 const dummy = {
   0: {
-    data: {
-      name: 'Track 1',
-      sequence: [
-        ['C4', 'D4'],
-        ['E4'],
-        ['C5', 'B4', 'A4', 'G4', 'F4', 'E4', 'D4'],
-        ['A4'],
-        ['G4', 'F4', 'E4', 'D4'],
-        ['C4'],
-        ['C4', 'D4', 'E4'],
-        ['C4']
-      ],
-      baseNote: 1,
-      id: 0,
-      muted: false,
-      soloed: false
-    },
+    name: 'Track 1',
+    sequence: [
+      ['C4', 'D4'],
+      ['E4'],
+      ['C5', 'B4', 'A4', 'G4', 'F4', 'E4', 'D4'],
+      ['A4'],
+      ['G4', 'F4', 'E4', 'D4'],
+      ['C4'],
+      ['C4', 'D4', 'E4'],
+      ['C4']
+    ],
+    baseNote: 1,
+    id: 0,
+    muted: false,
+    soloed: false,
     currentNote: [],
   },
   1: {
-    data: {
-      name: 'Track 2',
-      sequence: [
-        ['C5', 'D5', 'E5']
-      ],
-      baseNote: 0.5,
-      id: 1,
-      muted: false,
-      soloed: false
-    },
+    name: 'Track 2',
+    sequence: [
+      ['C5', 'D5', 'E5']
+    ],
+    baseNote: 0.5,
+    id: 1,
+    muted: false,
+    soloed: false,
     currentNote: [],
   }
 };
@@ -61,14 +57,14 @@ export default function TracksReducer(state = dummy, action) {
     targetTrack = newState[action.payload.id];
     newState = {};
     Object.values(state).forEach(track => {
-      newState[track.data.id] = TrackReducer(track, action);
+      newState[track.id] = TrackReducer(track, action);
     });
     return newState;
 
   case UNSOLO:
     newState = {};
     Object.values(state).forEach(track => {
-      newState[track.data.id] = TrackReducer(track, action);
+      newState[track.id] = TrackReducer(track, action);
     });
     return newState;
 
@@ -91,7 +87,7 @@ export default function TracksReducer(state = dummy, action) {
 }
 
 function getSoloedTrack(state) {
-  const soloed = Object.values(state).filter(track => track.data.soloed);
+  const soloed = Object.values(state).filter(track => track.soloed);
   if (soloed.length > 0)
     return soloed[0].id;
   return -1;

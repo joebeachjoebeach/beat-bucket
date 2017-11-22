@@ -8,7 +8,7 @@ import './bucket.css';
 
 import Note from '../note';
 
-const Bucket = ({ connectDropTarget, notes, currentNote, id: bucketId }) => {
+const Bucket = ({ connectDropTarget, notes, currentNote, bucketId }) => {
 
   function renderNotes() {
     return notes.map((note, i) => {
@@ -31,7 +31,7 @@ const Bucket = ({ connectDropTarget, notes, currentNote, id: bucketId }) => {
 
 const bucketTarget = {
   drop(props) {
-    return { target: props.id };
+    return { target: props.bucketId };
   }
 };
 

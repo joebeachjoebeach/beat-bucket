@@ -5,25 +5,20 @@ export default function TrackReducer(state = {}, action) {
 
   switch (action.type) {
   case MUTE:
-    newState = { ...state };
-    newState.data = TrackDataReducer(state.data, action);
-    return newState;
+    return mute(state);
 
   case UNMUTE:
-    newState = { ...state };
-    newState.data = TrackDataReducer(state.data, action);
-    return newState;
+    return unmute(state);
 
   case SOLO:
-    // console.log(state, action);
-    newState = { ...state };
-    newState.data = TrackDataReducer(state.data, action);
-    return newState;
+    return state.id === action.payload
+      ? solo(state)
+      : mute(state);
 
   case UNSOLO:
-    newState = { ...state };
-    newState.data = TrackDataReducer(state.data, action);
-    return newState;
+    return state.id === action.payload
+      ? unsolo(state)
+      : unmute(state);
 
   case UPDATE_CURRENT_NOTE:
     newState = { ...state };
@@ -31,41 +26,7 @@ export default function TrackReducer(state = {}, action) {
     return newState;
 
   case DROP_NOTE:
-    newState = { ...state };
-    newState.data = TrackDataReducer(state.data, action);
-    return newState;
-
-  default:
-    return state;
-  }
-}
-
-function TrackDataReducer(state = {}, action) {
-  switch (action.type) {
-  case MUTE:
-    if (state.id === action.payload)
-      return mute(state);
-    return state;
-
-  case UNMUTE:
-    if (state.id === action.payload)
-      return unmute(state);
-    return state;
-
-  case SOLO:
-    if (state.id === action.payload)
-      return solo(state);
-    return mute(state);
-
-  case UNSOLO:
-    if (state.id === action.payload)
-      return unsolo(state);
-    return unmute(state);
-
-  case DROP_NOTE:
-    if (state.id === action.payload.trackId)
-      return dropNote(action.payload.note, action.payload.bucketId, state);
-    return state;
+    return dropNote(action.payload.note, action.payload.bucketId, state);
 
   default:
     return state;
@@ -112,14 +73,12 @@ function dropNote(note, bucketId, trackData) {
 /*
 TRACK MODEL:
 {
-  data: {
-    id: int,
-    name: string,
-    baseNote: float,
-    sequence: array,
-    muted: bool,
-    soloed: bool
-  },
+  id: int,
+  name: string,
+  baseNote: float,
+  sequence: array,
+  muted: bool,
+  soloed: bool,
   currentNote: arr,
 }
 

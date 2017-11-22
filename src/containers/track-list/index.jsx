@@ -12,7 +12,7 @@ const TrackList = ({ tracks, currentTrack }) => {
   // console.log(tracks);
 
   function renderTrackList() {
-    return Object.values(tracks).map(({ data: { muted, soloed, name, id } }) => {
+    return Object.values(tracks).map(({ muted, soloed, name, id }) => {
       const current = id === currentTrack;
       return <TrackListItem
         name={name}

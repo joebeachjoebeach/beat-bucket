@@ -17,7 +17,7 @@ export default class Track {
     this.synth = new Tone.Synth().toMaster();
 
     // get sequence and baseNote of track from the store
-    const { sequence, baseNote } = selectTracks(store.getState())[id].data;
+    const { sequence, baseNote } = selectTracks(store.getState())[id];
     this.sequence = sequence;
     this.baseNote = baseNote;
 
