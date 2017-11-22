@@ -2,13 +2,15 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { DropTarget } from 'react-dnd';
+import ItemTypes from '../../item-types';
 import './track.css';
 
 import BucketRow from '../bucket-row';
 import Notebar from '../notebar';
 
-const Track = ({ name, sequence, currentNote }) => {
-  return (
+const Track = ({ connectDropTarget, name, sequence, currentNote }) => {
+  return connectDropTarget(
     <div className="track">
       <div>{name}</div>
       <Notebar />
@@ -17,8 +19,23 @@ const Track = ({ name, sequence, currentNote }) => {
   );
 };
 
+const trackTarget = {
+  drop() {
+    return { target: 'delete' };
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  };
+}
+
 function mapStateToProps({ tracks, globals: { currentTrack } }) {
   return tracks[currentTrack];
 }
 
-export default connect(mapStateToProps)(Track);
+const Track_DT = DropTarget(ItemTypes.BUCKET_NOTE, trackTarget, collect)(Track);
+
+export default connect(mapStateToProps)(Track_DT);
