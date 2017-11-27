@@ -13,14 +13,35 @@ const dummy = {
   0: {
     name: 'Track 1',
     sequence: [
-      ['C4', 'D4'],
-      ['E4'],
-      ['C5', 'B4', 'A4', 'G4', 'F4', 'E4', 'D4'],
-      ['A4'],
-      ['G4', 'F4', 'E4', 'D4'],
-      ['C4'],
-      ['C4', 'D4', 'E4'],
-      ['C4']
+      { 
+        notes: [
+          { id: 0, value: 'C4' },
+          { id: 1, value: 'D4' }
+        ],
+        nextId: 2
+      },
+      {
+        notes: [
+          { id: 0, value: 'E4' }
+        ],
+        nextId: 1
+      },
+      {
+        notes: [
+          { id: 0, value: 'E4' },
+          { id: 1, value: 'F4' },
+          { id: 3, value: 'G4' },
+          { id: 4, value: 'A6' },
+          { id: 5, value: 'B7' }
+        ],
+        nextId: 6
+      },
+      {
+        notes: [
+          { id: 0, value: 'G4' }
+        ],
+        nextId: 1
+      }
     ],
     baseNote: 1,
     id: 0,
@@ -28,17 +49,17 @@ const dummy = {
     soloed: false,
     currentNote: [],
   },
-  1: {
-    name: 'Track 2',
-    sequence: [
-      ['C5', 'D5', 'E5']
-    ],
-    baseNote: 0.5,
-    id: 1,
-    muted: false,
-    soloed: false,
-    currentNote: [],
-  }
+  // 1: {
+  //   name: 'Track 2',
+  //   sequence: [
+  //     ['C5', 'D5', 'E5']
+  //   ],
+  //   baseNote: 0.5,
+  //   id: 1,
+  //   muted: false,
+  //   soloed: false,
+  //   currentNote: [],
+  // }
 };
 
 export default function TracksReducer(state = dummy, action) {

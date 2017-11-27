@@ -96,8 +96,10 @@ function deleteNote({ noteIndex, bucketId }, trackData) {
 function moveNote({ originalIndex, newIndex, bucketId }, trackData) {
   const newState = { ...trackData };
   const newSequence = [ ...newState.sequence ];
-  const newBucket = [ ...newSequence[bucketId] ];
-  newBucket.splice(newIndex, 0, newBucket.splice(originalIndex, 1)[0]);
+  const newBucket = { ...newSequence[bucketId] };
+  const newNotes = [ ...newBucket.notes ];
+  newNotes.splice(newIndex, 0, newNotes.splice(originalIndex, 1)[0]);
+  newBucket.notes = newNotes;
   newSequence[bucketId] = newBucket;
   newState.sequence = newSequence;
   return newState;

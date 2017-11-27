@@ -6,6 +6,8 @@ import { findDOMNode } from 'react-dom';
 import flow from 'lodash/flow';
 import './sortable.css';
 
+import Note from '../../containers/note';
+
 class Sortable extends React.Component {
 
   constructor(props) {
@@ -43,22 +45,6 @@ class Sortable extends React.Component {
   }
 }
 
-// const Item = ({ value, isDragging, connectDragSource, connectDropTarget }) => {
-//   // const styleName = isDragging ? 'item gone' : 'item';
-//   const styleName = 'item';
-//   const opacity = isDragging ? 0 : 1;
-
-//   if (isDragging)
-//     console.log(value);
-
-
-//   return connectDragSource(connectDropTarget(
-//     <div className={styleName} style={{ opacity }}>
-//       {value}
-//     </div>
-//   ));
-// };
-
 class Item extends React.Component {
 
   render() {
@@ -66,7 +52,11 @@ class Item extends React.Component {
     const opacity = isDragging ? 0 : 1;
 
     return connectDragSource(
-      connectDropTarget(<div className="item" style={{opacity}}>{value}</div>)
+      connectDropTarget(
+        <div style={{opacity}}>
+          <Note name={value} styleName='note' />
+        </div>
+      )
     );
   }
 }
@@ -80,9 +70,7 @@ const itemSource = {
   },
 
   isDragging(props, monitor) {
-    if (props.id === monitor.getItem().id)
-      return true;
-    return false;
+    return props.id === monitor.getItem().id;
   }
 };
 

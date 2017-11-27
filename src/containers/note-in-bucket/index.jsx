@@ -14,47 +14,54 @@ import Note from '../note';
 
 const NoteInBucket = ({ name, styleName, connectDragSource, connectDropTarget, isDragging }) => {                    
 
-  const thisStyle = isDragging ? 'note-in-bucket dragging' : 'note-in-bucket';
+  const opacity = isDragging ? 0 : 1;
 
-  return connectDragSource(connectDropTarget(
-    <div className={thisStyle}>
-      <Note name={name} styleName={styleName} />
-    </div>
-  ));
+  return connectDragSource(
+    connectDropTarget(
+      <div style={{ opacity }}>
+        <Note name={name} styleName={styleName} />
+      </div>
+    ));
 };
 
 const noteInBucketSource = {
   beginDrag(props) {
     return {
-      name: props.name,
-      noteIndex: props.id
+      id: props.id,
+      noteIndex: props.index,
+      bucketId: props.bucketId
     };
   },
 
-  endDrag(props, monitor) {
-    if (monitor.didDrop()) {
-      const { name, id, bucketId, currentTrack, deleteNote, dropNote } = props;
-      const { target } = monitor.getDropResult();
-      if (target === 'note')
-        return;
-
-      if (target !== 'delete') {
-        dropNote({ note: name, bucketId: target, trackId: currentTrack });
-      }
-      deleteNote({ noteIndex: id, bucketId: bucketId, trackId: currentTrack });
-
-    }
+  isDragging(props, monitor) {
+    const { id, bucketId } = monitor.getItem();
+    return props.id === id && props.bucketId === bucketId;
   }
+
+  // endDrag(props, monitor) {
+  //   if (monitor.didDrop()) {
+  //     const { name, id, bucketId, currentTrack, deleteNote, dropNote } = props;
+  //     const { target } = monitor.getDropResult();
+  //     if (target === 'note')
+  //       return;
+
+  //     if (target !== 'delete') {
+  //       dropNote({ note: name, bucketId: target, trackId: currentTrack });
+  //     }
+  //     deleteNote({ noteIndex: id, bucketId: bucketId, trackId: currentTrack });
+
+  //   }
+  // }
 };
 
 const noteInBucketTarget = {
-  drop() {
-    return { target: 'note' };
-  },
+  // drop() {
+  //   return { target: 'note' };
+  // },
 
   hover(props, monitor, component) {
     const dragIndex = monitor.getItem().noteIndex;
-    const hoverIndex = props.id;
+    const hoverIndex = props.index;
 
     // don't replace an item with itself
     if (dragIndex === hoverIndex)
@@ -75,17 +82,15 @@ const noteInBucketTarget = {
       originalIndex: dragIndex,
       newIndex: hoverIndex,
       bucketId: props.bucketId,
-      trackId: props.currentTrack
+      trackId: props.currentTrack,
     };
 
     props.moveNote(out);
 
-    monitor.getItem().index = hoverIndex;
+    monitor.getItem().noteIndex = hoverIndex;
 
   }
 };
-
-// dropNote({ note: name, bucketId: target, trackId: currentTrack });
 
 function sourceCollect(connect, monitor) {
   return {
@@ -108,23 +113,9 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ deleteNote, dropNote, moveNote }, dispatch);
 }
 
-// const NoteInBucket_DS = DragSource(ItemTypes.BUCKET_NOTE, noteInBucketSource, sourceCollect)(NoteInBucket);
-// const NoteInBucket_DT = DropTarget(ItemTypes.BUCKET_NOTE, noteInBucketTarget, targetCollect)(NoteInBucket_DS);
-
-// export default connect(mapStateToProps, mapDispatchToProps)(NoteInBucket_DT);
-
-
 const NoteInBucket_DTDS =  flow([
   DragSource(ItemTypes.BUCKET_NOTE, noteInBucketSource, sourceCollect),
   DropTarget(ItemTypes.BUCKET_NOTE, noteInBucketTarget, targetCollect)
 ])(NoteInBucket);
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteInBucket_DTDS);
-
-
-/*
-export default flow([
-  DragSource(),
-  DropTarget()]
-)(YourComponent);
-*/

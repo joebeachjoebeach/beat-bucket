@@ -17,7 +17,14 @@ const Bucket = ({ connectDropTarget, notes, currentNote, bucketId }) => {
         styleName = 'note-current';
 
       return (
-        <NoteInBucket name={note} styleName={styleName} key={i} id={i} bucketId={bucketId} />
+        <NoteInBucket
+          name={note.value}
+          styleName={styleName}
+          index={i}
+          key={i}
+          id={note.id}
+          bucketId={bucketId}
+        />
       );
     });
   }
