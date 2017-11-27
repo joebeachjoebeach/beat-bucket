@@ -104,17 +104,3 @@ function moveNote({ originalIndex, newIndex, bucketId }, trackData) {
   newState.sequence = newSequence;
   return newState;
 }
-
-/*
-TRACK MODEL:
-{
-  id: int,
-  name: string,
-  baseNote: float,
-  sequence: array,
-  muted: bool,
-  soloed: bool,
-  currentNote: arr,
-}
-
-*/
