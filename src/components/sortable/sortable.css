@@ -1,0 +1,16 @@
+.sortable {                    
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  border: 1px solid black;
+  cursor: pointer;
+  height: 50px;
+  margin: 3px;
+  width: 50px;
+}
+
+.gone {
+  opacity: 0;
+}

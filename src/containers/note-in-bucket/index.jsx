@@ -20,7 +20,7 @@ const NoteInBucket = ({ name, styleName, connectDragSource, connectDropTarget, i
     <div className={thisStyle}>
       <Note name={name} styleName={styleName} />
     </div>
-  ));                    
+  ));
 };
 
 const noteInBucketSource = {

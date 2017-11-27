@@ -8,6 +8,7 @@ import './track.css';
 
 import BucketRow from '../bucket-row';
 import Notebar from '../notebar';
+import Sortable from '../../components/sortable';
 
 const Track = ({ connectDropTarget, isOver, name, sequence, currentNote }) => {
   const styleName = isOver ? 'track hover' : 'track';
@@ -17,6 +18,7 @@ const Track = ({ connectDropTarget, isOver, name, sequence, currentNote }) => {
       <div>{name}</div>
       <Notebar />
       <BucketRow sequence={sequence} currentNote={currentNote} />
+      <Sortable />
     </div>
   );
 };
