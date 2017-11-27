@@ -8,7 +8,6 @@ import { findDOMNode } from 'react-dom';
 import flow from 'lodash/flow';
 import { deleteNote, dropNote, moveNote } from '../../actions';
 import ItemTypes from '../../item-types';
-import './note-in-bucket.css';
 
 import Note from '../note';
 
