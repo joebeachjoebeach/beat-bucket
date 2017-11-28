@@ -6,7 +6,7 @@ export const MUTE = 'mute';
 export const SOLO = 'solo';
 export const UNMUTE = 'unmute';
 export const UNSOLO = 'unsolo';
-export const DROP_NOTE = 'drop_note';
+export const ADD_NOTE = 'add_note';
 export const DELETE_NOTE = 'delete_note';
 export const MOVE_NOTE = 'move_note';
 
@@ -64,10 +64,10 @@ export function unsolo(trackId) {
   };
 }
 
-export function dropNote({ note, bucketId, trackId }) {
+export function addNote({ note, index, bucketId, trackId }) {
   return {
-    type: DROP_NOTE,
-    payload: { note, bucketId, trackId }
+    type: ADD_NOTE,
+    payload: { note, index, bucketId, trackId }
   };
 }
 
@@ -78,9 +78,16 @@ export function deleteNote({ noteIndex, bucketId, trackId }) {
   };
 }
 
-export function moveNote({ originalIndex, newIndex, bucketId, trackId }) {
+// export function moveNote({ originalIndex, newIndex, bucketId, trackId }) {
+//   return {
+//     type: MOVE_NOTE,
+//     payload: { originalIndex, newIndex, bucketId, trackId }
+//   };
+// }
+
+export function moveNote(payload) {
   return {
     type: MOVE_NOTE,
-    payload: { originalIndex, newIndex, bucketId, trackId }
+    payload
   };
 }

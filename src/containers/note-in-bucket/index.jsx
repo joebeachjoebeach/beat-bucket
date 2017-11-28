@@ -28,29 +28,26 @@ const noteInBucketSource = {
     return {
       id: props.id,
       noteIndex: props.index,
-      bucketId: props.bucketId
+      bucketId: props.bucketId,
+      note: props.name
     };
   },
 
   isDragging(props, monitor) {
     const { id, bucketId } = monitor.getItem();
     return props.id === id && props.bucketId === bucketId;
+  },
+
+  endDrag(props, monitor) {
+    if (monitor.didDrop()) {
+      const { index, bucketId, currentTrack, deleteNote } = props;
+      const { target } = monitor.getDropResult();
+
+      if (target === 'delete')
+        deleteNote({ noteIndex: index, bucketId: bucketId, trackId: currentTrack });
+
+    }
   }
-
-  // endDrag(props, monitor) {
-  //   if (monitor.didDrop()) {
-  //     const { name, id, bucketId, currentTrack, deleteNote, dropNote } = props;
-  //     const { target } = monitor.getDropResult();
-  //     if (target === 'note')
-  //       return;
-
-  //     if (target !== 'delete') {
-  //       dropNote({ note: name, bucketId: target, trackId: currentTrack });
-  //     }
-  //     deleteNote({ noteIndex: id, bucketId: bucketId, trackId: currentTrack });
-
-  //   }
-  // }
 };
 
 const noteInBucketTarget = {
@@ -77,16 +74,34 @@ const noteInBucketTarget = {
     if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY)
       return;
 
-    const out = {
-      originalIndex: dragIndex,
-      newIndex: hoverIndex,
-      bucketId: props.bucketId,
-      trackId: props.currentTrack,
+    // const out = {
+    //   originalIndex: dragIndex,
+    //   newIndex: hoverIndex,
+    //   bucketId: props.bucketId,
+    //   trackId: props.currentTrack,
+    // };
+
+    const item = monitor.getItem();
+
+    const payload = {
+      source: {
+        index: dragIndex,
+        id: item.id,
+        bucket: item.bucketId,
+        note: item.note
+      },
+      target: {
+        index: hoverIndex,
+        bucket: props.bucketId
+      },
+      track: props.currentTrack
     };
 
-    props.moveNote(out);
+    // props.moveNote(out);
+    props.moveNote(payload);
 
     monitor.getItem().noteIndex = hoverIndex;
+    monitor.getItem().bucketId = props.bucketId;
 
   }
 };

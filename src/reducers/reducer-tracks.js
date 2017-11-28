@@ -49,17 +49,6 @@ const dummy = {
     soloed: false,
     currentNote: [],
   },
-  // 1: {
-  //   name: 'Track 2',
-  //   sequence: [
-  //     ['C5', 'D5', 'E5']
-  //   ],
-  //   baseNote: 0.5,
-  //   id: 1,
-  //   muted: false,
-  //   soloed: false,
-  //   currentNote: [],
-  // }
 };
 
 export default function TracksReducer(state = dummy, action) {
@@ -117,8 +106,8 @@ export default function TracksReducer(state = dummy, action) {
 
   case MOVE_NOTE:
     newState = { ...state };
-    targetTrack = newState[action.payload.trackId];
-    newState[action.payload.trackId] = TrackReducer(targetTrack, action);
+    targetTrack = newState[action.payload.track];
+    newState[action.payload.track] = TrackReducer(targetTrack, action);
     return newState;
 
   default:
