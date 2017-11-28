@@ -64,10 +64,10 @@ export function unsolo(trackId) {
   };
 }
 
-export function addNote({ note, index, bucketId, trackId }) {
+export function addNote({ note, id=null, index, bucketId, trackId }) {
   return {
     type: ADD_NOTE,
-    payload: { note, index, bucketId, trackId }
+    payload: { note, id, index, bucketId, trackId }
   };
 }
 
@@ -77,13 +77,6 @@ export function deleteNote({ noteIndex, bucketId, trackId }) {
     payload: { noteIndex, bucketId, trackId }
   };
 }
-
-// export function moveNote({ originalIndex, newIndex, bucketId, trackId }) {
-//   return {
-//     type: MOVE_NOTE,
-//     payload: { originalIndex, newIndex, bucketId, trackId }
-//   };
-// }
 
 export function moveNote(payload) {
   return {

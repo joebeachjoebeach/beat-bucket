@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { DragSource, DropTarget } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 import flow from 'lodash/flow';
-import { deleteNote, dropNote, moveNote } from '../../actions';
+import { deleteNote, addNote, moveNote } from '../../actions';
 import ItemTypes from '../../item-types';
 
 import Note from '../note';
@@ -34,8 +34,8 @@ const noteInBucketSource = {
   },
 
   isDragging(props, monitor) {
-    const { id, bucketId } = monitor.getItem();
-    return props.id === id && props.bucketId === bucketId;
+    const { id } = monitor.getItem();
+    return props.id === id;
   },
 
   endDrag(props, monitor) {
@@ -74,14 +74,22 @@ const noteInBucketTarget = {
     if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY)
       return;
 
-    // const out = {
-    //   originalIndex: dragIndex,
-    //   newIndex: hoverIndex,
-    //   bucketId: props.bucketId,
-    //   trackId: props.currentTrack,
-    // };
-
     const item = monitor.getItem();
+
+    if (item.name) {
+      props.addNote({
+        note: item.name,
+        id: item.id,
+        index: hoverIndex,
+        bucketId: props.bucketId,
+        trackId: props.currentTrack
+      });
+      monitor.getItem().note = item.name;
+      monitor.getItem().name = null;
+      monitor.getItem().noteIndex = props.index;
+      monitor.getItem().bucketId = props.bucketId;
+      return;
+    }
 
     const payload = {
       source: {
@@ -97,7 +105,6 @@ const noteInBucketTarget = {
       track: props.currentTrack
     };
 
-    // props.moveNote(out);
     props.moveNote(payload);
 
     monitor.getItem().noteIndex = hoverIndex;
@@ -124,12 +131,12 @@ function mapStateToProps({ globals: { currentTrack }}) {
 }                             
 
 function mapDispatchToProps(dispatch) {                            
-  return bindActionCreators({ deleteNote, dropNote, moveNote }, dispatch);
+  return bindActionCreators({ deleteNote, addNote, moveNote }, dispatch);
 }
 
 const NoteInBucket_DTDS =  flow([
-  DragSource(ItemTypes.BUCKET_NOTE, noteInBucketSource, sourceCollect),
-  DropTarget(ItemTypes.BUCKET_NOTE, noteInBucketTarget, targetCollect)
+  DragSource(ItemTypes.KEYBOARD_NOTE, noteInBucketSource, sourceCollect),
+  DropTarget([ItemTypes.BUCKET_NOTE, ItemTypes.KEYBOARD_NOTE], noteInBucketTarget, targetCollect)
 ])(NoteInBucket);
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteInBucket_DTDS);

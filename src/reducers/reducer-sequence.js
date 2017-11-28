@@ -17,12 +17,15 @@ export default function SequenceReducer(state, action) {
       newState[payload.source.bucket] = BucketReducer(newState[payload.source.bucket], action);
     }
     else {
-      // newState[payload.target.bucket] = BucketReducer(newState[payload.target.bucket], action);
-      newState[payload.source.bucket] = del(newState[payload.source.bucket], payload);
-      newState[payload.target.bucket] = add(newState[payload.target.bucket], payload);
+      newState[payload.source.bucket] = delFromMove(newState[payload.source.bucket], payload);
+      newState[payload.target.bucket] = addFromMove(newState[payload.target.bucket], payload);
     }
     return newState;
 
+  case ADD_NOTE:
+    newState = [ ...state ];
+    newState[payload.bucketId] = BucketReducer(newState[payload.bucketId], action);
+    return newState;
 
 
   default:
@@ -30,7 +33,7 @@ export default function SequenceReducer(state, action) {
   }
 }
 
-function del(state, payload) {
+function delFromMove(state, payload) {
   const action = deleteNote({
     noteIndex: payload.source.index,
     bucketId: payload.source.bucket,
@@ -39,9 +42,10 @@ function del(state, payload) {
   return BucketReducer(state, action);
 }
 
-function add(state, payload) {
+function addFromMove(state, payload) {
   const action = addNote({
     note: payload.source.note,
+    id: payload.source.id,
     index: payload.target.index,
     bucketId: payload.target.bucket,
     trackId: payload.track

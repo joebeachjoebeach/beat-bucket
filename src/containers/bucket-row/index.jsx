@@ -9,9 +9,9 @@ const BucketRow = ({ sequence, currentNote }) => {
 
   function renderBuckets() {
     return sequence.map((bucket, i) => {
-      const { notes } = bucket;
+      // const { notes } = bucket;
 
-      return <Bucket notes={notes} currentNote={currentNote} key={i} bucketId={i} />;
+      return <Bucket notes={bucket} currentNote={currentNote} key={i} bucketId={i} />;
     });
   }
 

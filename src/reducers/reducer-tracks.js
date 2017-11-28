@@ -4,7 +4,7 @@ import {
   UNMUTE,
   UNSOLO,
   UPDATE_CURRENT_NOTE,
-  DROP_NOTE,
+  ADD_NOTE,
   DELETE_NOTE,
   MOVE_NOTE } from '../actions';
 import TrackReducer from './reducer-track';
@@ -13,36 +13,24 @@ const dummy = {
   0: {
     name: 'Track 1',
     sequence: [
-      { 
-        notes: [
-          { id: 0, value: 'C4' },
-          { id: 1, value: 'D4' }
-        ],
-        nextId: 2
-      },
-      {
-        notes: [
-          { id: 0, value: 'E4' }
-        ],
-        nextId: 1
-      },
-      {
-        notes: [
-          { id: 0, value: 'E4' },
-          { id: 1, value: 'F4' },
-          { id: 3, value: 'G4' },
-          { id: 4, value: 'A6' },
-          { id: 5, value: 'B7' }
-        ],
-        nextId: 6
-      },
-      {
-        notes: [
-          { id: 0, value: 'G4' }
-        ],
-        nextId: 1
-      }
+      [
+        { id: 0, value: 'C4' },
+        { id: 1, value: 'D4' }
+      ],
+      [
+        { id: 2, value: 'E4' }
+      ],
+      [
+        { id: 3, value: 'C4' },
+        { id: 4, value: 'D4' },
+        { id: 5, value: 'E4' },
+        { id: 6, value: 'F4' }
+      ],
+      [
+        { id: 7, value: 'G4' }
+      ],
     ],
+    nextId: 8,
     baseNote: 1,
     id: 0,
     muted: false,
@@ -92,12 +80,6 @@ export default function TracksReducer(state = dummy, action) {
     newState[action.payload.trackId] = TrackReducer(targetTrack, action);
     return newState;
 
-  case DROP_NOTE:
-    newState = { ...state };
-    targetTrack = newState[action.payload.trackId];
-    newState[action.payload.trackId] = TrackReducer(targetTrack, action);
-    return newState;
-
   case DELETE_NOTE:
     newState = { ...state };
     targetTrack = newState[action.payload.trackId];
@@ -108,6 +90,13 @@ export default function TracksReducer(state = dummy, action) {
     newState = { ...state };
     targetTrack = newState[action.payload.track];
     newState[action.payload.track] = TrackReducer(targetTrack, action);
+    return newState;
+
+  case ADD_NOTE:
+    // console.log(action.payload);
+    newState = { ...state };
+    targetTrack = newState[action.payload.trackId];
+    newState[action.payload.trackId] = TrackReducer(targetTrack, action);
     return newState;
 
   default:

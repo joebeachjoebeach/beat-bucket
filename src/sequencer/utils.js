@@ -1,8 +1,8 @@
 export function createPartEvents(sequence, baseNote) {
   const events = [];
   sequence.forEach((bucket, bucketIndex) => {
-    bucket.notes.forEach(({ value }, noteIndex) => {
-      const [ dur, time ] = getDurAndTime(bucket.notes.length, bucketIndex, noteIndex, baseNote);
+    bucket.forEach(({ value }, noteIndex) => {
+      const [ dur, time ] = getDurAndTime(bucket.length, bucketIndex, noteIndex, baseNote);
       events.push({ note: value, dur, time, noteIndex, bucketIndex });
     });
   });

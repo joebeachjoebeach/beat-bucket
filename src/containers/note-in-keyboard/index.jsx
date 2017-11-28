@@ -21,20 +21,20 @@ const NoteInKeyboard = ({ name, styleName, connectDragSource }) => {
 
 const noteInKeyboardSource = {
   beginDrag(props) {
-    return { name: props.name };
+    return { name: props.name, id: props.nextId };
   },
 
   isDragging(props, monitor) {
     return monitor.getItem().name === props.name;
   },
 
-  endDrag(props, monitor) {
-    if (monitor.didDrop()) {
-      const { name, currentTrack, dropNote } = props;
-      const { target } = monitor.getDropResult();
-      dropNote({ note: name, bucketId: target, trackId: currentTrack });
-    }
-  }
+  // endDrag(props, monitor) {
+  //   if (monitor.didDrop()) {
+  //     const { name, currentTrack, dropNote } = props;
+  //     const { target } = monitor.getDropResult();
+  //     dropNote({ note: name, bucketId: target, trackId: currentTrack });
+  //   }
+  // }
 };
 
 function collect(connect, monitor) {
@@ -44,8 +44,9 @@ function collect(connect, monitor) {
   };
 }
 
-function mapStateToProps({ globals: { currentTrack }}) {                            
-  return { currentTrack };
+function mapStateToProps({ globals: { currentTrack }, tracks }) {                            
+  const nextId = tracks[currentTrack].nextId;
+  return { currentTrack, nextId };
 }                             
 
 function mapDispatchToProps(dispatch) {                            
