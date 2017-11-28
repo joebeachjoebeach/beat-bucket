@@ -41,6 +41,6 @@ function mapStateToProps({ tracks, globals: { currentTrack } }) {
   return tracks[currentTrack];
 }
 
-const Track_DT = DropTarget(ItemTypes.BUCKET_NOTE, trackTarget, collect)(Track);
+const Track_DT = DropTarget(ItemTypes.KEYBOARD_NOTE, trackTarget, collect)(Track);
 
 export default connect(mapStateToProps)(Track_DT);

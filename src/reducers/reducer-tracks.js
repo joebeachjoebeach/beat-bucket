@@ -75,12 +75,9 @@ export default function TracksReducer(state = dummy, action) {
     return newState;
 
   case UPDATE_CURRENT_NOTE:
-    newState = { ...state };
-    targetTrack = newState[action.payload.trackId];
-    newState[action.payload.trackId] = TrackReducer(targetTrack, action);
-    return newState;
-
   case DELETE_NOTE:
+  case ADD_NOTE:
+    // console.log(action.payload);
     newState = { ...state };
     targetTrack = newState[action.payload.trackId];
     newState[action.payload.trackId] = TrackReducer(targetTrack, action);
@@ -90,13 +87,6 @@ export default function TracksReducer(state = dummy, action) {
     newState = { ...state };
     targetTrack = newState[action.payload.track];
     newState[action.payload.track] = TrackReducer(targetTrack, action);
-    return newState;
-
-  case ADD_NOTE:
-    // console.log(action.payload);
-    newState = { ...state };
-    targetTrack = newState[action.payload.trackId];
-    newState[action.payload.trackId] = TrackReducer(targetTrack, action);
     return newState;
 
   default:
