@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';                        
 import { bindActionCreators } from 'redux';
 import { DragSource } from 'react-dnd';
-import { dropNote } from '../../actions';
+import { addNote } from '../../actions';
 import ItemTypes from '../../item-types';
 import './note-in-keyboard.css';
 
@@ -28,13 +28,14 @@ const noteInKeyboardSource = {
     return monitor.getItem().name === props.name;
   },
 
-  // endDrag(props, monitor) {
-  //   if (monitor.didDrop()) {
-  //     const { name, currentTrack, dropNote } = props;
-  //     const { target } = monitor.getDropResult();
-  //     dropNote({ note: name, bucketId: target, trackId: currentTrack });
-  //   }
-  // }
+  endDrag(props, monitor) {
+    if (monitor.didDrop()) {
+      const { name, currentTrack, addNote } = props;
+      const { target, bucketId } = monitor.getDropResult();
+      if (target === 'bucket')
+        addNote({ note: name, bucketId, trackId: currentTrack, index: 0 });
+    }
+  }
 };
 
 function collect(connect, monitor) {
@@ -50,7 +51,7 @@ function mapStateToProps({ globals: { currentTrack }, tracks }) {
 }                             
 
 function mapDispatchToProps(dispatch) {                            
-  return bindActionCreators({ dropNote }, dispatch);
+  return bindActionCreators({ addNote }, dispatch);
 }
 
 const NoteInKeyboard_DS = DragSource(ItemTypes.KEYBOARD_NOTE, noteInKeyboardSource, collect)(NoteInKeyboard);

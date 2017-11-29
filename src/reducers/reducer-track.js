@@ -43,7 +43,7 @@ export default function TrackReducer(state = {}, action) {
 
   case ADD_NOTE:
     newState = { ...state };
-    newState.sequence = SequenceReducer(newState.sequence, action);
+    newState.sequence = SequenceReducer(newState.sequence, action, newState.nextId);
     newState.nextId++;
     return newState;
 

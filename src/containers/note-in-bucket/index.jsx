@@ -40,26 +40,38 @@ const noteInBucketSource = {
 
   endDrag(props, monitor) {
     if (monitor.didDrop()) {
-      const { index, bucketId, currentTrack, deleteNote } = props;
+      const { name, index, bucketId, currentTrack, deleteNote, moveNote, id } = props;
       const { target } = monitor.getDropResult();
 
       if (target === 'delete')
         deleteNote({ noteIndex: index, bucketId: bucketId, trackId: currentTrack });
 
+      if (target === 'bucket') {
+        const payload = {
+          source: {
+            index,
+            id,
+            bucket: bucketId,
+            note: name
+          },
+          target: {
+            index: 0,
+            bucket: monitor.getDropResult().bucketId
+          },
+          track: currentTrack
+        };
+        moveNote(payload);
+      }
+        
     }
   }
 };
 
 const noteInBucketTarget = {
-  // drop() {
-  //   return { target: 'note' };
-  // },
-
   hover(props, monitor, component) {
     const dragIndex = monitor.getItem().noteIndex;
     const hoverIndex = props.index;
 
-    // don't replace an item with itself
     if (dragIndex === hoverIndex)
       return;
 

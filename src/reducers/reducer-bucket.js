@@ -30,18 +30,10 @@ export default function BucketReducer(state, action, id) {
   }
 }
 
-// function addNote(state, action, id) {
-//   const newState = [ ...state ];
-//   const noteObject = { id, value: action.payload.note };
-//   newState.splice(action.payload.index, 0, noteObject);
-//   return newState;
-// }
-
 function addNote(state, payload, id) {
   const newState = [ ...state ];
   let noteObject;
   if (payload.id === null) {
-    console.log(payload);
     noteObject = { id, value: payload.note };
   }
   else

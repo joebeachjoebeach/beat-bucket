@@ -9,8 +9,10 @@ import './track.css';
 import BucketRow from '../bucket-row';
 import Notebar from '../notebar';
 
-const Track = ({ connectDropTarget, isOver, name, sequence, currentNote }) => {
-  const styleName = isOver ? 'track hover' : 'track';
+const Track = ({ connectDropTarget, isOver, dragItem, name, sequence, currentNote }) => {
+  const styleName = (isOver && !dragItem.name)
+    ? 'track hover'
+    : 'track';
 
   return connectDropTarget(
     <div className={styleName}>
@@ -27,13 +29,19 @@ const trackTarget = {
     if (monitor.didDrop())
       return;
     return { target: 'delete' };
+  },
+
+  hover(props, monitor) {
+    const item = monitor.getItem();
+
   }
 };
 
 function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver({ shallow: true })
+    isOver: monitor.isOver({ shallow: true }),
+    dragItem: monitor.getItem()
   };
 }
 
