@@ -38,9 +38,10 @@ const Bucket = ({ connectDropTarget, notes, currentNote, bucketId }) => {
 
 const bucketTarget = {
   drop(props, monitor) {
-    if (monitor.didDrop() || props.notes.length > 0)
+    // if (monitor.didDrop() || props.notes.length > 0)
+    if (monitor.didDrop())
       return;
-    return { target: 'bucket', bucketId: props.bucketId };
+    return { target: 'bucket', bucketId: props.bucketId, length: props.notes.length };
   }
 };
 

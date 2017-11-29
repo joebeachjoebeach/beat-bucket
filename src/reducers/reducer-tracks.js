@@ -12,25 +12,8 @@ import TrackReducer from './reducer-track';
 const dummy = {
   0: {
     name: 'Track 1',
-    sequence: [
-      [
-        { id: 0, value: 'C4' },
-        { id: 1, value: 'D4' }
-      ],
-      [
-        { id: 2, value: 'E4' }
-      ],
-      [
-        { id: 3, value: 'C4' },
-        { id: 4, value: 'D4' },
-        { id: 5, value: 'E4' },
-        { id: 6, value: 'F4' }
-      ],
-      [
-        { id: 7, value: 'G4' }
-      ],
-    ],
-    nextId: 8,
+    sequence: [ [], [], [], [], [], [], [], [] ],
+    nextId: 0,
     baseNote: 1,
     id: 0,
     muted: false,

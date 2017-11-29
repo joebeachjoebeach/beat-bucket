@@ -55,7 +55,7 @@ const noteInBucketSource = {
             note: name
           },
           target: {
-            index: 0,
+            index: monitor.getDropResult().length,
             bucket: monitor.getDropResult().bucketId
           },
           track: currentTrack

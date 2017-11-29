@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';                        
 import { bindActionCreators } from 'redux';
 import { DragSource } from 'react-dnd';
-import { addNote } from '../../actions';
+import { addNote, moveNote } from '../../actions';
 import ItemTypes from '../../item-types';
 import './note-in-keyboard.css';
 
@@ -30,10 +30,32 @@ const noteInKeyboardSource = {
 
   endDrag(props, monitor) {
     if (monitor.didDrop()) {
-      const { name, currentTrack, addNote } = props;
-      const { target, bucketId } = monitor.getDropResult();
-      if (target === 'bucket')
-        addNote({ note: name, bucketId, trackId: currentTrack, index: 0 });
+      const { name, currentTrack, addNote, moveNote } = props;
+      const { target, bucketId, length } = monitor.getDropResult();
+      if (target === 'bucket') {
+        const item = monitor.getItem();
+        // if it's being dragged directly from the keyboard, drop it in the bucket
+        if (item.name)
+          addNote({ note: name, bucketId, trackId: currentTrack, index: length });
+        // but if it's been hovering in another bucket, then dragged here,
+        // move it from one bucket to the other
+        else {
+          const payload = {
+            source: {
+              index: item.noteIndex,
+              id: item.id,
+              bucket: item.bucketId,
+              note: item.note
+            },
+            target: {
+              index: length,
+              bucket: bucketId
+            },
+            track: currentTrack
+          };
+          moveNote(payload);
+        }
+      }
     }
   }
 };
@@ -51,7 +73,7 @@ function mapStateToProps({ globals: { currentTrack }, tracks }) {
 }                             
 
 function mapDispatchToProps(dispatch) {                            
-  return bindActionCreators({ addNote }, dispatch);
+  return bindActionCreators({ addNote, moveNote }, dispatch);
 }
 
 const NoteInKeyboard_DS = DragSource(ItemTypes.NOTE, noteInKeyboardSource, collect)(NoteInKeyboard);
