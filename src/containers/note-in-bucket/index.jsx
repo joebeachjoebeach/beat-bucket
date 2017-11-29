@@ -147,8 +147,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 const NoteInBucket_DTDS =  flow([
-  DragSource(ItemTypes.KEYBOARD_NOTE, noteInBucketSource, sourceCollect),
-  DropTarget([ItemTypes.BUCKET_NOTE, ItemTypes.KEYBOARD_NOTE], noteInBucketTarget, targetCollect)
+  DragSource(ItemTypes.NOTE, noteInBucketSource, sourceCollect),
+  DropTarget(ItemTypes.NOTE, noteInBucketTarget, targetCollect)
 ])(NoteInBucket);
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteInBucket_DTDS);

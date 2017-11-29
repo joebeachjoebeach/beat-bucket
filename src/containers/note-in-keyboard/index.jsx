@@ -54,6 +54,6 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ addNote }, dispatch);
 }
 
-const NoteInKeyboard_DS = DragSource(ItemTypes.KEYBOARD_NOTE, noteInKeyboardSource, collect)(NoteInKeyboard);
+const NoteInKeyboard_DS = DragSource(ItemTypes.NOTE, noteInKeyboardSource, collect)(NoteInKeyboard);
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteInKeyboard_DS);
