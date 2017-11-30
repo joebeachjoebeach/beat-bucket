@@ -5,7 +5,9 @@ import {
   selectTracks,
   selectCurrentTrack,
   selectMuted,
-  selectSequence } from '../store';
+  selectSequence,
+  selectTrackExists,
+  selectBaseNote } from '../store';
 import { updateCurrentNote } from '../actions';
 
 export default class Track {
@@ -21,12 +23,24 @@ export default class Track {
     this.sequence = sequence;
     this.baseNote = baseNote;
 
-    this.part = this.initPart();
+    this.part = this.initPart(sequence, baseNote);
+
+    this.unsubscribeDeleted = observeStore(
+      store,
+      selectTrackExists(id),
+      this.onDelete.bind(this)
+    );
 
     this.unsubscribeCurrent = observeStore(
       store,
       selectCurrentTrack,
       this.onCurrentChange.bind(this)
+    );
+
+    this.unsubscribeSequenceChange = observeStore(
+      store,
+      selectSequence(id),
+      this.onSequenceChange.bind(this)
     );
 
     this.unsubscribeMuted = observeStore(
@@ -35,22 +49,37 @@ export default class Track {
       this.onMutedChange.bind(this)
     );
 
-    this.unsubscribeSequenceChange = observeStore(
+    this.unsubscribeBaseNote = observeStore(
       store,
-      selectSequence(id),
-      this.onSequenceChange.bind(this)
+      selectBaseNote(id),
+      this.onBaseNoteChange.bind(this)
     );
   }
 
-  initPart() {
+  onDelete(exists) {
+    if (!exists) {
+      this.deleteSelf();
+    }
+  }
+
+  deleteSelf() {
+    this.unsubscribeCurrent();
+    this.unsubscribeMuted();
+    this.unsubscribeSequenceChange();
+    this.synth = null;
+    this.part.removeAll();
+    this.part = null;
+  }
+
+  initPart(sequence, baseNote) {
     const part = new Tone.Part(
       this.partProcessor.bind(this),
-      createPartEvents(this.sequence, this.baseNote)
+      createPartEvents(sequence, baseNote)
     );
 
     part.start(0);
     part.loop = true;
-    part.loopEnd = `${this.sequence.length}*0:${this.baseNote}`;
+    part.loopEnd = `${sequence.length}*0:${baseNote}`;
 
     return part;
   }
@@ -81,9 +110,14 @@ export default class Track {
 
   onSequenceChange(sequence) {
     this.part.removeAll();
-    createPartEvents(sequence, this.baseNote).forEach(event => {
-      this.part.add(event.time, event);
-    });
+    this.part = this.initPart(sequence, this.baseNote);
+    this.sequence = sequence;
+  }
+
+  onBaseNoteChange(baseNote) {
+    this.part.removeAll();
+    this.part = this.initPart(this.sequence, baseNote);
+    this.baseNote = baseNote;
   }
 
 }

@@ -1,19 +1,23 @@
+.bucket-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
 .bucket {
   align-items: center;
   border: 1px solid black;
   border-top: none;
   display: flex;
   flex-direction: column-reverse;
-  height: 80px;
-  margin: 0 4px;
+  height: 100px;
+  margin: 0 10px;
+  width: 70px;
+}
+
+.deletebucket {
+  font-size: 0.7rem;
   width: 40px;
 }
 
-.note {
-  height: 30px;
-  width: 30px;
-}
 
-.note-current {
-  color: red;
-}

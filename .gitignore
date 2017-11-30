@@ -8,6 +8,8 @@ npm-debug.log
 # webpack build
 dist/bundle.js
 dist/style.css
+dist/*.svg
+dist/*.png
 
 #sublime files
 **.sublime-project

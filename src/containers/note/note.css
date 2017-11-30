@@ -3,5 +3,11 @@
   background-color: #F3A712;
   border: 1px solid black;
   display: flex;
+  height: 30px;
   justify-content: center;
+  width: 60px;
+}
+
+.note-current {
+  color: red;
 }

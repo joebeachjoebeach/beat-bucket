@@ -1,3 +1,5 @@
+// ACTION CREATORS
+
 export const PLAY = 'play';
 export const STOP = 'stop';
 export const UPDATE_CURRENT_NOTE = 'update_current_note';
@@ -9,6 +11,11 @@ export const UNSOLO = 'unsolo';
 export const ADD_NOTE = 'add_note';
 export const DELETE_NOTE = 'delete_note';
 export const MOVE_NOTE = 'move_note';
+export const ADD_BUCKET = 'add_bucket';
+export const DELETE_BUCKET = 'delete_bucket';
+export const ADD_TRACK = 'add_track';
+export const DELETE_TRACK = 'delete_track';
+export const CHANGE_BASE_NOTE = 'change_base_note';
 
 export function play() {
   return {
@@ -82,5 +89,39 @@ export function moveNote(payload) {
   return {
     type: MOVE_NOTE,
     payload
+  };
+}
+
+export function addBucket({ trackId }) {
+  return {
+    type: ADD_BUCKET,
+    payload: { trackId }
+  };
+}
+
+export function deleteBucket({ trackId, bucketId }) {
+  return {
+    type: DELETE_BUCKET,
+    payload: { trackId, bucketId }
+  };
+}
+
+export function addTrack() {
+  return {
+    type: ADD_TRACK
+  };
+}
+
+export function deleteTrack({ trackId }) {
+  return {
+    type: DELETE_TRACK,
+    payload: { trackId }
+  };
+}
+
+export function changeBaseNote({ baseNote, trackId }) {
+  return {
+    type: CHANGE_BASE_NOTE,
+    payload: { baseNote, trackId }
   };
 }

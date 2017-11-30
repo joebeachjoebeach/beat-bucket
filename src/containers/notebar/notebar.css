@@ -10,5 +10,5 @@
   display: grid;
   flex-grow: 1;
   grid-template-columns: repeat(16, 1fr);
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 40px 40px;
 }

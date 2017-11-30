@@ -6,7 +6,12 @@ import {
   UPDATE_CURRENT_NOTE,
   ADD_NOTE,
   DELETE_NOTE,
-  MOVE_NOTE } from '../actions';
+  MOVE_NOTE,
+  ADD_BUCKET,
+  DELETE_BUCKET,
+  ADD_TRACK,
+  DELETE_TRACK,
+  CHANGE_BASE_NOTE } from '../actions';
 import TrackReducer from './reducer-track';
 
 const dummy = {
@@ -18,7 +23,7 @@ const dummy = {
     id: 0,
     muted: false,
     soloed: false,
-    currentNote: [],
+    currentNote: []
   },
 };
 
@@ -60,7 +65,9 @@ export default function TracksReducer(state = dummy, action) {
   case UPDATE_CURRENT_NOTE:
   case DELETE_NOTE:
   case ADD_NOTE:
-    // console.log(action.payload);
+  case ADD_BUCKET:
+  case DELETE_BUCKET:
+  case CHANGE_BASE_NOTE:
     newState = { ...state };
     targetTrack = newState[action.payload.trackId];
     newState[action.payload.trackId] = TrackReducer(targetTrack, action);
@@ -71,6 +78,12 @@ export default function TracksReducer(state = dummy, action) {
     targetTrack = newState[action.payload.track];
     newState[action.payload.track] = TrackReducer(targetTrack, action);
     return newState;
+
+  case ADD_TRACK:
+    return addTrack(state);
+
+  case DELETE_TRACK:
+    return deleteTrack(state, action.payload.trackId);
 
   default:
     return state;
@@ -83,4 +96,26 @@ function getSoloedTrack(state) {
   if (soloed.length > 0)
     return soloed[0].id;
   return -1;
+}
+
+function addTrack(state) {
+  const newState = { ...state };
+  const id = Math.max.apply(null, Object.keys(newState)) + 1;
+  newState[id] = {
+    name: `Track ${id + 1}`,
+    sequence: [ [], [], [], [], [], [], [], [] ],
+    nextId: 0,
+    baseNote: 1,
+    id: id,
+    muted: false,
+    soloed: false,
+    currentNote: []
+  };
+  return newState;
+}
+
+function deleteTrack(state, id) {
+  const newState = { ...state };
+  delete newState[id];
+  return newState;
 }

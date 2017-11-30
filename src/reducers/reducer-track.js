@@ -6,7 +6,10 @@ import {
   UPDATE_CURRENT_NOTE,
   ADD_NOTE,
   DELETE_NOTE,
-  MOVE_NOTE } from '../actions';
+  MOVE_NOTE,
+  ADD_BUCKET,
+  DELETE_BUCKET,
+  CHANGE_BASE_NOTE } from '../actions';
 
 import SequenceReducer from './reducer-sequence';
 
@@ -37,6 +40,8 @@ export default function TrackReducer(state = {}, action) {
 
   case DELETE_NOTE:
   case MOVE_NOTE:
+  case ADD_BUCKET:
+  case DELETE_BUCKET:
     newState = { ...state };
     newState.sequence = SequenceReducer(newState.sequence, action);
     return newState;
@@ -47,6 +52,10 @@ export default function TrackReducer(state = {}, action) {
     newState.nextId++;
     return newState;
 
+  case CHANGE_BASE_NOTE:
+    newState = { ...state };
+    newState.baseNote = action.payload.baseNote;
+    return newState;
 
   default:
     return state;

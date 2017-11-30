@@ -3,7 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { mute, solo, unmute, unsolo, updateCurrentTrack } from '../../actions';
+import { mute, solo, unmute, unsolo, updateCurrentTrack, deleteTrack } from '../../actions';
 
 import './track-list-item.css';
 
@@ -17,7 +17,9 @@ const TrackListItem = ({
   solo,
   unmute,
   unsolo,
-  updateCurrentTrack}) => {
+  updateCurrentTrack,
+  deleteTrack,
+  tracks }) => {
 
   function handleNameClick() {
     !current &&
@@ -34,6 +36,15 @@ const TrackListItem = ({
     soloed
       ? unsolo(id)
       : solo(id);
+  }
+
+  function handleDeleteTrackClick() {
+    const trackKeys = Object.keys(tracks);
+    if (trackKeys.length > 1) {
+      deleteTrack({ trackId: id });
+      trackKeys.splice(trackKeys.indexOf(id.toString()), 1);
+      updateCurrentTrack(Math.min.apply(null, trackKeys));
+    }
   }
 
   function renderTrackName() {
@@ -54,6 +65,7 @@ const TrackListItem = ({
   return (
     <div className="tracklistitem">
       {renderTrackName()}
+      <button onClick={handleDeleteTrackClick} >delete</button>
       <div className="mutesolo">
         {renderMute()}
         {renderSolo()}
@@ -63,8 +75,15 @@ const TrackListItem = ({
 };
 
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ mute, solo, unmute, unsolo, updateCurrentTrack }, dispatch);
+function mapStateToProps({ tracks }) {
+  return { tracks };
 }
 
-export default connect(null, mapDispatchToProps)(TrackListItem);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    { mute, solo, unmute, unsolo, updateCurrentTrack, deleteTrack },
+    dispatch
+  );
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TrackListItem);

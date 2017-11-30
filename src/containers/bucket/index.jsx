@@ -2,13 +2,19 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { DropTarget } from 'react-dnd';
 import ItemTypes from '../../item-types';
+import { deleteBucket } from '../../actions';
 import './bucket.css';
 
 import NoteInBucket from '../note-in-bucket';
 
-const Bucket = ({ connectDropTarget, notes, currentNote, bucketId }) => {
+const Bucket = ({ connectDropTarget, notes, currentNote, currentTrack, bucketId, deleteBucket }) => {
+
+  function handleDeleteBucketClick() {
+    deleteBucket({ trackId: currentTrack, bucketId });
+  }
 
   function renderNotes() {
     return notes.map((note, i) => {
@@ -30,15 +36,19 @@ const Bucket = ({ connectDropTarget, notes, currentNote, bucketId }) => {
   }
 
   return connectDropTarget(
-    <div className="bucket">
-      {renderNotes()}
+    <div className="bucket-container">
+      <div className="bucket">
+        {renderNotes()}
+      </div>
+      <button onClick={handleDeleteBucketClick} className="deletebucket">
+        delete
+      </button>
     </div>
   );
 };
 
 const bucketTarget = {
   drop(props, monitor) {
-    // if (monitor.didDrop() || props.notes.length > 0)
     if (monitor.didDrop())
       return;
     return { target: 'bucket', bucketId: props.bucketId, length: props.notes.length };
@@ -51,10 +61,14 @@ function collect(connect) {
   };
 }
 
-function mapStateToProps({ tracks }) {
-  return { tracks };
+function mapStateToProps({ tracks, globals: { currentTrack } }) {
+  return { tracks, currentTrack };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ deleteBucket }, dispatch);
 }
 
 const dt_Bucket = DropTarget(ItemTypes.NOTE, bucketTarget, collect)(Bucket);
 
-export default connect(mapStateToProps)(dt_Bucket);
+export default connect(mapStateToProps, mapDispatchToProps)(dt_Bucket);

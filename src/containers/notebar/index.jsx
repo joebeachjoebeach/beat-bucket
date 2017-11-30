@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';                        
-import { bindActionCreators } from 'redux';
 import './notebar.css';
 
 import NoteInKeyboard from '../note-in-keyboard';
@@ -36,9 +35,5 @@ const Notebar = ({ octave }) => {
 function mapStateToProps({ globals: { octave } }) {                            
   return { octave };                            
 }                             
-
-// function mapDispatchToProps(dispatch) {                            
-//   return bindActionCreators(_, dispatch);                            
-// }
 
 export default connect(mapStateToProps)(Notebar);
