@@ -4,6 +4,18 @@
   padding: 50px;
 }
 
-.addbucket {
+.bucketrow-button {
+  height: 50px;
   margin: 20px;
+  width: 30px;
+}
+
+.sixteenth {
+  height: 65%;
+  width: 65%;
+}
+
+.half {
+  height: 50%;
+  width: 50%;
 }

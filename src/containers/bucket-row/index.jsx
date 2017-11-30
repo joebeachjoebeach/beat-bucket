@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { addBucket, changeBaseNote } from '../../actions';
-import halfNote from './half.png';
+import halfNote from './half.svg';
 import sixteenthNote from './sixteenth.svg';
 import './bucket-row.css';
 
@@ -30,13 +30,13 @@ const BucketRow = ({
   function renderNoteSymbol() {
     switch (baseNote) {
     case 2:
-      return <img src={halfNote} />;
+      return <img className="half" src={halfNote} />;
     case 1:
       return '♩';
     case 0.5:
       return '♪';
     case 0.25:
-      return <svg height="100" width="100" viewBox="0 0 20 10" src={sixteenthNote} />;
+      return <img className="sixteenth" src={sixteenthNote} />;
     }
   }
 
@@ -48,9 +48,9 @@ const BucketRow = ({
 
   return (
     <div className="bucketrow">
-      <button onClick={handleBaseNoteClick} className="addbucket">{renderNoteSymbol()}</button>
+      <button onClick={handleBaseNoteClick} className="bucketrow-button">{renderNoteSymbol()}</button>
       {renderBuckets()}
-      <button onClick={handleAddBucketClick} className="addbucket">+</button>
+      <button onClick={handleAddBucketClick} className="bucketrow-button">+</button>
     </div>
   );
 };

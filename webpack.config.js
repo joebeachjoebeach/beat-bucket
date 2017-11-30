@@ -1,10 +1,6 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-// am I using the babel plugins at all??
-// maybe that's the only problem
-// I might just need to make sure I'm using esnext
-
 const config = {
   entry: __dirname + '/src/index.jsx',
   module: {
@@ -35,7 +31,12 @@ const config = {
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        use: 'file-loader'
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: 'dist/[hash].[ext]'
+          }  
+        }
       }
     ]
   },
