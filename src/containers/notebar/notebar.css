@@ -1,14 +1,21 @@
 .notebar {                    
   display: flex;
   height: 150px;
-  justify-content: space-between;
+  justify-content: center;
   margin: 20px 20px 50px 20px;
-  max-width: 500px;
+  width: 80%;
 }
 
 .notebar-notes {
   display: grid;
   flex-grow: 1;
-  grid-template-columns: repeat(16, 1fr);
+  grid-template-columns: repeat(19, 1fr);
   grid-template-rows: 40px 40px;
+  max-width: 500px;
+}
+
+.notebar-arrow {
+  font-size: 3rem;
+  height: 50px;
+  margin: 0 50px;
 }

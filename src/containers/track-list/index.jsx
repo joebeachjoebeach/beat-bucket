@@ -3,7 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addTrack } from '../../actions';
+import { addTrack } from '../../redux/actions/actions-tracks';
 
 import './track-list.css';
 

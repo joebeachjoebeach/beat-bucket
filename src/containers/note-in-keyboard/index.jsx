@@ -4,8 +4,8 @@ import React from 'react';
 import { connect } from 'react-redux';                        
 import { bindActionCreators } from 'redux';
 import { DragSource } from 'react-dnd';
-import { addNote, moveNote } from '../../actions';
-import ItemTypes from '../../item-types';
+import { addNote, moveNote } from '../../redux/actions/actions-sequence';
+import ItemTypes from '../../dnd/item-types';
 import './note-in-keyboard.css';
 
 import Note from '../note';

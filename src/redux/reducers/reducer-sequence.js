@@ -1,11 +1,22 @@
+// import {
+//   DELETE_NOTE,
+//   MOVE_NOTE,
+//   ADD_NOTE,
+//   ADD_BUCKET,
+//   DELETE_BUCKET,
+//   deleteNote,
+//   addNote } from '../actions';
+
 import {
+  ADD_NOTE,
   DELETE_NOTE,
   MOVE_NOTE,
-  ADD_NOTE,
   ADD_BUCKET,
   DELETE_BUCKET,
   deleteNote,
-  addNote } from '../actions';
+  addNote
+} from '../actions/actions-sequence';
+
 import BucketReducer from './reducer-bucket';
 
 export default function SequenceReducer(state, action, id) {

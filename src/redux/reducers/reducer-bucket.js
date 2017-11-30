@@ -1,4 +1,4 @@
-import { ADD_NOTE, DELETE_NOTE, MOVE_NOTE } from '../actions';
+import { ADD_NOTE, DELETE_NOTE, MOVE_NOTE } from '../actions/actions-sequence';
 
 export default function BucketReducer(state, action, id) {
   let newState;
@@ -6,12 +6,6 @@ export default function BucketReducer(state, action, id) {
   switch(action.type) {
 
   case ADD_NOTE:
-    // newState = [ ...state ];
-    // // newState.notes = addNote(newState.notes, action, newState.nextId);
-    // // newState.nextId++;
-    // const noteObject = { id, value: payload.note };
-    // newState.splice(payload.index, 0, noteObject);
-    // return newState;
     return addNote(state, payload, id);
 
   case DELETE_NOTE:
@@ -23,7 +17,6 @@ export default function BucketReducer(state, action, id) {
     newState = [ ...state ];
     newState.splice(payload.target.index, 0, newState.splice(payload.source.index, 1)[0]);
     return newState;
-
 
   default:
     return state;

@@ -3,7 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateCurrentTrack } from '../../actions';
+import { updateCurrentTrack } from '../../redux/actions/actions-globals';
 import './sidebar.css';
 
 import Transport from '../transport';

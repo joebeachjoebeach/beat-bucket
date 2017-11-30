@@ -3,7 +3,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addBucket, changeBaseNote } from '../../actions';
+// import { addBucket, changeBaseNote } from '../../actions';
+import { addBucket } from '../../redux/actions/actions-sequence';
+import { changeBaseNote } from '../../redux/actions/actions-track';
 import halfNote from './half.svg';
 import sixteenthNote from './sixteenth.svg';
 import './bucket-row.css';

@@ -1,17 +1,40 @@
+// import {
+//   MUTE,
+//   SOLO,
+//   UNMUTE,
+//   UNSOLO,
+//   UPDATE_CURRENT_NOTE,
+//   ADD_NOTE,
+//   DELETE_NOTE,
+//   MOVE_NOTE,
+//   ADD_BUCKET,
+//   DELETE_BUCKET,
+//   ADD_TRACK,
+//   DELETE_TRACK,
+//   CHANGE_BASE_NOTE } from '../actions';
+
 import {
+  ADD_TRACK,
+  DELETE_TRACK
+} from '../actions/actions-tracks';
+
+import {
+  UPDATE_CURRENT_NOTE,
   MUTE,
   SOLO,
   UNMUTE,
   UNSOLO,
-  UPDATE_CURRENT_NOTE,
+  CHANGE_BASE_NOTE
+} from '../actions/actions-track.js';
+
+import {
   ADD_NOTE,
   DELETE_NOTE,
   MOVE_NOTE,
   ADD_BUCKET,
-  DELETE_BUCKET,
-  ADD_TRACK,
-  DELETE_TRACK,
-  CHANGE_BASE_NOTE } from '../actions';
+  DELETE_BUCKET
+} from '../actions/actions-sequence.js';
+
 import TrackReducer from './reducer-track';
 
 const dummy = {
@@ -47,14 +70,6 @@ export default function TracksReducer(state = dummy, action) {
     return newState;
 
   case SOLO:
-    newState = { ...state };
-    targetTrack = newState[action.payload.id];
-    newState = {};
-    Object.values(state).forEach(track => {
-      newState[track.id] = TrackReducer(track, action);
-    });
-    return newState;
-
   case UNSOLO:
     newState = {};
     Object.values(state).forEach(track => {

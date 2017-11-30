@@ -1,15 +1,32 @@
+// import {
+//   MUTE,
+//   SOLO,
+//   UNMUTE,
+//   UNSOLO,
+//   UPDATE_CURRENT_NOTE,
+//   ADD_NOTE,
+//   DELETE_NOTE,
+//   MOVE_NOTE,
+//   ADD_BUCKET,
+//   DELETE_BUCKET,
+//   CHANGE_BASE_NOTE } from '../actions';
+
 import {
+  UPDATE_CURRENT_NOTE,
   MUTE,
   SOLO,
   UNMUTE,
   UNSOLO,
-  UPDATE_CURRENT_NOTE,
+  CHANGE_BASE_NOTE
+} from '../actions/actions-track';
+
+import {
   ADD_NOTE,
   DELETE_NOTE,
   MOVE_NOTE,
   ADD_BUCKET,
-  DELETE_BUCKET,
-  CHANGE_BASE_NOTE } from '../actions';
+  DELETE_BUCKET
+} from '../actions/actions-sequence';
 
 import SequenceReducer from './reducer-sequence';
 

@@ -2,8 +2,10 @@ export function createPartEvents(sequence, baseNote) {
   const events = [];
   sequence.forEach((bucket, bucketIndex) => {
     bucket.forEach(({ value }, noteIndex) => {
-      const [ dur, time ] = getDurAndTime(bucket.length, bucketIndex, noteIndex, baseNote);
-      events.push({ note: value, dur, time, noteIndex, bucketIndex });
+      if (value !== 'rest') {
+        const [ dur, time ] = getDurAndTime(bucket.length, bucketIndex, noteIndex, baseNote);
+        events.push({ note: value, dur, time, noteIndex, bucketIndex });
+      }
     });
   });
   return events;

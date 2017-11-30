@@ -1,12 +1,16 @@
 import Tone from 'tone';
 import Track from './track';
 import {
-  observeStore,
   selectTracks,
   selectPlaying,
   selectBpm,
-  selectTracksLength,
-  observeTrackChange } from '../store';
+  // selectTracksLength,
+} from '../redux/selectors';
+
+import {
+  observeStore,
+  observeTrackChange
+} from '../redux/observers';
 
 export default class Sequencer {
   constructor(store) {
@@ -60,50 +64,3 @@ export default class Sequencer {
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* ********* *
-SEQUENCE CODE ******************************************
-* ********** */
-
-// function convertBaseNote(baseNote) {
-//   const quarters = (1 / baseNote).toString();
-//   return `0:${quarters}`;
-// }
-
-// function play() {
-//   tracks.forEach(track => {
-//     const synth = new Tone.Synth().toMaster();
-//     const sequence = new Tone.Sequence((time, note) => {
-//       // console.log(time, note);
-//       synth.triggerAttackRelease(note, time);
-//     }, track.sequence, convertBaseNote(track.baseNote));
-
-//     sequence.start(0);
-//     sequence.loop = true;
-//     sequence.loopEnd = `${track.sequence.length}*0:${track.baseNote}`;
-//   });
-
-//   Tone.Transport.start('+0.1');
-  
-// }
-

@@ -3,7 +3,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { mute, solo, unmute, unsolo, updateCurrentTrack, deleteTrack } from '../../actions';
+// import { mute, solo, unmute, unsolo, updateCurrentTrack, deleteTrack } from '../../actions';
+import {
+  mute,
+  solo,
+  unmute,
+  unsolo,
+} from '../../redux/actions/actions-track';
+import { updateCurrentTrack } from '../../redux/actions/actions-globals';
+import { deleteTrack } from '../../redux/actions/actions-tracks';
 
 import './track-list-item.css';
 

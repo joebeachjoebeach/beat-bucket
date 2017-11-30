@@ -3,7 +3,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { DropTarget } from 'react-dnd';
-import ItemTypes from '../../item-types';
+import ItemTypes from '../../dnd/item-types';
+
 import './track.css';
 
 import BucketRow from '../bucket-row';
@@ -16,7 +17,7 @@ const Track = ({ connectDropTarget, isOver, dragItem, name, sequence, currentNot
 
   return connectDropTarget(
     <div className={styleName}>
-      <div>{name}</div>
+      <div className="track-title">{name}</div>
       <Notebar />
       <BucketRow sequence={sequence} currentNote={currentNote} />
     </div>
@@ -30,11 +31,6 @@ const trackTarget = {
       return;
     return { target: 'delete' };
   },
-
-  hover(props, monitor) {
-    const item = monitor.getItem();
-
-  }
 };
 
 function collect(connect, monitor) {

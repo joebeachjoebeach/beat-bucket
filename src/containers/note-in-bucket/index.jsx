@@ -6,8 +6,8 @@ import { bindActionCreators } from 'redux';
 import { DragSource, DropTarget } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 import flow from 'lodash/flow';
-import { deleteNote, addNote, moveNote } from '../../actions';
-import ItemTypes from '../../item-types';
+import { deleteNote, addNote, moveNote } from '../../redux/actions/actions-sequence';
+import ItemTypes from '../../dnd/item-types';
 
 import Note from '../note';
 

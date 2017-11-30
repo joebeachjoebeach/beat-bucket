@@ -16,6 +16,8 @@ export const DELETE_BUCKET = 'delete_bucket';
 export const ADD_TRACK = 'add_track';
 export const DELETE_TRACK = 'delete_track';
 export const CHANGE_BASE_NOTE = 'change_base_note';
+export const INCREMENT_OCTAVE = 'increment_octave';
+export const DECREMENT_OCTAVE = 'decrement_octave';
 
 export function play() {
   return {
@@ -123,5 +125,17 @@ export function changeBaseNote({ baseNote, trackId }) {
   return {
     type: CHANGE_BASE_NOTE,
     payload: { baseNote, trackId }
+  };
+}
+
+export function incrementOctave() {
+  return {
+    type: INCREMENT_OCTAVE
+  };
+}
+
+export function decrementOctave() {
+  return {
+    type: DECREMENT_OCTAVE
   };
 }

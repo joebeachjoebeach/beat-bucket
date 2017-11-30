@@ -1,14 +1,15 @@
 import Tone from 'tone';
 import { createPartEvents } from './utils';
 import {
-  observeStore,
   selectTracks,
   selectCurrentTrack,
   selectMuted,
   selectSequence,
   selectTrackExists,
-  selectBaseNote } from '../store';
-import { updateCurrentNote } from '../actions';
+  selectBaseNote
+} from '../redux/selectors';
+import { observeStore } from '../redux/observers';
+import { updateCurrentNote } from '../redux/actions/actions-track';
 
 export default class Track {
   constructor(store, id) {

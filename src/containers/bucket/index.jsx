@@ -4,8 +4,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DropTarget } from 'react-dnd';
-import ItemTypes from '../../item-types';
-import { deleteBucket } from '../../actions';
+import ItemTypes from '../../dnd/item-types';
+import { deleteBucket } from '../../redux/actions/actions-sequence';
 import './bucket.css';
 
 import NoteInBucket from '../note-in-bucket';
