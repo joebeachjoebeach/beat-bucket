@@ -67,8 +67,9 @@ export default class Track {
     this.unsubscribeCurrent();
     this.unsubscribeMuted();
     this.unsubscribeSequenceChange();
+    this.synth.dispose();
     this.synth = null;
-    this.part.removeAll();
+    this.part.dispose();
     this.part = null;
   }
 

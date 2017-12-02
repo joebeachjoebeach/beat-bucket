@@ -1,17 +1,4 @@
-// import {
-//   MUTE,
-//   SOLO,
-//   UNMUTE,
-//   UNSOLO,
-//   UPDATE_CURRENT_NOTE,
-//   ADD_NOTE,
-//   DELETE_NOTE,
-//   MOVE_NOTE,
-//   ADD_BUCKET,
-//   DELETE_BUCKET,
-//   ADD_TRACK,
-//   DELETE_TRACK,
-//   CHANGE_BASE_NOTE } from '../actions';
+// TRACKS REDUCER
 
 import {
   ADD_TRACK,
