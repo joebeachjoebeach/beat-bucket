@@ -1,8 +1,10 @@
 const webpack = require('webpack');
+const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const config = {
   entry: __dirname + '/src/index.jsx',
+  context: path.resolve(__dirname),
   module: {
     rules: [
       {
@@ -31,18 +33,14 @@ const config = {
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'dist/[hash].[ext]'
-          }  
-        }
+        use: 'file-loader'
       }
     ]
   },
   output: {
     path: __dirname + '/dist',
     filename: 'bundle.js',
+    publicPath: '/dist/'
   },
   resolve: {
     extensions: ['.js', '.jsx', '.css']
