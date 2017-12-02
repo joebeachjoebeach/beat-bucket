@@ -1,3 +1,5 @@
+// SEQUENCER CLASS
+
 import Tone from 'tone';
 import Track from './track';
 import {
@@ -31,6 +33,7 @@ export default class Sequencer {
   handleTrackCountChange(newCount, oldCount) {
     const newTracks = selectTracks(this.store.getState());
     const newTrackIds = Object.keys(newTracks);
+
     // adding a new track
     if (newCount > oldCount || oldCount === undefined) {
       this.tracks.push(
@@ -40,11 +43,11 @@ export default class Sequencer {
         )
       );
     }
+
     // deleting a track
     // the Track class itself will handle deleting itself (clearing Tone events etc)
-    else {
+    else
       this.tracks = this.tracks.filter(track => (newTracks[track.id] == true));
-    }
   }
 
   // play or stop the loop when global 'playing' changes

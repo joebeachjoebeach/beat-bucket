@@ -65,6 +65,7 @@ export default function TracksReducer(state = dummy, action) {
     return newState;
 
   case UPDATE_CURRENT_NOTE:
+  case MOVE_NOTE:
   case DELETE_NOTE:
   case ADD_NOTE:
   case ADD_BUCKET:
@@ -73,12 +74,6 @@ export default function TracksReducer(state = dummy, action) {
     newState = { ...state };
     targetTrack = newState[action.payload.trackId];
     newState[action.payload.trackId] = TrackReducer(targetTrack, action);
-    return newState;
-
-  case MOVE_NOTE:
-    newState = { ...state };
-    targetTrack = newState[action.payload.track];
-    newState[action.payload.track] = TrackReducer(targetTrack, action);
     return newState;
 
   case ADD_TRACK:

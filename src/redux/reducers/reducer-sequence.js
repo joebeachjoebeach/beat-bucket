@@ -1,11 +1,4 @@
-// import {
-//   DELETE_NOTE,
-//   MOVE_NOTE,
-//   ADD_NOTE,
-//   ADD_BUCKET,
-//   DELETE_BUCKET,
-//   deleteNote,
-//   addNote } from '../actions';
+// SEQUENCE REDUCER
 
 import {
   ADD_NOTE,
@@ -24,6 +17,11 @@ export default function SequenceReducer(state, action, id) {
   const { payload, type } = action;
   switch (type) {
 
+  case ADD_NOTE:
+    newState = [ ...state ];
+    newState[payload.bucketId] = BucketReducer(newState[payload.bucketId], action, id);
+    return newState;
+
   case DELETE_NOTE:
     newState = [ ...state ];
     newState[payload.bucketId] = BucketReducer(newState[payload.bucketId], action);
@@ -38,11 +36,6 @@ export default function SequenceReducer(state, action, id) {
       newState[payload.source.bucket] = delFromMove(newState[payload.source.bucket], payload);
       newState[payload.target.bucket] = addFromMove(newState[payload.target.bucket], payload);
     }
-    return newState;
-
-  case ADD_NOTE:
-    newState = [ ...state ];
-    newState[payload.bucketId] = BucketReducer(newState[payload.bucketId], action, id);
     return newState;
 
   case ADD_BUCKET:

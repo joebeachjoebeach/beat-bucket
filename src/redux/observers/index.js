@@ -15,6 +15,7 @@ export function observeStore(store, select, onChange) {
     }
   };
 
+  handleChange();
   let unsubscribe = store.subscribe(handleChange);
   return unsubscribe;
 }

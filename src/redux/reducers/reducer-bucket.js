@@ -1,3 +1,5 @@
+// BUCKET REDUCER
+
 import { ADD_NOTE, DELETE_NOTE, MOVE_NOTE } from '../actions/actions-sequence';
 
 export default function BucketReducer(state, action, id) {

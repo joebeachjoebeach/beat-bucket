@@ -11,7 +11,12 @@ import ItemTypes from '../../dnd/item-types';
 
 import Note from '../note';
 
-const NoteInBucket = ({ name, styleName, connectDragSource, connectDropTarget, isDragging }) => {                    
+const NoteInBucket = ({
+  name,
+  styleName,
+  connectDragSource,
+  connectDropTarget,
+  isDragging }) => {                    
 
   const opacity = isDragging ? 0 : 1;
 
@@ -40,27 +45,26 @@ const noteInBucketSource = {
 
   endDrag(props, monitor) {
     if (monitor.didDrop()) {
-      const { name, index, bucketId, currentTrack, deleteNote, moveNote, id } = props;
       const { target } = monitor.getDropResult();
 
-      if (target === 'delete')
+      if (target === 'delete') {
+        const { index, bucketId, currentTrack, deleteNote } = props;
         deleteNote({ noteIndex: index, bucketId: bucketId, trackId: currentTrack });
+      }
 
       if (target === 'bucket') {
+        // using monitor.getItem() for the source is more reliable than using props
+        // because this note may have been dragged through intermediary buckets
+        const { noteIndex: index, id, bucketId: bucket, note } = monitor.getItem();
         const payload = {
-          source: {
-            index,
-            id,
-            bucket: bucketId,
-            note: name
-          },
+          source: { index, id, bucket, note },
           target: {
             index: monitor.getDropResult().length,
             bucket: monitor.getDropResult().bucketId
           },
-          track: currentTrack
+          trackId: props.currentTrack
         };
-        moveNote(payload);
+        props.moveNote(payload);
       }
         
     }
@@ -114,7 +118,7 @@ const noteInBucketTarget = {
         index: hoverIndex,
         bucket: props.bucketId
       },
-      track: props.currentTrack
+      trackId: props.currentTrack
     };
 
     props.moveNote(payload);

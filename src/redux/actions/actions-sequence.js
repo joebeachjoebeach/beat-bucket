@@ -20,10 +20,10 @@ export function deleteNote({ noteIndex, bucketId, trackId }) {
   };
 }
 
-export function moveNote(payload) {
+export function moveNote({ source, target, trackId }) {
   return {
     type: MOVE_NOTE,
-    payload
+    payload: { source, target, trackId }
   };
 }
 
