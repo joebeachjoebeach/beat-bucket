@@ -80,7 +80,9 @@ export default function TracksReducer(state = dummy, action) {
     return addTrack(state);
 
   case DELETE_TRACK:
-    return deleteTrack(state, action.payload.trackId);
+    newState = { ...state };
+    delete newState[action.payload.trackId];
+    return newState;
 
   default:
     return state;
@@ -108,11 +110,5 @@ function addTrack(state) {
     soloed: false,
     currentNote: []
   };
-  return newState;
-}
-
-function deleteTrack(state, id) {
-  const newState = { ...state };
-  delete newState[id];
   return newState;
 }
