@@ -1,10 +1,4 @@
-// import {
-//   PLAY,
-//   STOP,
-//   // UPDATE_CURRENT_NOTE,
-//   UPDATE_CURRENT_TRACK,
-//   INCREMENT_OCTAVE,
-//   DECREMENT_OCTAVE } from '../actions';
+// GLOBALS REDUCER
 
 import {
   PLAY,
@@ -35,11 +29,6 @@ export default function(state = dummy_data, action) {
     newState = { ...state };
     newState.playing = false;
     return newState;
-
-  // case UPDATE_CURRENT_NOTE:
-  //   newState = { ...state };
-  //   newState.currentNote = action.payload;
-  //   return newState;
 
   case UPDATE_CURRENT_TRACK:
     newState = { ...state };
