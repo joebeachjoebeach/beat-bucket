@@ -34,7 +34,7 @@ const dummy = {
     muted: false,
     soloed: false,
     currentNote: []
-  },
+  }
 };
 
 export default function TracksReducer(state = dummy, action) {
