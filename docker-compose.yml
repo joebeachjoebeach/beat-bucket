@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+  # postgres db -- persists to local volume
   postgres:
     container_name: bb-db
     ports:
