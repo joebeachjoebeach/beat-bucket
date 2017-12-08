@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: bb-db
+    ports:
+      - 5400:5432
+    volumes:
+      # add-hoc transfers
+      - ~/code/.docker-volumes/host:/host
+      # postgres data
+      - ~/code/.docker-volumes/postgres/beatbucket:/var/lib/postgresql/data
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data/pgdata
