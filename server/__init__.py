@@ -4,7 +4,7 @@ import psycopg2
 import psycopg2.extras
 import bcrypt
 from email_validator import validate_email, EmailNotValidError
-from server.db import connect_to_db, add_user, username_exists, email_exists
+from server.db import connect_to_db, add_user, email_exists, get_user_by_email
 
 
 def create_app(**config_overrides):
@@ -50,19 +50,15 @@ def register():
             jsonify({'error': 'Request body must be json.'}), 400
         )
 
-    if not all(k in json_data for k in ('username', 'password', 'email')):
+    if not all(k in json_data for k in ('email', 'password')):
         return make_response(
-            jsonify({'error': 'Request must contain username, password, and email'}), 400
+            jsonify({'error': 'Request must contain email and password'}), 400
         )
 
     if len(json_data['password']) < 6:
         return make_response(
             jsonify({'error': 'Password must be at least six characters'}), 400
         )
-
-    json_data['username'] = json_data['username'].lower()
-
-    db = get_db(current_app)
 
     try:
         v_email = validate_email(json_data['email'])
@@ -72,20 +68,15 @@ def register():
             jsonify({'error': str(err)}), 400
         )
 
-    if username_exists(db, json_data['username']):
-        return make_response(
-            jsonify({'error': 'Username already taken'}), 400
-        )
-
-    if email_exists(db, email):
+    if email_exists(get_db(current_app), email):
         return make_response(
             jsonify({'error': 'A user with that email already exists'}), 400
         )
 
     json_data['email'] = email
 
-    add_user(db, json_data)
-    return jsonify({'username': json_data['username'], 'email': json_data['email']}), 201
+    add_user(get_db(current_app), json_data)
+    return jsonify({'message': 'Account created', 'email': json_data['email']}), 201
 
 
 @bb.route('/login', methods=['POST'])
@@ -97,30 +88,21 @@ def login():
             jsonify({'error': 'Request body must be json.'}), 400
         )
 
-    if not all(k in json_data for k in ('username', 'password')):
+    if not all(k in json_data for k in ('email', 'password')):
         return make_response(
-            jsonify({'error': 'Request must have username, password, and email'}), 400
+            jsonify({'error': 'Login request must have email and password'}), 400
         )
 
-    db = get_db(current_app)
-    cursor = db.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cursor.execute('''
-        SELECT id, username, password, salt FROM users
-        WHERE username = %s
-        ''',
-        (json_data['username'],)
-    )
-    result = cursor.fetchone()
-    cursor.close()
+    result = get_user_by_email(get_db(current_app), json_data['email'])
     salt = bytes(result['salt'])
     db_pass = bytes(result['password'])
     req_pass = bcrypt.hashpw(json_data['password'].encode('utf-8'), salt)
     if req_pass != db_pass:
         return make_response(
-            jsonify({'error': 'Incorrect username or password'})
+            jsonify({'error': 'Incorrect email or password'})
         )
     return jsonify({
-        'username': result['username'],
+        'email': result['email'],
         'user_id': result['id']
     }), 200
 

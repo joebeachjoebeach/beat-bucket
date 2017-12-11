@@ -1,6 +1,22 @@
 import psycopg2
 import bcrypt
 
+
+def get_user_by_email(conn, email):
+    '''Retrieves user data by email'''
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute(
+        '''
+        SELECT * FROM users
+        WHERE email = %s
+        ''',
+        (email,)
+    )
+    result = cursor.fetchone()
+    cursor.close()
+    return result
+
+
 def add_user(conn, user_dict):
     '''Add a user to the database'''
     cursor = conn.cursor()
@@ -31,28 +47,11 @@ def insert_user(cursor, hashed_user_dict):
     '''
     cursor.execute(
         '''
-        INSERT INTO users (email, username, password, salt)
-        VALUES (%(email)s, %(username)s, %(password)s, %(salt)s)
+        INSERT INTO users (email, password, salt)
+        VALUES (%(email)s, %(password)s, %(salt)s)
         ''',
         hashed_user_dict
     )
-
-
-def username_exists(conn, username):
-    '''Checks if a username already exists in the database'''
-    cursor = conn.cursor()
-    cursor.execute(
-        '''
-        SELECT username FROM users
-        WHERE username = %s
-        ''',
-        (username,)
-    )
-    result = cursor.fetchone()
-    cursor.close()
-    if result is not None:
-        return True
-    return False
 
 
 def email_exists(conn, email):
