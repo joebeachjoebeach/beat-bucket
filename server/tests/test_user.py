@@ -9,7 +9,7 @@ def test_register_user(temp_app):
     '''Tests getting a single user.'''
     user = {
         'username': 'krampus',
-        'password': 'santa',
+        'password': 'santa_claus',
         'email': 'naughty@nice.com'
     }
     res = temp_app.post(
@@ -29,6 +29,25 @@ def test_register_dupe_username(temp_app):
     '''Tests adding a pre-existing user'''
     user = {
         'username': 'hello',
+        'password': 'pass12345',
+        'email': 'ciao@hola.com'
+    }
+    res = temp_app.post(
+        '/register',
+        data=json.dumps(user),
+        content_type='application/json'
+    )
+    res_data = json.loads(res.data)
+    assert res.status_code == 400, 'Response should be 400 - BAD REQUEST'
+    assert isinstance(res_data, dict), 'Response data must be json object'
+    assert 'error' in res_data, 'Response must have "error" in the json data'
+    assert res_data['error'] == 'Username already taken'
+
+
+def test_register_caps_dupe_username(temp_app):
+    '''Makes sure that usernames are case-insensitive'''
+    user = {
+        'username': 'hEllo',
         'password': 'pass12345',
         'email': 'ciao@hola.com'
     }
@@ -136,12 +155,28 @@ def test_register_invalid_email(temp_app):
     assert res_data['error'] == 'The email address is not valid. It must have exactly one @-sign.'
 
 
-# TODO:
-
-# def test_invalid_password(temp_app):
+def test_short_password(temp_app):
+    '''Tests submitting a password which is too short'''
+    user = {
+        'username': 'newuser',
+        'password': 'qqqqq',
+        'email': 'user@coldfreeze.com'
+    }
+    res = temp_app.post(
+        '/register',
+        data=json.dumps(user),
+        content_type='application/json'
+    )
+    res_data = json.loads(res.data)
+    assert res.status_code == 400, 'Response should be 400 - BAD REQUEST'
+    assert isinstance(res_data, dict), 'Response data must be json object'
+    assert 'error' in res_data, 'Response must have "error" in the json data'
+    assert res_data['error'] == 'Password must be at least six characters'
 
 
 # def test_invalid_username(temp_app):
+
+
 
 
 def test_login_user(temp_app):

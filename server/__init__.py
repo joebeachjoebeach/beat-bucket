@@ -55,6 +55,13 @@ def register():
             jsonify({'error': 'Request must contain username, password, and email'}), 400
         )
 
+    if len(json_data['password']) < 6:
+        return make_response(
+            jsonify({'error': 'Password must be at least six characters'}), 400
+        )
+
+    json_data['username'] = json_data['username'].lower()
+
     db = get_db(current_app)
 
     try:

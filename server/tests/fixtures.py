@@ -13,15 +13,13 @@ def temp_app():
     test_app = create_test_app()
 
     user_a = create_hashed_user({
-        'username': 'hello',
-        'password': 'goodbye',
-        'email': 'hello@goodbye.com'
+        'email': 'hello@goodbye.com',
+        'password': 'goodbye'
     })
 
     user_b = create_hashed_user({
-        'username': 'bert',
-        'password': 'mackland',
-        'email': 'bmackland@fbi.net'
+        'email': 'bmackland@fbi.net',
+        'password': 'mackland'
     })
 
     conn = connect_to_db('beatbucket_test')
