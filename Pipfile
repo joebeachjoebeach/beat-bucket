@@ -10,6 +10,8 @@ url = "https://pypi.python.org/simple"
 flask = "*"
 "psycopg2" = "*"
 pytest = "*"
+bcrypt = "*"
+email-validator = "*"
 
 
 [dev-packages]

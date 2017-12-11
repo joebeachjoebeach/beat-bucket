@@ -1,5 +1,6 @@
-#pycache
-__pycache__/
+#cache
+__pycache__
+.cache
 
 # npm stuff
 node_modules/
