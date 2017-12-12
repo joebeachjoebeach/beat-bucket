@@ -3,7 +3,7 @@ import jwt
 
 
 def encode_auth_token(user_id, secret_key):
-    '''takes a user id and generates an auth token'''
+    '''Takes a user id and generates an auth token'''
     now = datetime.datetime.utcnow()
     payload = {
         'exp': now + datetime.timedelta(days=1),
@@ -17,18 +17,12 @@ def encode_auth_token(user_id, secret_key):
     )
 
 
-'''
-def decode_auth_token(auth_token):
-    """
-    Decodes the auth token
-    :param auth_token:
-    :return: integer|string
-    """
+def decode_auth_token(auth_token, secret_key):
+    '''Decodes the auth token'''
     try:
-        payload = jwt.decode(auth_token, app.config.get('SECRET_KEY'))
+        payload = jwt.decode(auth_token, secret_key)
         return payload['sub']
     except jwt.ExpiredSignatureError:
-        return 'Signature expired. Please log in again.'
+        return None
     except jwt.InvalidTokenError:
-        return 'Invalid token. Please log in again.'
-'''
+        return None
