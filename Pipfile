@@ -12,6 +12,7 @@ flask = "*"
 pytest = "*"
 bcrypt = "*"
 email-validator = "*"
+pyjwt = "*"
 
 
 [dev-packages]

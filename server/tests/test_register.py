@@ -2,17 +2,20 @@ import json
 from fixtures import temp_app
 
 
+def post_register(user, app):
+    return app.post(
+        '/register',
+        data=json.dumps(user),
+        content_type='application/json'
+    )
+
 def test_register_user(temp_app):
     '''Tests getting a single user.'''
     user = {
         'email': 'krampus@krampus.com',
         'password': 'santa_claus'
     }
-    res = temp_app.post(
-        '/register',
-        data=json.dumps(user),
-        content_type='application/json'
-    )
+    res = post_register(user, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 201, 'Response code must be 201 - CREATED'
     assert isinstance(res_data, dict), 'Response data must be json object'
@@ -28,11 +31,7 @@ def test_register_dupe_email(temp_app):
         'email': 'bmackland@fbi.net',
         'password': 'freeze!',
     }
-    res = temp_app.post(
-        '/register',
-        data=json.dumps(user),
-        content_type='application/json'
-    )
+    res = post_register(user, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 400, 'Response should be 400 - BAD REQUEST'
     assert isinstance(res_data, dict), 'Response data must be json object'
@@ -43,11 +42,7 @@ def test_register_dupe_email(temp_app):
 def test_register_no_email(temp_app):
     '''Tests adding a user with no email'''
     user = {'password': 'freeze!'}
-    res = temp_app.post(
-        '/register',
-        data=json.dumps(user),
-        content_type='application/json'
-    )
+    res = post_register(user, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 400, 'Response should be 400 - BAD REQUEST'
     assert isinstance(res_data, dict), 'Response data must be json object'
@@ -58,11 +53,7 @@ def test_register_no_email(temp_app):
 def test_register_no_password(temp_app):
     '''Tests adding a user with no email'''
     user = {'email': 'cold@freeze.com'}
-    res = temp_app.post(
-        '/register',
-        data=json.dumps(user),
-        content_type='application/json'
-    )
+    res = post_register(user, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 400, 'Response should be 400 - BAD REQUEST'
     assert isinstance(res_data, dict), 'Response data must be json object'
@@ -76,11 +67,7 @@ def test_register_invalid_email(temp_app):
         'email': 'coldfreeze.com',
         'password': 'testpass',
     }
-    res = temp_app.post(
-        '/register',
-        data=json.dumps(user),
-        content_type='application/json'
-    )
+    res = post_register(user, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 400, 'Response should be 400 - BAD REQUEST'
     assert isinstance(res_data, dict), 'Response data must be json object'
@@ -94,11 +81,7 @@ def test_short_password(temp_app):
         'email': 'user@coldfreeze.com',
         'password': 'qqqqq',
     }
-    res = temp_app.post(
-        '/register',
-        data=json.dumps(user),
-        content_type='application/json'
-    )
+    res = post_register(user, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 400, 'Response should be 400 - BAD REQUEST'
     assert isinstance(res_data, dict), 'Response data must be json object'
