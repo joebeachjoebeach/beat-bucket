@@ -6,7 +6,7 @@ def encode_auth_token(user_id, secret_key):
     '''Takes a user id and generates an auth token'''
     now = datetime.datetime.utcnow()
     payload = {
-        'exp': now + datetime.timedelta(days=1),
+        'exp': now + datetime.timedelta(hours=12),
         'iat': now,
         'sub': user_id
     }
@@ -20,7 +20,11 @@ def encode_auth_token(user_id, secret_key):
 def decode_auth_token(auth_token, secret_key):
     '''Decodes the auth token'''
     try:
-        payload = jwt.decode(auth_token, secret_key)
+        payload = jwt.decode(
+            auth_token,
+            secret_key,
+            algorithms=['HS256']
+        )
         return payload['sub']
     except jwt.ExpiredSignatureError:
         return None
