@@ -5,7 +5,7 @@ from fixtures import temp_app
 def login(user, app):
     '''sends login request'''
     return app.post(
-        '/login',
+        '/auth/login',
         data=json.dumps(user),
         content_type='application/json'
     )

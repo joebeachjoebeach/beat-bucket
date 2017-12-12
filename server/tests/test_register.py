@@ -4,7 +4,7 @@ from fixtures import temp_app
 
 def post_register(user, app):
     return app.post(
-        '/register',
+        '/auth/register',
         data=json.dumps(user),
         content_type='application/json'
     )

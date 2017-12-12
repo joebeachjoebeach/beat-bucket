@@ -15,7 +15,7 @@ def get_db(app):
 
 auth_bp = Blueprint('auth_bp', __name__)
 
-@auth_bp.route('/register', methods=['POST'])
+@auth_bp.route('/auth/register', methods=['POST'])
 def register():
     '''Register a new user'''
     json_data = request.get_json()
@@ -43,7 +43,7 @@ def register():
     return jsonify({'message': 'Account created', 'email': json_data['email']}), 201
 
 
-@auth_bp.route('/login', methods=['POST'])
+@auth_bp.route('/auth/login', methods=['POST'])
 def login():
     '''Log a user in'''
     json_data = request.get_json()
@@ -76,7 +76,7 @@ def login():
     }), 200
 
 
-@auth_bp.route('/logout')
+@auth_bp.route('/auth/logout')
 def logout():
     '''Log a user out'''
     return 'logout'
