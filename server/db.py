@@ -1,6 +1,7 @@
 import psycopg2
 import psycopg2.extras
 import bcrypt
+import json
 
 
 def get_user_by_email(conn, email):
@@ -70,6 +71,81 @@ def email_exists(conn, email):
     if result is not None:
         return True
     return False
+
+
+def get_all_projects(cursor, user_id):
+    '''Gets all the projects (name, id) of a given user'''
+    cursor.execute(
+        '''
+        SELECT id, name FROM projects
+        WHERE user_id = %s
+        ''',
+        (user_id,)
+    )
+    result = cursor.fetchall()
+    cursor.close()
+    return result
+
+
+def get_project(conn, project_id):
+    '''Gets all the project data for a given project id'''
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute(
+        '''
+        SELECT * FROM projects
+        WHERE id = %s
+        ''',
+        (project_id,)
+    )
+    project = dict(cursor.fetchone())
+    cursor.execute(
+        '''
+        SELECT * FROM tracks
+        WHERE project_id = %s
+        ''',
+        (project_id,)
+    )
+    tracks = cursor.fetchall()
+    cursor.close()
+    project['tracks'] = [dict(track) for track in tracks]
+    return project
+
+
+
+def insert_project(cursor, project_dict):
+    '''Inserts a new project into the database'''
+    cursor.execute(
+        '''
+        INSERT INTO projects (name, bpm, user_id)
+        VALUES (%(name)s, %(bpm)s, %(user_id)s)
+        ''',
+        project_dict
+    )
+
+
+def get_project_id(cursor, user_id, name):
+    '''Gets the id of a project by user id and project name'''
+    cursor.execute(
+        '''
+        SELECT id FROM projects
+        WHERE user_id = %s and name = %s
+        ''',
+        (user_id, name)
+    )
+    return cursor.fetchone()
+
+
+def insert_track(cursor, track_dict):
+    '''Inserts a track into the database'''
+    track_dict['sequence'] = json.dumps(track_dict['sequence'])
+
+    cursor.execute(
+        '''
+        INSERT INTO tracks (name, base_note, muted, soloed, sequence, project_id)
+        VALUES (%(name)s, %(baseNote)s, %(muted)s, %(soloed)s, %(sequence)s, %(project_id)s)
+        ''',
+        track_dict
+    )
 
 
 def connect_to_db(db_name):

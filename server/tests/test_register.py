@@ -1,5 +1,5 @@
 import json
-from fixtures import temp_app
+from fixtures import temp_app, temp_db
 
 
 def post_register(user, app):
@@ -9,7 +9,7 @@ def post_register(user, app):
         content_type='application/json'
     )
 
-def test_register_user(temp_app):
+def test_register_user(temp_app, temp_db):
     '''Tests getting a single user.'''
     user = {
         'email': 'krampus@krampus.com',
@@ -25,7 +25,7 @@ def test_register_user(temp_app):
     assert res_data['message'] == 'Account created', 'Message should read "Account created"'
 
 
-def test_register_dupe_email(temp_app):
+def test_register_dupe_email(temp_app, temp_db):
     '''Tests adding a user with a pre-existing email'''
     user = {
         'email': 'bmackland@fbi.net',
@@ -39,7 +39,7 @@ def test_register_dupe_email(temp_app):
     assert res_data['error'] == 'A user with that email already exists'
 
 
-def test_register_no_email(temp_app):
+def test_register_no_email(temp_app, temp_db):
     '''Tests adding a user with no email'''
     user = {'password': 'freeze!'}
     res = post_register(user, temp_app)
@@ -50,7 +50,7 @@ def test_register_no_email(temp_app):
     assert res_data['error'] == 'Request must contain email and password'
 
 
-def test_register_no_password(temp_app):
+def test_register_no_password(temp_app, temp_db):
     '''Tests adding a user with no email'''
     user = {'email': 'cold@freeze.com'}
     res = post_register(user, temp_app)
@@ -61,7 +61,7 @@ def test_register_no_password(temp_app):
     assert res_data['error'] == 'Request must contain email and password'
 
 
-def test_register_invalid_email(temp_app):
+def test_register_invalid_email(temp_app, temp_db):
     '''Tests registering an account with an invalid email string'''
     user = {
         'email': 'coldfreeze.com',
@@ -75,7 +75,7 @@ def test_register_invalid_email(temp_app):
     assert res_data['error'] == 'The email address is not valid. It must have exactly one @-sign.'
 
 
-def test_short_password(temp_app):
+def test_short_password(temp_app, temp_db):
     '''Tests submitting a password which is too short'''
     user = {
         'email': 'user@coldfreeze.com',

@@ -1,6 +1,7 @@
 from flask import Blueprint, current_app, Flask, g, jsonify, render_template, request
 from server.views.client import client_bp
 from server.views.auth import auth_bp
+from server.views.resource import resource_bp
 
 
 def create_app(**config_overrides):
@@ -11,6 +12,7 @@ def create_app(**config_overrides):
     app.config.update(config_overrides)
     app.register_blueprint(auth_bp)
     app.register_blueprint(client_bp)
+    app.register_blueprint(resource_bp)
 
     @app.teardown_appcontext
     def teardown_db(exception):

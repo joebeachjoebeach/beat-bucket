@@ -60,38 +60,26 @@ def create_tracks(cursor):
     )
 
 
-def recreate_users(cursor):
-    '''recreates the users table'''
-    drop_users(cursor)
-    create_users(cursor)
-
-
-def recreate_projects(cursor):
-    '''recreates the projects table'''
-    drop_projects(cursor)
-    create_projects(cursor)
-
-
-def recreate_tracks(cursor):
-    '''recreates the projects table'''
-    drop_tracks(cursor)
-    create_tracks(cursor)
-
-
 def recreate_all():
     '''recreates all the tables'''
     main_conn = connect_to_db('beatbucket')
     test_conn = connect_to_db('beatbucket_test')
 
     main_cur = main_conn.cursor()
-    test_cur = main_conn.cursor()
+    test_cur = test_conn.cursor()
 
-    recreate_users(main_cur)
-    recreate_users(test_cur)
-    recreate_projects(main_cur)
-    recreate_projects(test_cur)
-    recreate_tracks(main_cur)
-    recreate_tracks(test_cur)
+    drop_tracks(main_cur)
+    drop_tracks(test_cur)
+    drop_projects(main_cur)
+    drop_projects(test_cur)
+    drop_users(main_cur)
+    drop_users(test_cur)
+    create_users(main_cur)
+    create_users(test_cur)
+    create_projects(main_cur)
+    create_projects(test_cur)
+    create_tracks(main_cur)
+    create_tracks(test_cur)
 
     main_conn.commit()
     test_conn.commit()
