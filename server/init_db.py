@@ -30,6 +30,37 @@ def recreate_users(database_name):
     db_conn.close()
 
 
+def create_projects(cursor):
+    '''Creates the projects table'''
+    cursor.execute(
+        '''
+        CREATE TABLE projects (
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(25) NOT NULL,
+            user_id INTEGER FOREIGN KEY NOT NULL,
+            bpm INTEGER NOT NULL
+        )
+        '''
+    )
+
+
+def create_tracks(cursor):
+    '''Creates the tracks table'''
+    cursor.execute(
+        '''
+        CREATE TABLE tracks (
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(20) NOT NULL,
+            project_id INTEGER FOREIGN KEY NOT NULL,
+            base_note INTEGER,
+            muted BOOLEAN,
+            soloed BOOLEAN,
+            sequence JSON
+        )
+        '''
+    )
+
+
 if __name__ == '__main__':
     recreate_users('beatbucket')
     recreate_users('beatbucket_test')
