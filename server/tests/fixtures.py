@@ -2,7 +2,8 @@ from pytest import fixture
 from server import create_app
 from server.db import (create_hashed_user, connect_to_db, get_project_id,
                        insert_track)
-from dummy_data import temp_project
+# from dummy_data import temp_project
+from dummy_data import generate_temp_project
 
 def create_test_app():
     '''Returns an app configured for testing'''
@@ -48,7 +49,7 @@ def temp_db():
         user_b
     )
 
-    project = dict(temp_project)
+    project = generate_temp_project()
     project['name'] = 'New Project 1'
     tracks = project['tracks']
     del project['tracks']
@@ -69,7 +70,6 @@ def temp_db():
 
     conn.commit()
     cursor.close()
-    # conn.close()
 
     yield conn
 

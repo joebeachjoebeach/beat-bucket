@@ -236,6 +236,16 @@ def update_track(cursor, track_dict):
         )
 
 
+def delete_track(cursor, track_id):
+    '''Deletes a track'''
+    cursor.execute(
+        '''
+        DELETE FROM tracks
+        WHERE id = %s
+        ''',
+        (track_id,)
+    )
+
 
 def connect_to_db(db_name):
     '''Initializes db connection'''

@@ -34,7 +34,7 @@ def test_get_project_fail(temp_app, temp_db):
     assert res.status_code == 403
     assert res_data['error'] == 'Forbidden: no authentication provided'
 
-    # Tests trying to get projects with no auth header
+    # Tests trying to get projects with no auth token
     res = temp_app.get(
         '/project/1',
         headers=dict(Authorization='Bearer ')

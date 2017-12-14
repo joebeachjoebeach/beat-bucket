@@ -2,7 +2,7 @@ import psycopg2.extras
 from flask import Blueprint, current_app, g, jsonify, request
 from jwt import ExpiredSignatureError, InvalidTokenError
 from server.db import (insert_project, get_project_id, insert_track, get_all_projects,
-                       get_project, get_project_all, update_project, update_track)
+                       get_project, get_project_all, update_project, update_track, delete_track)
 from server.views.auth import get_db
 from server.auth import decode_auth_token
 
@@ -130,7 +130,17 @@ def project_update():
     tracks = payload.get('tracks')
     if tracks is not None:
         for track in tracks:
-            update_track(cursor, track)
+            deleted = track.get('deleted')
+            # track to delete
+            if deleted:
+                delete_track(cursor, track['id'])
+            # new track
+            if not 'id' in track:
+                track['project_id'] = project_id
+                insert_track(cursor, track)
+            # existing track
+            else:
+                update_track(cursor, track)
 
     db_conn.commit()
     cursor.close()
