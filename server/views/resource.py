@@ -84,7 +84,7 @@ def save_project():
         return jsonify({'error': 'A project with that name already exists'}), 400
 
     insert_project(cursor, json_data)
-    db_conn.commit()
+    # db_conn.commit()
 
     project_id = get_project_id(cursor, json_data['user_id'], json_data['name'])
 

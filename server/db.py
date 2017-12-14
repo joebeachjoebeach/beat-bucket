@@ -83,7 +83,6 @@ def get_all_projects(cursor, user_id):
         (user_id,)
     )
     result = cursor.fetchall()
-    cursor.close()
     return result
 
 

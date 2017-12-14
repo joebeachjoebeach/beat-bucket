@@ -34,12 +34,15 @@ def register():
     except EmailNotValidError as err:
         return jsonify({'error': str(err)}), 400
 
-    if email_exists(get_db(current_app), email):
+    db_conn = get_db(current_app)
+
+    if email_exists(db_conn, email):
         return jsonify({'error': 'A user with that email already exists'}), 400
 
     json_data['email'] = email
 
-    add_user(get_db(current_app), json_data)
+    add_user(db_conn, json_data)
+    db_conn.close()
     return jsonify({'message': 'Account created', 'email': json_data['email']}), 201
 
 
@@ -53,7 +56,9 @@ def login():
     if not all(k in json_data for k in ('email', 'password')):
         return jsonify({'error': 'Login request must have email and password'}), 400
 
-    result = get_user_by_email(get_db(current_app), json_data['email'])
+    db_conn = get_db(current_app)
+
+    result = get_user_by_email(db_conn, json_data['email'])
 
     # check that user exists
     if result is None:
@@ -68,6 +73,8 @@ def login():
 
     # generate jwt
     auth_token = encode_auth_token(result['id'], current_app.config['SECRET_KEY'])
+
+    db_conn.close()
 
     return jsonify({
         'email': result['email'],
