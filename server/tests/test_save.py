@@ -258,8 +258,20 @@ def test_save_existing_project(temp_app, temp_db):
 def test_save_existing_project_fail(temp_app, temp_db):
     '''Tests various failure cases when saving an existing project'''
 
-    # Tests trying to save a project created by a different user
+    # Tests trying to save a nonexistent project
     auth_token = login_mackland(temp_app)
+    data = {
+        'id': 0,
+        'payload': {
+            'name': 'Name name name'
+        }
+    }
+    res = patch_save(data, auth_token, temp_app)
+    res_data = json.loads(res.data)
+    assert res.status_code == 400
+    assert res_data['error'] == 'Project does not exist'
+
+    # Tests trying to save a project created by a different user
     data = {
         'id': 1,
         'payload': {

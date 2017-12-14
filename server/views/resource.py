@@ -154,6 +154,9 @@ def project_update():
     cursor = db_conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     project = get_project(cursor, project_id)
 
+    if project is None:
+        return jsonify({'error': 'Project does not exist'}), 400
+
     if user_id != project['user_id']:
         return jsonify({'error': 'Forbidden: project belongs to another user'}), 403
 
