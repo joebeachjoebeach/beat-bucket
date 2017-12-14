@@ -27,6 +27,13 @@ def get_project(project_id, auth_token, app):
         headers=dict(Authorization=f'Bearer {auth_token}'))
 
 
+def delete_project(project_id, auth_token, app):
+    '''Sends DELETE to /project endpoint'''
+    return app.delete(
+        f'/project/{project_id}',
+        headers=dict(Authorization=f'Bearer {auth_token}'))
+
+
 def get_projects(auth_token, app):
     '''Sends GET to /projects endpoint'''
     return app.get(

@@ -2,7 +2,8 @@ import psycopg2.extras
 from flask import Blueprint, current_app, g, jsonify, request
 from jwt import ExpiredSignatureError, InvalidTokenError
 from server.db import (insert_project, get_project_id, insert_track, get_all_projects,
-                       get_project, get_project_all, update_project, update_track, delete_track)
+                       get_project, get_project_all, update_project, update_track, delete_track,
+                       delete_project)
 from server.views.auth import get_db
 from server.auth import decode_auth_token
 
@@ -38,7 +39,7 @@ def projects_get():
     return jsonify({'message': 'Success', 'projects': projects}), 200
 
 
-@resource_bp.route('/project/<int:project_id>')
+@resource_bp.route('/project/<int:project_id>', methods=['GET'])
 def project_get(project_id):
     '''Gets a project from the database'''
     auth_token = get_token(request.headers)
@@ -54,10 +55,42 @@ def project_get(project_id):
     project = get_project_all(db_conn, project_id)
     db_conn.close()
 
+    if project is None:
+        return jsonify({'error': 'Project does not exist'}), 400
+
     if project['user_id'] != user_id:
         return jsonify({'error': 'Forbidden: project belongs to another user'}), 403
 
     return jsonify({'message': 'Success', 'project': project}), 200
+
+
+@resource_bp.route('/project/<int:project_id>', methods=['DELETE'])
+def project_delete(project_id):
+    '''Deletes a project'''
+    auth_token = get_token(request.headers)
+    if not auth_token:
+        return jsonify({'error': 'Forbidden: no authentication provided'}), 403
+
+    user_id = decode_auth_token(auth_token, current_app.config['SECRET_KEY'])
+
+    if user_id is None:
+        return jsonify({'error': 'Invalid token'}), 403
+
+    db_conn = get_db(current_app)
+    cursor = db_conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    project = get_project(cursor, project_id)
+
+    if project is None:
+        return jsonify({'error': 'Project does not exist'}), 400
+
+    if project['user_id'] != user_id:
+        return jsonify({'error': 'Forbidden: project belongs to another user'}), 403
+
+    delete_project(cursor, project_id)
+    db_conn.commit()
+
+    cursor.close()
+    return jsonify({'message': 'Success'}), 200
 
 
 @resource_bp.route('/save', methods=['POST'])

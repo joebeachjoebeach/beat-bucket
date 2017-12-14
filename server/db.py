@@ -107,7 +107,13 @@ def get_project(cursor, project_id):
         ''',
         (project_id,)
     )
-    return cursor.fetchall()[0]
+    # if the project doesn't exist, we'll get an IndexError
+    try:
+        result = cursor.fetchall()[0]
+        return result
+    except IndexError:
+        return None
+
 
 
 def get_project_all(conn, project_id):
@@ -120,7 +126,12 @@ def get_project_all(conn, project_id):
         ''',
         (project_id,)
     )
-    project = dict(cursor.fetchone())
+    # try to convert it to a dict. if it can't be converted, that means the project doesn't exist
+    try:
+        project = dict(cursor.fetchone())
+    except TypeError:
+        return None
+
     cursor.execute(
         '''
         SELECT * FROM tracks
@@ -167,6 +178,25 @@ def update_project(cursor, project_dict):
             ''',
             project_dict
         )
+
+
+def delete_project(cursor, project_id):
+    '''Deletes the given project'''
+    cursor.execute(
+        '''
+        DELETE FROM tracks
+        WHERE project_id = %s
+        ''',
+        (project_id,)
+    )
+
+    cursor.execute(
+        '''
+        DELETE FROM projects
+        WHERE id = %s
+        ''',
+        (project_id,)
+    )
 
 
 def insert_track(cursor, track_dict):
