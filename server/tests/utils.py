@@ -1,8 +1,19 @@
+import datetime
 import json
+import jwt
 
 def post_save(data, auth_token, app):
     '''Sends POST to /save endpoint'''
     return app.post(
+        '/save',
+        data=json.dumps(data),
+        content_type='application/json',
+        headers=dict(Authorization=f'Bearer {auth_token}'))
+
+
+def patch_save(data, auth_token, app):
+    '''Sends PUT to /save endpoint'''
+    return app.patch(
         '/save',
         data=json.dumps(data),
         content_type='application/json',
@@ -45,3 +56,33 @@ def login_mackland(app):
     res = login(user, app)
     res_data = json.loads(res.data)
     return res_data['authToken']
+
+
+def generate_expired_token(secret_key):
+    '''Generates an expired jwt'''
+    now = datetime.datetime.utcnow()
+    token_payload = {
+        'exp': now - datetime.timedelta(seconds=30),
+        'iat': now - datetime.timedelta(minutes=1),
+        'sub': 1
+    }
+    return jwt.encode(
+        token_payload,
+        secret_key,
+        algorithm='HS256'
+    )
+
+
+def generate_invalid_token():
+    '''Generates a token signed with the wrong key'''
+    now = datetime.datetime.utcnow()
+    token_payload = {
+        'exp': now + datetime.timedelta(minutes=30),
+        'iat': now,
+        'sub': 1
+    }
+    return jwt.encode(
+        token_payload,
+        'kazaam!',
+        algorithm='HS256'
+    )

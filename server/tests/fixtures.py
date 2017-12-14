@@ -63,17 +63,17 @@ def temp_db():
         project
     )
 
-    for track in tracks.values():
+    for track in tracks:
         track['project_id'] = project['id']
         insert_track(cursor, track)
 
     conn.commit()
     cursor.close()
-    conn.close()
+    # conn.close()
 
-    yield
+    yield conn
 
-    conn = connect_to_db('beatbucket_test')
+    # conn = connect_to_db('beatbucket_test')
     cursor = conn.cursor()
     cursor.execute('DELETE FROM tracks')
     cursor.execute('DELETE FROM projects')

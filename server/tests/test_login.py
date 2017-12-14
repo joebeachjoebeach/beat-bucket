@@ -19,28 +19,24 @@ def test_login_user(temp_app, temp_db):
     assert isinstance(res_data['authToken'], str)
 
 
-def test_login_no_email(temp_app, temp_db):
-    '''Tests trying to log in with no email'''
+def test_login_fail(temp_app, temp_db):
+    '''Tests various login failure cases'''
+
+    # Tests trying to log in with no email
     res = login({'password': 'testpass'}, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 400, 'Response code should be 400 - BAD REQUEST'
     assert isinstance(res_data, dict), 'Response data must be in json'
-    assert 'error' in res_data, 'Response should have "error" key'
     assert res_data['error'] == 'Login request must have email and password'
 
-
-def test_login_no_password(temp_app, temp_db):
-    '''Tests trying to log in with no password'''
+    # Tests trying to log in with no password
     res = login({'email': 'hello@goodbye.com'}, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 400, 'Response code should be 400 - BAD REQUEST'
     assert isinstance(res_data, dict), 'Response data must be in json'
-    assert 'error' in res_data, 'Response should have "error" key'
     assert res_data['error'] == 'Login request must have email and password'
 
-
-def test_login_wrong_password(temp_app, temp_db):
-    '''Tests trying to log in with the wrong password'''
+    # Tests trying to log in with the wrong password
     user = {
         'email': 'hello@goodbye.com',
         'password': 'hellothere'
@@ -49,12 +45,9 @@ def test_login_wrong_password(temp_app, temp_db):
     res_data = json.loads(res.data)
     assert res.status_code == 400, 'Response code should be 400 - BAD REQUEST'
     assert isinstance(res_data, dict), 'Response data must be in json'
-    assert 'error' in res_data, 'Response should have "error" key'
     assert res_data['error'] == 'Invalid email address or password'
 
-
-def test_login_nonexistent_user(temp_app, temp_db):
-    '''Tests trying to log in with the wrong email'''
+    # Tests trying to log in with the wrong email
     user = {
         'email': 'fake@user.com',
         'password': 'hellothere'
@@ -63,5 +56,4 @@ def test_login_nonexistent_user(temp_app, temp_db):
     res_data = json.loads(res.data)
     assert res.status_code == 400, 'Response code should be 400 - BAD REQUEST'
     assert isinstance(res_data, dict), 'Response data must be in json'
-    assert 'error' in res_data, 'Response should have "error" key'
     assert res_data['error'] == 'Invalid email address or password'

@@ -1,3 +1,4 @@
+import psycopg2.extras
 import json
 from fixtures import temp_app, temp_db
 
@@ -21,12 +22,24 @@ def test_register_user(temp_app, temp_db):
     assert isinstance(res_data, dict), 'Response data must be json object'
     assert 'email' in res_data, 'Response must have email key'
     assert not 'password' in res_data, 'Response must not contain password'
-    assert 'message' in res_data, 'Response should have a message'
     assert res_data['message'] == 'Account created', 'Message should read "Account created"'
 
+    # ensure the user is in the database
+    cursor = temp_db.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute('SELECT * FROM users WHERE email = %(email)s', user)
+    db_user = cursor.fetchone()
+    assert db_user['email'] == 'krampus@krampus.com'
+    assert 'id' in db_user
+    assert isinstance(db_user['salt'], object)
+    assert isinstance(db_user['password'], object)
 
-def test_register_dupe_email(temp_app, temp_db):
-    '''Tests adding a user with a pre-existing email'''
+    cursor.close()
+
+
+def test_register_fail(temp_app, temp_db):
+    '''Tests various registration failure cases'''
+
+    # Tests adding a user with a pre-existing email
     user = {
         'email': 'bmackland@fbi.net',
         'password': 'freeze!',
@@ -35,34 +48,25 @@ def test_register_dupe_email(temp_app, temp_db):
     res_data = json.loads(res.data)
     assert res.status_code == 400, 'Response should be 400 - BAD REQUEST'
     assert isinstance(res_data, dict), 'Response data must be json object'
-    assert 'error' in res_data, 'Response must have "error" in the json data'
     assert res_data['error'] == 'A user with that email already exists'
 
-
-def test_register_no_email(temp_app, temp_db):
-    '''Tests adding a user with no email'''
+    # Tests adding a user with no email
     user = {'password': 'freeze!'}
     res = post_register(user, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 400, 'Response should be 400 - BAD REQUEST'
     assert isinstance(res_data, dict), 'Response data must be json object'
-    assert 'error' in res_data, 'Response must have "error" in the json data'
     assert res_data['error'] == 'Request must contain email and password'
 
-
-def test_register_no_password(temp_app, temp_db):
-    '''Tests adding a user with no email'''
+    # Tests adding a user with no email
     user = {'email': 'cold@freeze.com'}
     res = post_register(user, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 400, 'Response should be 400 - BAD REQUEST'
     assert isinstance(res_data, dict), 'Response data must be json object'
-    assert 'error' in res_data, 'Response must have "error" in the json data'
     assert res_data['error'] == 'Request must contain email and password'
 
-
-def test_register_invalid_email(temp_app, temp_db):
-    '''Tests registering an account with an invalid email string'''
+    # Tests registering an account with an invalid email string
     user = {
         'email': 'coldfreeze.com',
         'password': 'testpass',
@@ -71,12 +75,9 @@ def test_register_invalid_email(temp_app, temp_db):
     res_data = json.loads(res.data)
     assert res.status_code == 400, 'Response should be 400 - BAD REQUEST'
     assert isinstance(res_data, dict), 'Response data must be json object'
-    assert 'error' in res_data, 'Response must have "error" in the json data'
     assert res_data['error'] == 'The email address is not valid. It must have exactly one @-sign.'
 
-
-def test_short_password(temp_app, temp_db):
-    '''Tests submitting a password which is too short'''
+    # Tests submitting a password that's too short
     user = {
         'email': 'user@coldfreeze.com',
         'password': 'qqqqq',
@@ -85,5 +86,4 @@ def test_short_password(temp_app, temp_db):
     res_data = json.loads(res.data)
     assert res.status_code == 400, 'Response should be 400 - BAD REQUEST'
     assert isinstance(res_data, dict), 'Response data must be json object'
-    assert 'error' in res_data, 'Response must have "error" in the json data'
     assert res_data['error'] == 'Password must be at least six characters'

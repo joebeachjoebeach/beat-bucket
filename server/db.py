@@ -86,7 +86,31 @@ def get_all_projects(cursor, user_id):
     return result
 
 
-def get_project(conn, project_id):
+def get_project_id(cursor, user_id, name):
+    '''Gets the id of a project by user id and project name'''
+    cursor.execute(
+        '''
+        SELECT id FROM projects
+        WHERE user_id = %s and name = %s
+        ''',
+        (user_id, name)
+    )
+    return cursor.fetchone()
+
+
+def get_project(cursor, project_id):
+    '''Gets just basic project data'''
+    cursor.execute(
+        '''
+        SELECT * FROM projects
+        WHERE id = %s
+        ''',
+        (project_id,)
+    )
+    return cursor.fetchall()[0]
+
+
+def get_project_all(conn, project_id):
     '''Gets all the project data for a given project id'''
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute(
@@ -122,16 +146,27 @@ def insert_project(cursor, project_dict):
     )
 
 
-def get_project_id(cursor, user_id, name):
-    '''Gets the id of a project by user id and project name'''
-    cursor.execute(
-        '''
-        SELECT id FROM projects
-        WHERE user_id = %s and name = %s
-        ''',
-        (user_id, name)
-    )
-    return cursor.fetchone()
+def update_project(cursor, project_dict):
+    '''Updates project values with those in the dict'''
+    if 'name' in project_dict:
+        cursor.execute(
+            '''
+            UPDATE projects
+            SET name = %(name)s
+            WHERE id = %(id)s
+            ''',
+            project_dict
+        )
+
+    if 'bpm' in project_dict:
+        cursor.execute(
+            '''
+            UPDATE projects
+            SET bpm = %(bpm)s
+            WHERE id = %(id)s
+            ''',
+            project_dict
+        )
 
 
 def insert_track(cursor, track_dict):
@@ -145,6 +180,61 @@ def insert_track(cursor, track_dict):
         ''',
         track_dict
     )
+
+
+def update_track(cursor, track_dict):
+    '''Updates a track entry in the database'''
+    if 'name' in track_dict:
+        cursor.execute(
+            '''
+            UPDATE tracks
+            SET name = %(name)s
+            WHERE id = %(id)s
+            ''',
+            track_dict
+        )
+
+    if 'baseNote' in track_dict:
+        cursor.execute(
+            '''
+            UPDATE tracks
+            SET base_note = %(baseNote)s
+            WHERE id = %(id)s
+            ''',
+            track_dict
+        )
+
+    if 'muted' in track_dict:
+        cursor.execute(
+            '''
+            UPDATE tracks
+            SET muted = %(muted)s
+            WHERE id = %(id)s
+            ''',
+            track_dict
+        )
+
+    if 'soloed' in track_dict:
+        cursor.execute(
+            '''
+            UPDATE tracks
+            SET soloed = %(soloed)s
+            WHERE id = %(id)s
+            ''',
+            track_dict
+        )
+
+    if 'sequence' in track_dict:
+        track_dict['sequence'] = json.dumps(track_dict['sequence'])
+        cursor.execute(
+            '''
+            UPDATE tracks
+            SET sequence = %(sequence)s
+            WHERE id = %(id)s
+            ''',
+            track_dict
+        )
+
 
 
 def connect_to_db(db_name):
