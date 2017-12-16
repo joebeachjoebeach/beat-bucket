@@ -11,7 +11,6 @@ import {
 const dummy_data = {
   bpm: 75,
   playing: false,
-  currentNote: [0, 0],
   currentTrack: 0,
   octave: 4
 };
