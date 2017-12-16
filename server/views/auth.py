@@ -1,16 +1,8 @@
 from flask import Blueprint, current_app, g, jsonify, request
 import bcrypt
 from email_validator import validate_email, EmailNotValidError
-from server.db import connect_to_db, add_user, email_exists, get_user_by_email
+from server.db import get_db, connect_to_db, add_user, email_exists, get_user_by_email
 from server.auth import encode_auth_token
-
-
-def get_db(app):
-    '''gets the db'''
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = connect_to_db(app.config['DB_NAME'])
-    return db
 
 
 auth_bp = Blueprint('auth_bp', __name__)
@@ -34,7 +26,7 @@ def register():
     except EmailNotValidError as err:
         return jsonify({'error': str(err)}), 400
 
-    db_conn = get_db(current_app)
+    db_conn = get_db(current_app, g)
 
     if email_exists(db_conn, email):
         return jsonify({'error': 'A user with that email already exists'}), 400
@@ -42,8 +34,7 @@ def register():
     json_data['email'] = email
 
     add_user(db_conn, json_data)
-    db_conn.close()
-    return jsonify({'message': 'Account created', 'email': json_data['email']}), 201
+    return jsonify({'message': 'Success', 'email': json_data['email']}), 201
 
 
 @auth_bp.route('/auth/login', methods=['POST'])
@@ -56,7 +47,7 @@ def login():
     if not all(k in json_data for k in ('email', 'password')):
         return jsonify({'error': 'Login request must have email and password'}), 400
 
-    db_conn = get_db(current_app)
+    db_conn = get_db(current_app, g)
 
     result = get_user_by_email(db_conn, json_data['email'])
 
@@ -74,9 +65,8 @@ def login():
     # generate jwt
     auth_token = encode_auth_token(result['id'], current_app.config['SECRET_KEY'])
 
-    db_conn.close()
-
     return jsonify({
+        'message': 'Success',
         'email': result['email'],
         'userId': result['id'],
         'authToken': auth_token.decode()

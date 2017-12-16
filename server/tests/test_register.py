@@ -22,7 +22,7 @@ def test_register_user(temp_app, temp_db):
     assert isinstance(res_data, dict), 'Response data must be json object'
     assert 'email' in res_data, 'Response must have email key'
     assert not 'password' in res_data, 'Response must not contain password'
-    assert res_data['message'] == 'Account created', 'Message should read "Account created"'
+    assert res_data['message'] == 'Success', 'Message should read "Success"'
 
     # ensure the user is in the database
     cursor = temp_db.cursor(cursor_factory=psycopg2.extras.DictCursor)

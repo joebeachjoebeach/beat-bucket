@@ -31,8 +31,8 @@ def temp_db():
     })
     user_b['id'] = 2
 
-    conn = connect_to_db('beatbucket_test')
-    cursor = conn.cursor()
+    db_conn = connect_to_db('beatbucket_test')
+    cursor = db_conn.cursor()
 
     cursor.execute(
         '''
@@ -68,16 +68,15 @@ def temp_db():
         track['project_id'] = project['id']
         insert_track(cursor, track)
 
-    conn.commit()
+    db_conn.commit()
     cursor.close()
 
-    yield conn
+    yield db_conn
 
-    # conn = connect_to_db('beatbucket_test')
-    cursor = conn.cursor()
+    cursor = db_conn.cursor()
     cursor.execute('DELETE FROM tracks')
     cursor.execute('DELETE FROM projects')
     cursor.execute('DELETE FROM users')
-    conn.commit()
+    db_conn.commit()
     cursor.close()
-    conn.close()
+    db_conn.close()

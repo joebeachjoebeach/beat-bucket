@@ -13,6 +13,7 @@ def test_login_user(temp_app, temp_db):
     res_data = json.loads(res.data)
     assert res.status_code == 200, 'Response code should be 200 - OK'
     assert isinstance(res_data, dict), 'Response data must be in json'
+    assert res_data['message'] == 'Success', 'Message should read "Success"'
     assert 'email' in res_data, 'Reponse must have email key'
     assert 'userId' in res_data, 'Response must have user_id key'
     assert 'authToken' in res_data, 'Response must have an auth token'
