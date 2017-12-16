@@ -4,6 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { addTrack } from '../../redux/actions/actions-tracks';
+import { selectTracks, selectCurrentTrack } from '../../redux/selectors';
 
 import './track-list.css';
 
@@ -38,8 +39,11 @@ const TrackList = ({ tracks, currentTrack, addTrack }) => {
   
 };
 
-function mapStateToProps({ tracks, globals: { currentTrack }}) {
-  return { tracks, currentTrack };
+function mapStateToProps(state) {
+  return {
+    currentTrack: selectCurrentTrack(state),
+    tracks: selectTracks(state),
+  };
 }
 
 function mapDispatchToProps(dispatch) {

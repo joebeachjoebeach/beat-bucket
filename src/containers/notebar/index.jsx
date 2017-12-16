@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';                        
 import { bindActionCreators } from 'redux';
 import { incrementOctave, decrementOctave } from '../../redux/actions/actions-globals';
+import { selectOctave } from '../../redux/selectors';
 import './notebar.css';
 
 import NoteInKeyboard from '../note-in-keyboard';
@@ -46,8 +47,8 @@ const Notebar = ({ octave, incrementOctave, decrementOctave }) => {
   );                    
 };
 
-function mapStateToProps({ globals: { octave } }) {                            
-  return { octave };                            
+function mapStateToProps(state) {                            
+  return { octave: selectOctave(state) };                            
 }
 
 function mapDispatchToProps(dispatch) {

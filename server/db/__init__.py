@@ -7,7 +7,6 @@ from server.db.project import (get_all_projects, get_project_id, get_project, ge
 from server.db.track import insert_track, update_track, delete_track
 
 
-
 def get_db(app, g):
     '''gets the db'''
     db = getattr(g, '_database', None)

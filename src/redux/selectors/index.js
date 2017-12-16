@@ -33,3 +33,15 @@ export function selectTrackExists(id) {
 export function selectBaseNote(id) {
   return state => state.tracks[id].baseNote;
 }
+
+export function selectNextId(id) {
+  return state => state.tracks[id].nextId;
+}
+
+export function selectOctave(state) {
+  return state.globals.octave;
+}
+
+export function selectCurrentTrackData(state) {
+  return selectTracks(state)[selectCurrentTrack(state)];
+}

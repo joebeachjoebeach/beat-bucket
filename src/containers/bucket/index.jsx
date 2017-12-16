@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { DropTarget } from 'react-dnd';
 import ItemTypes from '../../dnd/item-types';
 import { deleteBucket } from '../../redux/actions/actions-sequence';
+import { selectTracks, selectCurrentTrack } from '../../redux/selectors';
 import './bucket.css';
 
 import NoteInBucket from '../note-in-bucket';
@@ -61,8 +62,11 @@ function collect(connect) {
   };
 }
 
-function mapStateToProps({ tracks, globals: { currentTrack } }) {
-  return { tracks, currentTrack };
+function mapStateToProps(state) {
+  return {
+    tracks: selectTracks(state),
+    currentTrack: selectCurrentTrack(state)
+  };
 }
 
 function mapDispatchToProps(dispatch) {

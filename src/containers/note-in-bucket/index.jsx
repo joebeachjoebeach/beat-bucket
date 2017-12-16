@@ -7,9 +7,10 @@ import { DragSource, DropTarget } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 import flow from 'lodash/flow';
 import { deleteNote, addNote, moveNote } from '../../redux/actions/actions-sequence';
+import { selectCurrentTrack } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 
-import Note from '../note';
+import Note from '../../components/note';
 
 const NoteInBucket = ({
   name,
@@ -142,9 +143,9 @@ function targetCollect(connect) {
   };
 }
 
-function mapStateToProps({ globals: { currentTrack }}) {                            
-  return { currentTrack };
-}                             
+function mapStateToProps(state) {                            
+  return { currentTrack: selectCurrentTrack(state) };
+}   
 
 function mapDispatchToProps(dispatch) {                            
   return bindActionCreators({ deleteNote, addNote, moveNote }, dispatch);

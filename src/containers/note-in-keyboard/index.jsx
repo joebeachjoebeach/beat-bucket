@@ -5,10 +5,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DragSource } from 'react-dnd';
 import { addNote, moveNote } from '../../redux/actions/actions-sequence';
+import { selectCurrentTrack, selectTracks, selectNextId } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 import './note-in-keyboard.css';
 
-import Note from '../note';
+import Note from '../../components/note';
 
 const NoteInKeyboard = ({ name, styleName, connectDragSource }) => {                    
 
@@ -67,10 +68,19 @@ function collect(connect, monitor) {
   };
 }
 
-function mapStateToProps({ globals: { currentTrack }, tracks }) {                            
-  const nextId = tracks[currentTrack].nextId;
-  return { currentTrack, nextId };
-}                             
+// function mapStateToProps({ globals: { currentTrack }, tracks }) {                            
+//   const nextId = tracks[currentTrack].nextId;
+//   return { currentTrack, nextId };
+// }
+
+function mapStateToProps(state) {                            
+  const currentTrack = selectCurrentTrack(state);
+  return {
+    currentTrack,
+    tracks: selectTracks(state),
+    nextId: selectNextId(currentTrack)(state)
+  };
+}
 
 function mapDispatchToProps(dispatch) {                            
   return bindActionCreators({ addNote, moveNote }, dispatch);

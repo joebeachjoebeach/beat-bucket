@@ -3,9 +3,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import { addBucket, changeBaseNote } from '../../actions';
 import { addBucket } from '../../redux/actions/actions-sequence';
 import { changeBaseNote } from '../../redux/actions/actions-track';
+import { selectCurrentTrack, selectBaseNote } from '../../redux/selectors';
 import halfNote from './half.svg';
 import sixteenthNote from './sixteenth.svg';
 import './bucket-row.css';
@@ -57,14 +57,16 @@ const BucketRow = ({
   );
 };
 
-function mapStateToProps({ tracks, globals: { currentTrack }}) {
-  const baseNote = tracks[currentTrack].baseNote;
-  return { currentTrack, baseNote };
+function mapStateToProps(state) {
+  const currentTrack = selectCurrentTrack(state);
+  return {
+    currentTrack,
+    baseNote: selectBaseNote(currentTrack)(state)
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ addBucket, changeBaseNote }, dispatch);
 }
 
-// export default BucketRow;
 export default connect(mapStateToProps, mapDispatchToProps)(BucketRow);

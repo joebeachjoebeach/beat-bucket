@@ -3,6 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { DropTarget } from 'react-dnd';
+import { selectCurrentTrackData } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 
 import './track.css';
@@ -41,8 +42,8 @@ function collect(connect, monitor) {
   };
 }
 
-function mapStateToProps({ tracks, globals: { currentTrack } }) {
-  return tracks[currentTrack];
+function mapStateToProps(state) {
+  return selectCurrentTrackData(state);
 }
 
 const Track_DT = DropTarget(ItemTypes.NOTE, trackTarget, collect)(Track);

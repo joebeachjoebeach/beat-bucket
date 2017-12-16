@@ -3,7 +3,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import { mute, solo, unmute, unsolo, updateCurrentTrack, deleteTrack } from '../../actions';
 import {
   mute,
   solo,
@@ -12,6 +11,7 @@ import {
 } from '../../redux/actions/actions-track';
 import { updateCurrentTrack } from '../../redux/actions/actions-globals';
 import { deleteTrack } from '../../redux/actions/actions-tracks';
+import { selectTracks } from '../../redux/selectors';
 
 import './track-list-item.css';
 
@@ -83,8 +83,8 @@ const TrackListItem = ({
 };
 
 
-function mapStateToProps({ tracks }) {
-  return { tracks };
+function mapStateToProps(state) {
+  return { tracks: selectTracks(state) };
 }
 
 function mapDispatchToProps(dispatch) {
