@@ -11,33 +11,36 @@ import './note-in-keyboard.css';
 
 import Note from '../../components/note';
 
-const NoteInKeyboard = ({ name, styleName, connectDragSource }) => {                    
+const NoteInKeyboard = ({ value, styleName, connectDragSource }) => {                    
 
   return connectDragSource(
     <div className={`note-in-keyboard ${styleName}`}>
-      <Note name={name} styleName={styleName} />
+      <Note value={value} styleName={styleName} />
     </div>
   );                    
 };
 
 const noteInKeyboardSource = {
   beginDrag(props) {
-    return { name: props.name, id: props.nextId };
+    return {
+      value: props.value,
+      source: 'keyboard'
+    };
   },
 
   isDragging(props, monitor) {
-    return monitor.getItem().name === props.name;
+    return monitor.getItem().value === props.value;
   },
 
   endDrag(props, monitor) {
     if (monitor.didDrop()) {
-      const { name, currentTrack, addNote, moveNote } = props;
+      const { value, currentTrack, addNote, moveNote, nextId } = props;
       const { target, bucketId, length } = monitor.getDropResult();
       if (target === 'bucket') {
         const item = monitor.getItem();
         // if it's being dragged directly from the keyboard, drop it in the bucket
-        if (item.name)
-          addNote({ note: name, bucketId, trackId: currentTrack, index: length });
+        if (item.source === 'keyboard')
+          addNote({ value, bucketId, trackId: currentTrack, index: length, id: nextId });
         // but if it's been hovering in another bucket, then dragged here,
         // move it from one bucket to the other
         else {
@@ -67,11 +70,6 @@ function collect(connect, monitor) {
     isDragging: monitor.isDragging()
   };
 }
-
-// function mapStateToProps({ globals: { currentTrack }, tracks }) {                            
-//   const nextId = tracks[currentTrack].nextId;
-//   return { currentTrack, nextId };
-// }
 
 function mapStateToProps(state) {                            
   const currentTrack = selectCurrentTrack(state);

@@ -13,7 +13,7 @@ import ItemTypes from '../../dnd/item-types';
 import Note from '../../components/note';
 
 const NoteInBucket = ({
-  name,
+  value,
   styleName,
   connectDragSource,
   connectDropTarget,
@@ -24,7 +24,7 @@ const NoteInBucket = ({
   return connectDragSource(
     connectDropTarget(
       <div style={{ opacity }}>
-        <Note name={name} styleName={styleName} />
+        <Note value={value} styleName={styleName} />
       </div>
     ));
 };
@@ -35,7 +35,8 @@ const noteInBucketSource = {
       id: props.id,
       noteIndex: props.index,
       bucketId: props.bucketId,
-      note: props.name
+      value: props.value,
+      source: 'bucket'
     };
   },
 
@@ -56,14 +57,14 @@ const noteInBucketSource = {
       if (target === 'bucket') {
         // using monitor.getItem() for the source is more reliable than using props
         // because this note may have been dragged through intermediary buckets
-        const { noteIndex: index, id, bucketId: bucket, note } = monitor.getItem();
+        const { noteIndex: index, id, bucketId: bucket, value } = monitor.getItem();
         const payload = {
-          source: { index, id, bucket, note },
+          source: { index, id, bucket, value },
           target: {
             index: monitor.getDropResult().length,
             bucket: monitor.getDropResult().bucketId
           },
-          trackId: props.currentTrack
+          trackId: props.currentTrack,
         };
         props.moveNote(payload);
       }
@@ -93,27 +94,29 @@ const noteInBucketTarget = {
 
     const item = monitor.getItem();
 
-    if (item.name) {
+    // if it's a note from the keyboard
+    if (item.source === 'keyboard') {
       props.addNote({
-        note: item.name,
+        value: item.value,
         id: item.id,
         index: hoverIndex,
         bucketId: props.bucketId,
         trackId: props.currentTrack
       });
-      monitor.getItem().note = item.name;
-      monitor.getItem().name = null;
+      monitor.getItem().value = item.value;
+      monitor.getItem().source = null;
       monitor.getItem().noteIndex = props.index;
       monitor.getItem().bucketId = props.bucketId;
       return;
     }
 
+    // otherwise, it's a note from a bucket
     const payload = {
       source: {
         index: dragIndex,
         id: item.id,
         bucket: item.bucketId,
-        note: item.note
+        value: item.value
       },
       target: {
         index: hoverIndex,

@@ -7,10 +7,10 @@ export const UNMUTE = 'unmute';
 export const UNSOLO = 'unsolo';
 export const CHANGE_BASE_NOTE = 'change_base_note';
 
-export function updateCurrentNote({ bucketIndex, noteIndex, trackId }) {
+export function updateCurrentNote({ bucketId, noteIndex, trackId }) {
   return {
     type: UPDATE_CURRENT_NOTE,
-    payload: { bucketIndex, noteIndex, trackId }
+    payload: { bucketId, noteIndex, trackId }
   };
 }
 

@@ -7,7 +7,7 @@ import './app.css';
 
 import Header from '../header';
 import Sidebar from '../sidebar';
-import BucketHeader from '../../containers/bucket-header';
+import BucketHeader from '../bucket-header';
 import Track from '../../containers/track';
 
 class App extends React.Component {

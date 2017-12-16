@@ -12,14 +12,14 @@ import {
 
 import BucketReducer from './reducer-bucket';
 
-export default function SequenceReducer(state, action, id) {
+export default function SequenceReducer(state, action) {
   let newState;
   const { payload, type } = action;
   switch (type) {
 
   case ADD_NOTE:
     newState = [ ...state ];
-    newState[payload.bucketId] = BucketReducer(newState[payload.bucketId], action, id);
+    newState[payload.bucketId] = BucketReducer(newState[payload.bucketId], action);
     return newState;
 
   case DELETE_NOTE:
@@ -64,7 +64,7 @@ function delFromMove(state, payload) {
 
 function addFromMove(state, payload) {
   const action = addNote({
-    note: payload.source.note,
+    value: payload.source.value,
     id: payload.source.id,
     index: payload.target.index,
     bucketId: payload.target.bucket,

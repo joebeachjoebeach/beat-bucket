@@ -4,7 +4,6 @@ import Tone from 'tone';
 import { createPartEvents } from './utils';
 import {
   selectTracks,
-  // selectCurrentTrack,
   selectMuted,
   selectSequence,
   selectTrackExists,
@@ -18,7 +17,6 @@ export default class Track {
     this.store = store;
     this.id = id;
     this.muted = false;
-    // this.current = false;
     this.synth = new Tone.Synth().toMaster();
 
     // get sequence and baseNote of track from the store
@@ -33,12 +31,6 @@ export default class Track {
       selectTrackExists(id),
       this.onDelete.bind(this)
     );
-
-    // this.unsubscribeCurrent = observeStore(
-    //   store,
-    //   selectCurrentTrack,
-    //   this.onCurrentChange.bind(this)
-    // );
 
     this.unsubscribeSequenceChange = observeStore(
       store,
@@ -95,16 +87,9 @@ export default class Track {
 
   dispatchCurrentNote(bucketIndex, noteIndex) {
     this.store.dispatch(
-      updateCurrentNote({ bucketIndex, noteIndex, trackId: this.id })
+      updateCurrentNote({ bucketId: bucketIndex, noteIndex, trackId: this.id })
     );
   }
-
-  // is this necessary anymore?
-  // onCurrentChange(currentTrack) {
-  //   currentTrack === this.id
-  //     ? this.current = true
-  //     : this.current = false;
-  // }
 
   onMutedChange(muted) {
     muted

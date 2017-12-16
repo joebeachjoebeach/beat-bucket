@@ -41,7 +41,7 @@ export default function TrackReducer(state = {}, action) {
 
   case UPDATE_CURRENT_NOTE:
     newState = { ...state };
-    newState.currentNote = [ action.payload.bucketIndex, action.payload.noteIndex ];
+    newState.currentNote = [ action.payload.bucketId, action.payload.noteIndex ];
     return newState;
 
   case DELETE_NOTE:
@@ -54,7 +54,7 @@ export default function TrackReducer(state = {}, action) {
 
   case ADD_NOTE:
     newState = { ...state };
-    newState.sequence = SequenceReducer(newState.sequence, action, newState.nextId);
+    newState.sequence = SequenceReducer(newState.sequence, action);
     newState.nextId++;
     return newState;
 
@@ -93,13 +93,5 @@ function unsolo(trackData) {
   const newState = { ...trackData };
   newState.soloed = false;
   newState.muted = false;
-  return newState;
-}
-
-function dropNote(note, bucketId, trackData) {
-  const newState = { ...trackData };
-  const newSequence = [ ...newState.sequence ];
-  newSequence[bucketId].push(note);
-  newState.sequence = newSequence;
   return newState;
 }

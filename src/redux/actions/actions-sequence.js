@@ -6,10 +6,10 @@ export const MOVE_NOTE = 'move_note';
 export const ADD_BUCKET = 'add_bucket';
 export const DELETE_BUCKET = 'delete_bucket';
 
-export function addNote({ note, id=null, index, bucketId, trackId }) {
+export function addNote({ value, id=null, index, bucketId, trackId }) {
   return {
     type: ADD_NOTE,
-    payload: { note, id, index, bucketId, trackId }
+    payload: { value, id, index, bucketId, trackId }
   };
 }
 

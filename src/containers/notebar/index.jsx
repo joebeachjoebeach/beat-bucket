@@ -25,22 +25,22 @@ const Notebar = ({ octave, incrementOctave, decrementOctave }) => {
     <div className="notebar">                    
       <button onClick={handleDecrementOctaveClick} className="notebar-arrow">{left}</button>
       <div className="notebar-notes">
-        <NoteInKeyboard name="rest" styleName="rest" />
+        <NoteInKeyboard value="rest" styleName="rest" />
 
-        <NoteInKeyboard name={`C#${octave}`} styleName="csharp" />
-        <NoteInKeyboard name={`D#${octave}`} styleName="dsharp" />
-        <NoteInKeyboard name={`F#${octave}`} styleName="esharp" />
-        <NoteInKeyboard name={`G#${octave}`} styleName="fsharp" />
-        <NoteInKeyboard name={`A#${octave}`} styleName="gsharp" />
+        <NoteInKeyboard value={`C#${octave}`} styleName="csharp" />
+        <NoteInKeyboard value={`D#${octave}`} styleName="dsharp" />
+        <NoteInKeyboard value={`F#${octave}`} styleName="esharp" />
+        <NoteInKeyboard value={`G#${octave}`} styleName="fsharp" />
+        <NoteInKeyboard value={`A#${octave}`} styleName="gsharp" />
         
-        <NoteInKeyboard name={`C${octave}`} styleName="c" />
-        <NoteInKeyboard name={`D${octave}`} styleName="d" />
-        <NoteInKeyboard name={`E${octave}`} styleName="e" />
-        <NoteInKeyboard name={`F${octave}`} styleName="f" />
-        <NoteInKeyboard name={`G${octave}`} styleName="g" />
-        <NoteInKeyboard name={`A${octave}`} styleName="a" />
-        <NoteInKeyboard name={`B${octave}`} styleName="b" />
-        <NoteInKeyboard name={`C${octave + 1}`} styleName="c2" />
+        <NoteInKeyboard value={`C${octave}`} styleName="c" />
+        <NoteInKeyboard value={`D${octave}`} styleName="d" />
+        <NoteInKeyboard value={`E${octave}`} styleName="e" />
+        <NoteInKeyboard value={`F${octave}`} styleName="f" />
+        <NoteInKeyboard value={`G${octave}`} styleName="g" />
+        <NoteInKeyboard value={`A${octave}`} styleName="a" />
+        <NoteInKeyboard value={`B${octave}`} styleName="b" />
+        <NoteInKeyboard value={`C${octave + 1}`} styleName="c2" />
       </div>
       <button onClick={handleIncrementOctaveClick} className="notebar-arrow">{right}</button>
     </div>

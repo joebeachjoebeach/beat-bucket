@@ -3,11 +3,11 @@
 import React from 'react';
 import './note.css';
 
-const Note = ({ name, styleName }) => {                    
+const Note = ({ value, styleName }) => {                    
 
   return (
     <div className={`note ${styleName}`}>
-      {name}
+      {value}
     </div>
   );                    
 };

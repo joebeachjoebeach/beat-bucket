@@ -11,7 +11,13 @@ import './bucket.css';
 
 import NoteInBucket from '../note-in-bucket';
 
-const Bucket = ({ connectDropTarget, notes, currentNote, currentTrack, bucketId, deleteBucket }) => {
+const Bucket = ({
+  connectDropTarget,
+  notes,
+  currentNote,
+  currentTrack,
+  bucketId,
+  deleteBucket }) => {
 
   function handleDeleteBucketClick() {
     deleteBucket({ trackId: currentTrack, bucketId });
@@ -25,7 +31,7 @@ const Bucket = ({ connectDropTarget, notes, currentNote, currentTrack, bucketId,
 
       return (
         <NoteInBucket
-          name={note.value}
+          value={note.value}
           styleName={styleName}
           index={i}
           key={i}
