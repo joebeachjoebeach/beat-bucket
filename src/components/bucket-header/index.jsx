@@ -9,6 +9,7 @@ const BucketHeader = () => {
       <div className="bucketheader-title">
         Bucket Name
       </div>
+      <button className="bucketheader-button">Save</button>
     </header>
   );
 };

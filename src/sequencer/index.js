@@ -63,5 +63,4 @@ export default class Sequencer {
       return new Track(this.store, id);
     });
   }
-
 }

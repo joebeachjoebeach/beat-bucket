@@ -58,7 +58,7 @@ export default class Track {
   }
 
   deleteSelf() {
-    this.unsubscribeCurrent();
+    // this.unsubscribeCurrent();
     this.unsubscribeMuted();
     this.unsubscribeSequenceChange();
     this.synth.dispose();
