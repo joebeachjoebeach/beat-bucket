@@ -32,13 +32,15 @@ const BucketRow = ({
   function renderNoteSymbol() {
     switch (baseNote) {
     case 2:
-      return <img className="half" src={halfNote} />;
+      return <img className="half" alt="half note" src={halfNote} />;
     case 1:
       return '♩';
     case 0.5:
       return '♪';
     case 0.25:
-      return <img className="sixteenth" src={sixteenthNote} />;
+      return <img className="sixteenth" alt="sixteenth note" src={sixteenthNote} />;
+    default:
+      return 1;
     }
   }
 

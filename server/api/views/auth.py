@@ -1,8 +1,8 @@
 from flask import Blueprint, current_app, g, jsonify, request
 import bcrypt
 from email_validator import validate_email, EmailNotValidError
-from server.db import get_db, connect_to_db, add_user, email_exists, get_user_by_email
-from server.auth import encode_auth_token
+from api.db import get_db, connect_to_db, add_user, email_exists, get_user_by_email
+from api.auth import encode_auth_token
 
 
 auth_bp = Blueprint('auth_bp', __name__)

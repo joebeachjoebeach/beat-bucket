@@ -1,6 +1,6 @@
 import datetime
 import jwt
-from server.auth import encode_auth_token, decode_auth_token
+from api.auth import encode_auth_token, decode_auth_token
 
 
 def test_encode_auth_token():

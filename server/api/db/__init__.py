@@ -1,10 +1,10 @@
 import psycopg2
 
-from server.db.auth import (get_user_by_email, add_user, create_hashed_user, insert_user,
+from api.db.auth import (get_user_by_email, add_user, create_hashed_user, insert_user,
                             email_exists)
-from server.db.project import (get_all_projects, get_project_id, get_project, get_project_all,
+from api.db.project import (get_all_projects, get_project_id, get_project, get_project_all,
                                insert_project, update_project, delete_project)
-from server.db.track import insert_track, update_track, delete_track
+from api.db.track import insert_track, update_track, delete_track
 
 
 def get_db(app, g):

@@ -1,10 +1,10 @@
 import psycopg2.extras
 from flask import Blueprint, current_app, g, jsonify, request
 from jwt import ExpiredSignatureError, InvalidTokenError
-from server.db import (get_db, insert_project, get_project_id, insert_track, get_all_projects,
+from api.db import (get_db, insert_project, get_project_id, insert_track, get_all_projects,
                        get_project, get_project_all, update_project, update_track, delete_track,
                        delete_project)
-from server.auth import decode_auth_token
+from api.auth import decode_auth_token
 
 
 resource_bp = Blueprint('resource_bp', __name__)

@@ -1,6 +1,6 @@
 from pytest import fixture
-from server import create_app
-from server.db import (create_hashed_user, connect_to_db, get_project_id,
+from api import create_app
+from api.db import (create_hashed_user, connect_to_db, get_project_id,
                        insert_track)
 # from dummy_data import temp_project
 from dummy_data import generate_temp_project

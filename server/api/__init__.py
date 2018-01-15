@@ -1,14 +1,14 @@
 from flask import Blueprint, current_app, Flask, g, jsonify, render_template, request
-from server.views.client import client_bp
-from server.views.auth import auth_bp
-from server.views.resource import resource_bp
+from api.views.client import client_bp
+from api.views.auth import auth_bp
+from api.views.resource import resource_bp
 
 
 def create_app(**config_overrides):
     '''app factory'''
     app = Flask(__name__, static_folder='../dist', template_folder='../dist')
 
-    app.config.from_object('server.config')
+    app.config.from_object('api.config')
     app.config.update(config_overrides)
     app.register_blueprint(auth_bp)
     app.register_blueprint(client_bp)
