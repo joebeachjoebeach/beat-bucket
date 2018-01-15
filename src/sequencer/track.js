@@ -58,7 +58,6 @@ export default class Track {
   }
 
   deleteSelf() {
-    // this.unsubscribeCurrent();
     this.unsubscribeMuted();
     this.unsubscribeSequenceChange();
     this.synth.dispose();
@@ -108,5 +107,4 @@ export default class Track {
     this.part = this.initPart(this.sequence, baseNote);
     this.baseNote = baseNote;
   }
-
 }
