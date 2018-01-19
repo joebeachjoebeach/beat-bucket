@@ -62,7 +62,7 @@ const BucketRow = ({
 function mapStateToProps(state) {
   const currentTrack = selectCurrentTrack(state);
   return {
-    currentTrack,
+    // currentTrack,
     baseNote: selectBaseNote(currentTrack)(state)
   };
 }
