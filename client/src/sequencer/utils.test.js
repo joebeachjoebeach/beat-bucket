@@ -16,7 +16,7 @@ describe('createPartEvents', () => {
   });
 
   // todo:
-  // flesh out the expected object -- also can you make it work with all of the notes?
+  // flesh out the expected object -- also can you make it work with all of the notes?k
   it('creates objects with appropriate keys', () => {
     expect(createPartEvents(sequence, 1)[0]).toMatchObject({ note: 'A4' });
   });

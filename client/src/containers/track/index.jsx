@@ -12,7 +12,10 @@ import BucketRow from '../bucket-row';
 import Notebar from '../notebar';
 
 const Track = ({ connectDropTarget, isOver, dragItem, name, sequence, currentNote }) => {
-  const styleName = (isOver && !dragItem.name)
+
+  // add a red backgorund to the track when dragging a note from a bucket
+  // to signal that it will be deleted if dropped
+  const styleName = (isOver && dragItem.source === 'bucket')
     ? 'track hover'
     : 'track';
 
