@@ -30,13 +30,25 @@ const dummy = {
     name: 'Track 1',
     sequence: [
       [{ id: 0, value: 'C4'}, { id: 1, value: 'D4' }],
-      [{ id: 2, value: 'E4'}, { id: 3, value: 'E4'}, { id: 4, value: 'E4'}],
+      [{ id: 2, value: 'E4'}, { id: 3, value: 'E4'}, { id: 4, value: 'E4'}, { id: 5, value: 'E4'}],
       [{ id: 5, value: 'E4'}, { id: 6, value: 'rest'}],
       [{ id: 7, value: 'rest'}, { id: 8, value: 'D4'}],
     ],
-    nextId: 0,
+    nextId: 9,
     baseNote: 1,
     id: 0,
+    muted: false,
+    soloed: false,
+    currentNote: []
+  },
+  1: {
+    name: 'Track 2',
+    sequence: [
+      [{ id: 0, value: 'C5'}, { id: 1, value: 'D5' }, { id: 2, value: 'E5' }]
+    ],
+    nextId: 3,
+    baseNote: 0.5,
+    id: 1,
     muted: false,
     soloed: false,
     currentNote: []

@@ -1,10 +1,11 @@
 .note {
   align-items: center;
-  background-color: #F3A712;
-  border: 1px solid black;
+  background-color: rgb(243, 167, 18);
+  /*background-color: rgba(243, 167, 18, 0.8);*/
   display: flex;
   height: 30px;
   justify-content: center;
+  margin: 1px 0;
   width: 60px;
 }
 

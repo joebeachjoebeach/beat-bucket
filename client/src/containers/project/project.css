@@ -1,0 +1,16 @@
+.project {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+  .project-header {
+    display: flex;
+    height: 50px;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+    .project-header-title {
+      margin: 0 0 0 10px;
+    }

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducers from './redux/reducers';
+import registerServiceWorker from './registerServiceWorker';
 
 import 'normalize.css';
 import './index.css';
@@ -18,9 +19,12 @@ const store = createStore(
 
 const sequencer = new Sequencer(store);
 
+window.sequencer = sequencer;
+
 ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>
   , document.getElementById('main')
 );
+registerServiceWorker();

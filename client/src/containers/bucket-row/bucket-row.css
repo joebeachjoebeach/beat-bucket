@@ -1,7 +1,6 @@
 .bucketrow {
   display: flex;
-  margin: 10px 0;
-  padding: 50px;
+  height: 100%;
 }
 
 .bucketrow-button {

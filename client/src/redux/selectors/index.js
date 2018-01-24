@@ -2,6 +2,10 @@ export function selectTracks(state) {
   return state.tracks;
 }
 
+export function selectTrack(id) {
+  return state => state.tracks[id];
+}
+
 export function selectPlaying(state) {
   return state.globals.playing;
 }

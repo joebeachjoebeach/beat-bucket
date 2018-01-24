@@ -1,0 +1,30 @@
+.keyboard {
+  border-left: 1px solid #1b1e21;
+  width: 20%;
+}
+
+  .keyboard-notes {
+    display: flex;
+  }
+
+  .keyboard-col {
+    display: flex;
+    flex-direction: column;
+    margin: 0 1px;
+  }
+
+  /* holds 2 accidentals */
+  .keyboard-acc2 {
+    display: flex;
+    flex-direction: column;
+    height: 95px;
+    justify-content: center;
+  }
+
+  /* holds 3 accidentals */
+  .keyboard-acc3 {
+    display: flex;
+    flex-direction: column;
+    height: 130px;
+    justify-content: center;
+  }

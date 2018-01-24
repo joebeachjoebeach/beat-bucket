@@ -1,4 +1,5 @@
 .app {
+  background: linear-gradient(to bottom right, #1b1e21, #3d434b);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -14,6 +15,7 @@
 }
 
 .wrapper {
+  color: white;
   display: flex;
   flex-grow: 1;
   height: 100%;

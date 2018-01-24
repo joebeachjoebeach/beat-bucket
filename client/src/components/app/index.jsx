@@ -10,18 +10,32 @@ import Sidebar from '../sidebar';
 import BucketHeader from '../bucket-header';
 import Track from '../../containers/track';
 
+import Project from '../../containers/project';
+import Keyboard from '../keyboard';
+
 class App extends React.Component {
 
+  // render() {
+  //   return (
+  //     <div className="app">
+  //       <Header />
+  //       <div className="wrapper">
+  //         <Sidebar />
+  //         <div className="subwrapper">
+  //           <BucketHeader />
+  //           <Track />
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
   render() {
     return (
       <div className="app">
         <Header />
         <div className="wrapper">
-          <Sidebar />
-          <div className="subwrapper">
-            <BucketHeader />
-            <Track />
-          </div>
+          <Project />
+          <Keyboard />
         </div>
       </div>
     );
@@ -30,4 +44,14 @@ class App extends React.Component {
 
 
 export default DragDropContext(HTML5Backend)(App);
-// export default App;
+
+/*
+
+div 'app'
+  Header
+  div 'wrapper' (flex direction: row)
+    Project
+    Keyboard
+
+*/
+
