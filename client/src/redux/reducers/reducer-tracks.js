@@ -30,7 +30,7 @@ const dummy = {
     name: 'Track 1',
     sequence: [
       [{ id: 0, value: 'C4'}, { id: 1, value: 'D4' }],
-      [{ id: 2, value: 'E4'}, { id: 3, value: 'E4'}, { id: 4, value: 'E4'}, { id: 5, value: 'E4'}],
+      [{ id: 2, value: 'E4'}, { id: 3, value: 'F4'}],
       [{ id: 5, value: 'E4'}, { id: 6, value: 'rest'}],
       [{ id: 7, value: 'rest'}, { id: 8, value: 'D4'}],
     ],
@@ -56,6 +56,8 @@ const dummy = {
 };
 
 export default function TracksReducer(state = dummy, action) {
+  console.log(action);
+
   let newState;
   let targetTrack;
 

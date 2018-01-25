@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { DropTarget } from 'react-dnd';
 import ItemTypes from '../../dnd/item-types';
 import { deleteBucket } from '../../redux/actions/actions-sequence';
-import { selectTracks, selectCurrentTrack } from '../../redux/selectors';
+import { selectNextId } from '../../redux/selectors';
 import './bucket.css';
 
 import NoteInBucket from '../note-in-bucket';
@@ -15,12 +15,12 @@ const Bucket = ({
   connectDropTarget,
   notes,
   currentNote,
-  currentTrack,
   bucketId,
+  trackId,
   deleteBucket }) => {
 
   function handleDeleteBucketClick() {
-    deleteBucket({ trackId: currentTrack, bucketId });
+    deleteBucket({ trackId: trackId, bucketId });
   }
 
   function renderNotes() {
@@ -37,6 +37,7 @@ const Bucket = ({
           key={i}
           id={note.id}
           bucketId={bucketId}
+          trackId={trackId}
         />
       );
     });
@@ -48,7 +49,7 @@ const Bucket = ({
         {renderNotes()}
       </div>
       <button onClick={handleDeleteBucketClick} className="deletebucket">
-        delete
+        x
       </button>
     </div>
   );
@@ -58,7 +59,13 @@ const bucketTarget = {
   drop(props, monitor) {
     if (monitor.didDrop())
       return;
-    return { target: 'bucket', bucketId: props.bucketId, length: props.notes.length };
+    return {
+      target: 'bucket',
+      bucketId: props.bucketId,
+      trackId: props.trackId,
+      nextId: props.nextId,
+      length: props.notes.length
+    };
   }
 };
 
@@ -68,11 +75,8 @@ function collect(connect) {
   };
 }
 
-function mapStateToProps(state) {
-  return {
-    tracks: selectTracks(state),
-    currentTrack: selectCurrentTrack(state)
-  };
+function mapStateToProps(state, ownProps) {
+  return { nextId: selectNextId(ownProps.trackId)(state) };
 }
 
 function mapDispatchToProps(dispatch) {

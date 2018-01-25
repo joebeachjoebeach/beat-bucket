@@ -9,7 +9,7 @@ import './track.css';
 import TrackInfo from '../track-info';
 import BucketRow from '../bucket-row';
 
-const Track = ({ currentNote, sequence, name, id }) => {
+const Track = ({ currentNote, sequence, id }) => {
 
   return (
     <div className="track">
@@ -17,6 +17,7 @@ const Track = ({ currentNote, sequence, name, id }) => {
       <BucketRow
         sequence={sequence}
         currentNote={currentNote}
+        id={id}
       />
     </div>
   );

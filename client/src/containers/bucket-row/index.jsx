@@ -15,18 +15,19 @@ import Bucket from '../bucket';
 const BucketRow = ({
   sequence,
   currentNote,
+  id,
   currentTrack,
   addBucket,
   baseNote,
   changeBaseNote }) => {
 
   function handleAddBucketClick() {
-    addBucket({ trackId: currentTrack });
+    addBucket({ trackId: id });
   }
 
   function handleBaseNoteClick() {
     const payload = baseNote <= 0.25 ? 2 : baseNote / 2;
-    changeBaseNote({ baseNote: payload, trackId: currentTrack });
+    changeBaseNote({ baseNote: payload, trackId: id });
   }
 
   function renderNoteSymbol() {
@@ -46,25 +47,32 @@ const BucketRow = ({
 
   function renderBuckets() {
     return sequence.map((bucket, i) => {
-      return <Bucket notes={bucket} currentNote={currentNote} key={i} bucketId={i} />;
+      return <Bucket 
+        notes={bucket} 
+        currentNote={currentNote} 
+        key={i} 
+        bucketId={i}
+        trackId={id}
+      />;
     });
   }
 
   return (
     <div className="bucketrow">
-      <button onClick={handleBaseNoteClick} className="bucketrow-button">{renderNoteSymbol()}</button>
+      <button 
+        onClick={handleBaseNoteClick} 
+        className="bucketrow-button"
+      >
+        {renderNoteSymbol()}
+      </button>
       {renderBuckets()}
       <button onClick={handleAddBucketClick} className="bucketrow-button">+</button>
     </div>
   );
 };
 
-function mapStateToProps(state) {
-  const currentTrack = selectCurrentTrack(state);
-  return {
-    // currentTrack,
-    baseNote: selectBaseNote(currentTrack)(state)
-  };
+function mapStateToProps(state, ownProps) {
+  return { baseNote: selectBaseNote(ownProps.id)(state) };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DragSource } from 'react-dnd';
 import { addNote, moveNote } from '../../redux/actions/actions-sequence';
-import { selectCurrentTrack, selectTracks, selectNextId } from '../../redux/selectors';
+import { selectTracks, selectNextId } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 import './note-in-keyboard.css';
 
@@ -34,13 +34,20 @@ const noteInKeyboardSource = {
 
   endDrag(props, monitor) {
     if (monitor.didDrop()) {
-      const { value, currentTrack, addNote, moveNote, nextId } = props;
-      const { target, bucketId, length } = monitor.getDropResult();
+      const { value, addNote, moveNote } = props;
+      const { target, bucketId, trackId, nextId, length } = monitor.getDropResult();
       if (target === 'bucket') {
         const item = monitor.getItem();
         // if it's being dragged directly from the keyboard, drop it in the bucket
-        if (item.source === 'keyboard')
-          addNote({ value, bucketId, trackId: currentTrack, index: length, id: nextId });
+        if (item.source === 'keyboard') {
+          addNote({
+            value,
+            bucketId,
+            trackId,
+            index: length,
+            id: nextId
+          });
+        }
         // but if it's been hovering in another bucket, then dragged here,
         // move it from one bucket to the other
         else {
@@ -55,7 +62,7 @@ const noteInKeyboardSource = {
               index: length,
               bucket: bucketId
             },
-            track: currentTrack
+            track: trackId
           };
           moveNote(payload);
         }
@@ -71,12 +78,10 @@ function collect(connect, monitor) {
   };
 }
 
-function mapStateToProps(state) {                            
-  const currentTrack = selectCurrentTrack(state);
+function mapStateToProps(state, ownProps) {                            
   return {
-    currentTrack,
-    tracks: selectTracks(state),
-    nextId: selectNextId(currentTrack)(state)
+    tracks: selectTracks(state)
+    // nextId: selectNextId(ownProps.trackId)(state)
   };
 }
 
@@ -84,6 +89,10 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ addNote, moveNote }, dispatch);
 }
 
-const NoteInKeyboard_DS = DragSource(ItemTypes.NOTE, noteInKeyboardSource, collect)(NoteInKeyboard);
+const NoteInKeyboard_DS = DragSource(
+  ItemTypes.NOTE,
+  noteInKeyboardSource,
+  collect
+)(NoteInKeyboard);
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteInKeyboard_DS);

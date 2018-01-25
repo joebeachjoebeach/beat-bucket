@@ -35,14 +35,15 @@ const noteInBucketSource = {
       id: props.id,
       noteIndex: props.index,
       bucketId: props.bucketId,
+      trackId: props.trackId,
       value: props.value,
       source: 'bucket'
     };
   },
 
   isDragging(props, monitor) {
-    const { id } = monitor.getItem();
-    return props.id === id;
+    const { id, trackId } = monitor.getItem();
+    return props.id === id && props.trackId === trackId;
   },
 
   endDrag(props, monitor) {
@@ -50,8 +51,8 @@ const noteInBucketSource = {
       const { target } = monitor.getDropResult();
 
       if (target === 'delete') {
-        const { index, bucketId, currentTrack, deleteNote } = props;
-        deleteNote({ noteIndex: index, bucketId: bucketId, trackId: currentTrack });
+        const { index, bucketId, deleteNote } = props;
+        deleteNote({ noteIndex: index, bucketId: bucketId, trackId: props.trackId });
       }
 
       if (target === 'bucket') {
@@ -64,7 +65,7 @@ const noteInBucketSource = {
             index: monitor.getDropResult().length,
             bucket: monitor.getDropResult().bucketId
           },
-          trackId: props.currentTrack,
+          trackId: props.trackId,
         };
         props.moveNote(payload);
       }
@@ -101,7 +102,7 @@ const noteInBucketTarget = {
         id: item.id,
         index: hoverIndex,
         bucketId: props.bucketId,
-        trackId: props.currentTrack
+        trackId: props.trackId
       });
       monitor.getItem().value = item.value;
       monitor.getItem().source = null;
@@ -122,7 +123,7 @@ const noteInBucketTarget = {
         index: hoverIndex,
         bucket: props.bucketId
       },
-      trackId: props.currentTrack
+      trackId: props.trackId
     };
 
     props.moveNote(payload);
@@ -146,10 +147,6 @@ function targetCollect(connect) {
   };
 }
 
-function mapStateToProps(state) {                            
-  return { currentTrack: selectCurrentTrack(state) };
-}   
-
 function mapDispatchToProps(dispatch) {                            
   return bindActionCreators({ deleteNote, addNote, moveNote }, dispatch);
 }
@@ -159,4 +156,4 @@ const NoteInBucket_DTDS =  flow([
   DropTarget(ItemTypes.NOTE, noteInBucketTarget, targetCollect)
 ])(NoteInBucket);
 
-export default connect(mapStateToProps, mapDispatchToProps)(NoteInBucket_DTDS);
+export default connect(null, mapDispatchToProps)(NoteInBucket_DTDS);

@@ -5,54 +5,56 @@ import './keyboard.css';
 
 import NoteInKeyboard from '../../containers/note-in-keyboard';
 
-const naturals = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-const accidentals2 = ['C#', 'D#'];
-const accidentals3 = ['F#', 'G#', 'A#'];
 
+const NaturalOctave = ({ octave }) => {
+  const naturals = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 
-class Keyboard extends React.Component {
+  return naturals.map((value, i) => {
+    return <NoteInKeyboard value={`${value}${octave}`} key={i} />;
+  });
+};
 
-  constructor(props) {
-    super(props);
-    this.state = { octave: 3 };
-  }
+const AccidentalOctave = ({ octave }) => {
 
-  renderNaturals(octave) {
-    return naturals.map((value, i) => {
-      return <NoteInKeyboard value={`${value}${octave}`} key={i} />;
-    });
-  }
+  const accidentals2 = ['C#', 'D#'];
+  const accidentals3 = ['F#', 'G#', 'A#'];
 
-  renderAccidentals(octave) {
+  function renderAccidentals(arr) {
     return (
-      <div className="keyboard-col">
-        <div className="keyboard-acc2">
-          <NoteInKeyboard value="C#" />
-          <NoteInKeyboard value="D#" />
-        </div>
-        <div className="keyboard-acc3">
-          <NoteInKeyboard value="F#" />
-          <NoteInKeyboard value="G#" />
-          <NoteInKeyboard value="A#" />
-        </div>
+      <div className={`keyboard-acc${arr.length}`} key={arr.length - 2}>
+        {arr.map((value, i) => <NoteInKeyboard value={`${value}${octave}`} key={i} />)}
       </div>
     );
   }
 
-  render() {
-    return (
-      <div className="keyboard">
-        <div className="keyboard-notes">
-          <div className="keyboard-col">
-            {this.renderNaturals(this.state.octave)}
-            {this.renderNaturals(this.state.octave + 1)}
-            {this.renderNaturals(this.state.octave + 2)}
-          </div>
-          {this.renderAccidentals(this.state.octave)}
+  return [
+    renderAccidentals(accidentals2),
+    renderAccidentals(accidentals3)
+  ];
+};
+
+const Keyboard = () => {
+
+  return (
+    <div className="keyboard">
+      <div className="keyboard-notes">
+        <div className="keyboard-col">
+          <NaturalOctave octave={2} />
+          <NaturalOctave octave={3} />
+          <NaturalOctave octave={4} />
+          <NaturalOctave octave={5} />
+          <NaturalOctave octave={6} />
+        </div>
+        <div className="keyboard-col">
+          <AccidentalOctave octave={2} />
+          <AccidentalOctave octave={3} />
+          <AccidentalOctave octave={4} />
+          <AccidentalOctave octave={5} />
+          <AccidentalOctave octave={6} />
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Keyboard;
