@@ -7,7 +7,7 @@ import { DragSource, DropTarget } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 import flow from 'lodash/flow';
 import { deleteNote, addNote, moveNote } from '../../redux/actions/actions-sequence';
-import { selectCurrentTrack } from '../../redux/selectors';
+// import { selectCurrentTrack } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 
 import Note from '../../components/note';
@@ -43,6 +43,15 @@ const noteInBucketSource = {
 
   isDragging(props, monitor) {
     const { id, trackId } = monitor.getItem();
+    // if (monitor.getItem().source === null || monitor.getItem().source === 'bucket') {
+    //   console.log('item');
+    //   console.log(`  id: ${id}`);
+    //   console.log(`  trackId: ${trackId}`);
+
+    //   console.log('props');
+    //   console.log(`  id: ${props.id}`);
+    //   console.log(`  trackId: ${props.trackId}`);
+    // }
     return props.id === id && props.trackId === trackId;
   },
 
@@ -60,10 +69,17 @@ const noteInBucketSource = {
         // because this note may have been dragged through intermediary buckets
         const { noteIndex: index, id, bucketId: bucket, value } = monitor.getItem();
         const payload = {
-          source: { index, id, bucket, value },
+          source: {
+            index,
+            id,
+            bucket,
+            value,
+            trackId: props.trackId
+          },
           target: {
             index: monitor.getDropResult().length,
-            bucket: monitor.getDropResult().bucketId
+            bucket: monitor.getDropResult().bucketId,
+            trackId: monitor.getDropResult().trackId
           },
           trackId: props.trackId,
         };
@@ -99,7 +115,7 @@ const noteInBucketTarget = {
     if (item.source === 'keyboard') {
       props.addNote({
         value: item.value,
-        id: item.id,
+        id: props.nextId,
         index: hoverIndex,
         bucketId: props.bucketId,
         trackId: props.trackId
@@ -108,6 +124,8 @@ const noteInBucketTarget = {
       monitor.getItem().source = null;
       monitor.getItem().noteIndex = props.index;
       monitor.getItem().bucketId = props.bucketId;
+      monitor.getItem().id = props.nextId;
+      monitor.getItem().trackId = props.trackId;
       return;
     }
 
@@ -117,11 +135,13 @@ const noteInBucketTarget = {
         index: dragIndex,
         id: item.id,
         bucket: item.bucketId,
-        value: item.value
+        value: item.value,
+        trackId: item.trackId
       },
       target: {
         index: hoverIndex,
-        bucket: props.bucketId
+        bucket: props.bucketId,
+        trackId: props.trackId
       },
       trackId: props.trackId
     };
@@ -130,6 +150,8 @@ const noteInBucketTarget = {
 
     monitor.getItem().noteIndex = hoverIndex;
     monitor.getItem().bucketId = props.bucketId;
+    monitor.getItem().trackId = props.trackId;
+    monitor.getItem().id = props.nextId;
 
   }
 };

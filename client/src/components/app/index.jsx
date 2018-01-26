@@ -6,9 +6,9 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import './app.css';
 
 import Header from '../header';
-import Sidebar from '../sidebar';
-import BucketHeader from '../bucket-header';
-import Track from '../../containers/track';
+// import Sidebar from '../sidebar';
+// import BucketHeader from '../bucket-header';
+// import Track from '../../containers/track';
 
 import Project from '../../containers/project';
 import Keyboard from '../keyboard';

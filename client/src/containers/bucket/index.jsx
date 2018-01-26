@@ -17,6 +17,7 @@ const Bucket = ({
   currentNote,
   bucketId,
   trackId,
+  nextId,
   deleteBucket }) => {
 
   function handleDeleteBucketClick() {
@@ -38,6 +39,7 @@ const Bucket = ({
           id={note.id}
           bucketId={bucketId}
           trackId={trackId}
+          nextId={nextId}
         />
       );
     });

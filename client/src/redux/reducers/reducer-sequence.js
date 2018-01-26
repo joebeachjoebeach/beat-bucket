@@ -30,18 +30,20 @@ export default function SequenceReducer(state, action) {
   case MOVE_NOTE:
     newState = [ ...state ];
     if (payload.source.bucket === payload.target.bucket) {
-      newState[payload.source.bucket] = BucketReducer(newState[payload.source.bucket], action);
+      newState[payload.source.bucket]
+        = BucketReducer(newState[payload.source.bucket], action);
     }
     else {
-      newState[payload.source.bucket] = delFromMove(newState[payload.source.bucket], payload);
-      newState[payload.target.bucket] = addFromMove(newState[payload.target.bucket], payload);
+      newState[payload.source.bucket]
+        = delFromMove(newState[payload.source.bucket], payload);
+
+      newState[payload.target.bucket]
+        = addFromMove(newState[payload.target.bucket], payload);
     }
     return newState;
 
   case ADD_BUCKET:
-    newState = [ ...state ];
-    newState.push([]);
-    return newState;
+    return [ ...state, [] ];
 
   case DELETE_BUCKET:
     newState = [ ...state ];

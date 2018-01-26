@@ -14,7 +14,9 @@ import {
   DELETE_NOTE,
   MOVE_NOTE,
   ADD_BUCKET,
-  DELETE_BUCKET
+  DELETE_BUCKET,
+  deleteNote,
+  addNote
 } from '../actions/actions-sequence';
 
 import SequenceReducer from './reducer-sequence';
@@ -45,12 +47,14 @@ export default function TrackReducer(state = {}, action) {
     return newState;
 
   case DELETE_NOTE:
-  case MOVE_NOTE:
   case ADD_BUCKET:
   case DELETE_BUCKET:
     newState = { ...state };
     newState.sequence = SequenceReducer(newState.sequence, action);
     return newState;
+
+  case MOVE_NOTE:
+    return moveNote(state, action);
 
   case ADD_NOTE:
     newState = { ...state };
@@ -66,6 +70,48 @@ export default function TrackReducer(state = {}, action) {
   default:
     return state;
   }
+}
+
+function moveNote(state, action) {
+  const newState = { ...state };
+
+  // if we're moving the note within the same track
+  if (action.payload.source.trackId === action.payload.target.trackId) {
+    newState.sequence = SequenceReducer(newState.sequence, action);
+  }
+
+  // if we're moving the note out of this track
+  else if (action.payload.source.trackId === newState.id) {
+    newState.sequence = delFromMove(newState, action.payload);
+  }
+
+  // if we're moving the note into this track
+  else if (action.payload.target.trackId === newState.id) {
+    newState.sequence = addFromMove(newState, action.payload);
+    newState.nextId++;
+  }
+
+  return newState;
+}
+
+function delFromMove(state, payload) {
+  const action = deleteNote({
+    noteIndex: payload.source.index,
+    bucketId: payload.source.bucket,
+    trackId: payload.source.trackId
+  });
+  return SequenceReducer(state.sequence, action);
+}
+
+function addFromMove(state, payload) {
+  const action = addNote({
+    value: payload.source.value,
+    id: state.nextId,
+    index: payload.target.index,
+    bucketId: payload.target.bucket,
+    trackId: payload.target.trackId
+  });
+  return SequenceReducer(state.sequence, action);
 }
 
 function mute(trackData) {

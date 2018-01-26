@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { addBucket } from '../../redux/actions/actions-sequence';
 import { changeBaseNote } from '../../redux/actions/actions-track';
-import { selectCurrentTrack, selectBaseNote } from '../../redux/selectors';
+import { selectBaseNote } from '../../redux/selectors';
 import halfNote from './half.svg';
 import sixteenthNote from './sixteenth.svg';
 import './bucket-row.css';

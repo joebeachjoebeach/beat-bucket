@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DragSource } from 'react-dnd';
 import { addNote, moveNote } from '../../redux/actions/actions-sequence';
-import { selectTracks, selectNextId } from '../../redux/selectors';
+import { selectTracks } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 import './note-in-keyboard.css';
 
@@ -38,6 +38,7 @@ const noteInKeyboardSource = {
       const { target, bucketId, trackId, nextId, length } = monitor.getDropResult();
       if (target === 'bucket') {
         const item = monitor.getItem();
+
         // if it's being dragged directly from the keyboard, drop it in the bucket
         if (item.source === 'keyboard') {
           addNote({
@@ -48,6 +49,7 @@ const noteInKeyboardSource = {
             id: nextId
           });
         }
+
         // but if it's been hovering in another bucket, then dragged here,
         // move it from one bucket to the other
         else {
@@ -56,13 +58,13 @@ const noteInKeyboardSource = {
               index: item.noteIndex,
               id: item.id,
               bucket: item.bucketId,
-              note: item.note
+              value: item.value
             },
             target: {
               index: length,
               bucket: bucketId
             },
-            track: trackId
+            trackId: trackId
           };
           moveNote(payload);
         }
@@ -78,11 +80,8 @@ function collect(connect, monitor) {
   };
 }
 
-function mapStateToProps(state, ownProps) {                            
-  return {
-    tracks: selectTracks(state)
-    // nextId: selectNextId(ownProps.trackId)(state)
-  };
+function mapStateToProps(state) {                            
+  return { tracks: selectTracks(state) };
 }
 
 function mapDispatchToProps(dispatch) {                            

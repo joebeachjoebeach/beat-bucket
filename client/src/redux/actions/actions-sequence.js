@@ -21,6 +21,9 @@ export function deleteNote({ noteIndex, bucketId, trackId }) {
 }
 
 export function moveNote({ source, target, trackId }) {
+  // console.log(source);
+  // console.log(target);
+  // console.log(trackId);
   return {
     type: MOVE_NOTE,
     payload: { source, target, trackId }

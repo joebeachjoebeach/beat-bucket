@@ -56,10 +56,9 @@ const dummy = {
 };
 
 export default function TracksReducer(state = dummy, action) {
-  console.log(action);
-
   let newState;
   let targetTrack;
+  // let sourceTrack;
 
   switch (action.type) {
   case MUTE:
@@ -85,7 +84,6 @@ export default function TracksReducer(state = dummy, action) {
     return newState;
 
   case UPDATE_CURRENT_NOTE:
-  case MOVE_NOTE:
   case DELETE_NOTE:
   case ADD_NOTE:
   case ADD_BUCKET:
@@ -95,6 +93,15 @@ export default function TracksReducer(state = dummy, action) {
     targetTrack = newState[action.payload.trackId];
     newState[action.payload.trackId] = TrackReducer(targetTrack, action);
     return newState;
+
+  case MOVE_NOTE:
+    // newState = { ...state };
+    // sourceTrack = newState[action.payload.source.trackId];
+    // targetTrack = newState[action.payload.target.trackId];
+    // newState[action.payload.source.trackId] = TrackReducer(sourceTrack, action);
+    // newState[action.payload.target.trackId] = TrackReducer(targetTrack, action);
+    // return newState;
+    return moveNote(state, action);
 
   case ADD_TRACK:
     return addTrack(state);
@@ -108,6 +115,21 @@ export default function TracksReducer(state = dummy, action) {
     return state;
 
   }
+}
+
+function moveNote(state, action) {
+  const newState = { ...state };
+  const sourceId = action.payload.source.trackId;
+  const targetId = action.payload.target.trackId;
+
+  if (sourceId !== targetId) {
+    const targetTrack = newState[targetId];
+    newState[targetId] = TrackReducer(targetTrack, action);
+  }
+
+  const sourceTrack = newState[sourceId];
+  newState[sourceId] = TrackReducer(sourceTrack, action);
+  return newState;
 }
 
 function getSoloedTrack(state) {
