@@ -20,6 +20,7 @@ const NoteInKeyboard = ({ value, styleName, connectDragSource }) => {
   );                    
 };
 
+// drag source spec function
 const noteInKeyboardSource = {
   beginDrag(props) {
     return {
@@ -28,14 +29,12 @@ const noteInKeyboardSource = {
     };
   },
 
-  isDragging(props, monitor) {
-    return monitor.getItem().value === props.value;
-  },
-
   endDrag(props, monitor) {
     if (monitor.didDrop()) {
       const { value, addNote, moveNote } = props;
       const { target, bucketId, trackId, nextId, length } = monitor.getDropResult();
+
+      // if it's dropped in a bucket
       if (target === 'bucket') {
         const item = monitor.getItem();
 
@@ -58,13 +57,14 @@ const noteInKeyboardSource = {
               index: item.noteIndex,
               id: item.id,
               bucket: item.bucketId,
-              value: item.value
+              value: item.value,
+              trackId: item.trackId
             },
             target: {
               index: length,
-              bucket: bucketId
-            },
-            trackId: trackId
+              bucket: bucketId,
+              trackId: trackId
+            }
           };
           moveNote(payload);
         }
@@ -73,11 +73,8 @@ const noteInKeyboardSource = {
   }
 };
 
-function collect(connect, monitor) {
-  return {
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
-  };
+function collect(connect) {
+  return { connectDragSource: connect.dragSource() };
 }
 
 function mapStateToProps(state) {                            

@@ -14,3 +14,18 @@
     .project-header-title {
       margin: 0 0 0 10px;
     }
+
+.play {
+  border-bottom: 13px solid transparent;
+  border-left: 20px solid black;
+  border-top: 13px solid transparent;
+  height: 0;
+  width: 0; 
+}
+
+.stop {
+  background-color: black;
+  height: 20px;
+  width: 20px;
+}
+

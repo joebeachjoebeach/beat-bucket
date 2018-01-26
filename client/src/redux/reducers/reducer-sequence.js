@@ -29,10 +29,13 @@ export default function SequenceReducer(state, action) {
 
   case MOVE_NOTE:
     newState = [ ...state ];
+
+    // if moving within the same bucket
     if (payload.source.bucket === payload.target.bucket) {
       newState[payload.source.bucket]
         = BucketReducer(newState[payload.source.bucket], action);
     }
+    // if moving from one bucket to another
     else {
       newState[payload.source.bucket]
         = delFromMove(newState[payload.source.bucket], payload);

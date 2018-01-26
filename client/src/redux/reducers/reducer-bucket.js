@@ -17,7 +17,11 @@ export default function BucketReducer(state, action, id) {
 
   case MOVE_NOTE:
     newState = [ ...state ];
-    newState.splice(payload.target.index, 0, newState.splice(payload.source.index, 1)[0]);
+    newState.splice(
+      payload.target.index,
+      0,
+      newState.splice(payload.source.index, 1)[0]
+    );
     return newState;
 
   default:

@@ -10,10 +10,6 @@ export function selectPlaying(state) {
   return state.globals.playing;
 }
 
-export function selectCurrentTrack(state) {
-  return state.globals.currentTrack;
-}
-
 export function selectBpm(state) {
   return state.globals.bpm;
 }
@@ -44,8 +40,4 @@ export function selectNextId(id) {
 
 export function selectOctave(state) {
   return state.globals.octave;
-}
-
-export function selectCurrentTrackData(state) {
-  return selectTracks(state)[selectCurrentTrack(state)];
 }

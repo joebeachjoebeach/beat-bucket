@@ -58,7 +58,6 @@ const dummy = {
 export default function TracksReducer(state = dummy, action) {
   let newState;
   let targetTrack;
-  // let sourceTrack;
 
   switch (action.type) {
   case MUTE:
@@ -95,12 +94,6 @@ export default function TracksReducer(state = dummy, action) {
     return newState;
 
   case MOVE_NOTE:
-    // newState = { ...state };
-    // sourceTrack = newState[action.payload.source.trackId];
-    // targetTrack = newState[action.payload.target.trackId];
-    // newState[action.payload.source.trackId] = TrackReducer(sourceTrack, action);
-    // newState[action.payload.target.trackId] = TrackReducer(targetTrack, action);
-    // return newState;
     return moveNote(state, action);
 
   case ADD_TRACK:

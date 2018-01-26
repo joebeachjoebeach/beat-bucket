@@ -30,6 +30,7 @@ export default class Sequencer {
     );
   }
 
+  // handles deleting or adding tracks
   handleTrackCountChange(newCount, oldCount) {
     const newTracks = selectTracks(this.store.getState());
     const newTrackIds = Object.keys(newTracks);
@@ -47,7 +48,7 @@ export default class Sequencer {
     // deleting a track
     // the Track class itself will handle deleting itself (clearing Tone events etc)
     else
-      this.tracks = this.tracks.filter(track => (newTracks[track.id] == true));
+      this.tracks = this.tracks.filter(track => (!!newTracks[track.id]));
   }
 
   // play or stop the loop when global 'playing' changes

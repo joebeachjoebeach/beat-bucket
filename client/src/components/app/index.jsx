@@ -11,7 +11,8 @@ import Header from '../header';
 // import Track from '../../containers/track';
 
 import Project from '../../containers/project';
-import Keyboard from '../keyboard';
+// import Keyboard from '../keyboard';
+import NoteColumn from '../note-column';
 
 class App extends React.Component {
 
@@ -35,7 +36,7 @@ class App extends React.Component {
         <Header />
         <div className="wrapper">
           <Project />
-          <Keyboard />
+          <NoteColumn />
         </div>
       </div>
     );

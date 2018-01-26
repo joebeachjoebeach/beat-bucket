@@ -2,13 +2,18 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
+import { addTrack } from '../../redux/actions/actions-tracks';
 import { selectTracks } from '../../redux/selectors';
 import './tracks.css';
 
 import Track from '../track';
 
-const Tracks = ({ tracks }) => {
+const Tracks = ({ tracks, addTrack }) => {
+
+  function handleNewTrackClick() {
+    addTrack();
+  }
 
   function renderTracks() {
     return Object.values(tracks).map(track => {
@@ -19,6 +24,7 @@ const Tracks = ({ tracks }) => {
   return (
     <div className="tracks">
       {renderTracks()}
+      <button onClick={handleNewTrackClick} className="tracks-new">New Track</button>
     </div>
   );
 };
@@ -28,8 +34,8 @@ function mapStateToProps(state) {
   return { tracks: selectTracks(state) };
 }
 
-// function mapDispatchToProps(dispatch) {
-//   return bindActionCreators(_, dispatch);
-// }
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ addTrack }, dispatch);
+}
 
-export default connect(mapStateToProps)(Tracks);
+export default connect(mapStateToProps, mapDispatchToProps)(Tracks);

@@ -7,7 +7,6 @@ import { DragSource, DropTarget } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 import flow from 'lodash/flow';
 import { deleteNote, addNote, moveNote } from '../../redux/actions/actions-sequence';
-// import { selectCurrentTrack } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 
 import Note from '../../components/note';
@@ -43,15 +42,6 @@ const noteInBucketSource = {
 
   isDragging(props, monitor) {
     const { id, trackId } = monitor.getItem();
-    // if (monitor.getItem().source === null || monitor.getItem().source === 'bucket') {
-    //   console.log('item');
-    //   console.log(`  id: ${id}`);
-    //   console.log(`  trackId: ${trackId}`);
-
-    //   console.log('props');
-    //   console.log(`  id: ${props.id}`);
-    //   console.log(`  trackId: ${props.trackId}`);
-    // }
     return props.id === id && props.trackId === trackId;
   },
 
@@ -59,11 +49,13 @@ const noteInBucketSource = {
     if (monitor.didDrop()) {
       const { target } = monitor.getDropResult();
 
+      // if it's dropped in a deletion zone
       if (target === 'delete') {
         const { index, bucketId, deleteNote } = props;
         deleteNote({ noteIndex: index, bucketId: bucketId, trackId: props.trackId });
       }
 
+      // if it's dropped in a bucket
       if (target === 'bucket') {
         // using monitor.getItem() for the source is more reliable than using props
         // because this note may have been dragged through intermediary buckets
@@ -85,7 +77,6 @@ const noteInBucketSource = {
         };
         props.moveNote(payload);
       }
-        
     }
   }
 };
@@ -142,17 +133,19 @@ const noteInBucketTarget = {
         index: hoverIndex,
         bucket: props.bucketId,
         trackId: props.trackId
-      },
-      trackId: props.trackId
+      }
     };
 
     props.moveNote(payload);
 
+    // if we're moving it into another track, then update the note's id & trackId
+    if (item.trackId !== props.trackId) {
+      monitor.getItem().id = props.nextId;
+      monitor.getItem().trackId = props.trackId;
+    }
+
     monitor.getItem().noteIndex = hoverIndex;
     monitor.getItem().bucketId = props.bucketId;
-    monitor.getItem().trackId = props.trackId;
-    monitor.getItem().id = props.nextId;
-
   }
 };
 
