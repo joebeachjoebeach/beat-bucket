@@ -28,3 +28,7 @@
   .track-info-button {
     margin: 0 3px;
   }
+
+.hidden {
+  display: none;
+}

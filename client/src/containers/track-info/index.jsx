@@ -13,6 +13,10 @@ import { deleteTrack } from '../../redux/actions/actions-tracks';
 import { selectTrack } from '../../redux/selectors';
 import './track-info.css';
 
+// convert to class
+// state has { hover: false }
+// handleHover => setState({ hover: true })
+// delete button className={hover ? 'hidden' : ''}
 const TrackInfo = ({
   name,
   id,

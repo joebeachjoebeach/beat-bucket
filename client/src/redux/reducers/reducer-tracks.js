@@ -134,7 +134,14 @@ function getSoloedTrack(state) {
 
 function addTrack(state) {
   const newState = { ...state };
-  const id = Math.max.apply(null, Object.keys(newState)) + 1;
+  const trackKeys = Object.keys(newState);
+  let id;
+  if (trackKeys.length === 0) {
+    id = 0;
+  }
+  else {
+    id = Math.max.apply(null, Object.keys(newState)) + 1;
+  }
   newState[id] = {
     name: `Track ${id + 1}`,
     sequence: [ [], [], [], [], [], [], [], [] ],

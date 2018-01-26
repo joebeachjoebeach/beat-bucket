@@ -16,7 +16,6 @@ const BucketRow = ({
   sequence,
   currentNote,
   id,
-  currentTrack,
   addBucket,
   baseNote,
   changeBaseNote }) => {
@@ -59,10 +58,7 @@ const BucketRow = ({
 
   return (
     <div className="bucketrow">
-      <button 
-        onClick={handleBaseNoteClick} 
-        className="bucketrow-button"
-      >
+      <button onClick={handleBaseNoteClick} className="bucketrow-button">
         {renderNoteSymbol()}
       </button>
       {renderBuckets()}

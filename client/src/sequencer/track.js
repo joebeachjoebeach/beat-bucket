@@ -3,7 +3,7 @@
 import Tone from 'tone';
 import { createPartEvents } from './utils';
 import {
-  selectTracks,
+  selectTrack,
   selectMuted,
   selectSequence,
   selectTrackExists,
@@ -20,7 +20,7 @@ export default class Track {
     this.synth = new Tone.Synth().toMaster();
 
     // get sequence and baseNote of track from the store
-    const { sequence, baseNote } = selectTracks(store.getState())[id];
+    const { sequence, baseNote } = selectTrack(id)(store.getState());
     this.sequence = sequence;
     this.baseNote = baseNote;
 
