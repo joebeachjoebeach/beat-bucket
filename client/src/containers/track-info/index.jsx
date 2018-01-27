@@ -20,8 +20,8 @@ class TrackInfo extends React.Component {
     this.handleMuteClick = this.handleMuteClick.bind(this);
     this.handleSoloClick = this.handleSoloClick.bind(this);
     this.handleDeleteTrackClick = this.handleDeleteTrackClick.bind(this);
-    this.handleMouseOver = this.handleMouseOver.bind(this);
-    this.handleMouseOut = this.handleMouseOut.bind(this);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
   }
 
   handleMuteClick() {
@@ -43,11 +43,11 @@ class TrackInfo extends React.Component {
     deleteTrack({ trackId: id });
   }
 
-  handleMouseOver() {
+  handleMouseEnter() {
     this.setState({ hover: true });
   }
 
-  handleMouseOut() {
+  handleMouseLeave() {
     this.setState({ hover: false });
   }
 
@@ -56,11 +56,15 @@ class TrackInfo extends React.Component {
     const { hover } = this.state;
     return (
       <div className="track-info"
-        onMouseEnter={this.handleMouseOver}
-        onMouseLeave={this.handleMouseOut}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
       >
         <div className="track-info-left">
-          {hover && <button className="track-info-delete" onClick={this.handleDeleteTrackClick}>x</button>}
+          {hover && 
+            <button className="track-info-delete" onClick={this.handleDeleteTrackClick}>
+              x
+            </button>
+          }
         </div>
         <div className="track-info-right">
           <div className="track-info-title">{name}</div>

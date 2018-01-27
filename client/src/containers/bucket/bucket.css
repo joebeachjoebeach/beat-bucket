@@ -17,9 +17,16 @@
   width: 70px;
 }
 
+.deletebucket-container {
+  height: 10px;
+}
+
 .deletebucket {
+  background-color: inherit;
+  border-radius: 10px;
+  color: white;
   font-size: 0.7rem;
-  width: 40px;
+  margin: 5px 0 0 0;
 }
 
 
