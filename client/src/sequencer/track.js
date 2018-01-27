@@ -58,10 +58,17 @@ export default class Track {
   }
 
   deleteSelf() {
-    this.unsubscribeMuted();
+    // unsubscibe from all store subscriptions
+    this.unsubscribeDeleted();
     this.unsubscribeSequenceChange();
+    this.unsubscribeMuted();
+    this.unsubscribeBaseNote();
+
+    // dispose of the synth
     this.synth.dispose();
     this.synth = null;
+
+    // dispose of the part
     this.part.dispose();
     this.part = null;
   }
@@ -74,7 +81,7 @@ export default class Track {
 
     part.start(0);
     part.loop = true;
-    part.loopEnd = `${sequence.length}*0:${baseNote}`;
+    part.loopEnd = `${sequence.length}*0:${(baseNote / 4)}`;
 
     return part;
   }

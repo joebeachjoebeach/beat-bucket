@@ -12,9 +12,9 @@ export function createPartEvents(sequence, baseNote) {
 }
 
 function getDurAndTime(bucketLength, bucketIndex, noteIndex, baseNote) {
-  const _dur = baseNote / bucketLength;
+  const _dur = (baseNote / 4) / bucketLength;
   const dur = `0:${_dur}`;
-  const start = `0:${bucketIndex * baseNote}`;
+  const start = `0:${bucketIndex * (baseNote / 4)}`;
   const time = `${start} + 0:${noteIndex * _dur}`;
   return [dur, time];
 }
