@@ -86,8 +86,10 @@ export default class Track {
     return part;
   }
 
-  partProcessor(time, { note, dur, bucketIndex, noteIndex }) {
-    this.synth.triggerAttackRelease(note, dur, time);
+  partProcessor(time, { value, dur, bucketIndex, noteIndex }) {
+    // only trigger a note if it's not a rest, but dispatch currentNote in either case
+    if (value !== 'rest')
+      this.synth.triggerAttackRelease(value, dur, time);
     this.dispatchCurrentNote(bucketIndex, noteIndex);
   }
 

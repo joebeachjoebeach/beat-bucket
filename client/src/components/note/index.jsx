@@ -32,14 +32,13 @@ function generateColor(noteValue) {
 
 const Note = ({ value, active }) => {                    
 
-  const styleName = active
-    ? 'note active'
-    : 'note';
+  let color = '#F4A53F';
 
-  const color = generateColor(value);
+  if (!active)
+    color = generateColor(value);
 
   return (
-    <div className={styleName} style={{backgroundColor: color}}>
+    <div className="note" style={{backgroundColor: color}}>
       {value}
     </div>
   );                    
