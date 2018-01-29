@@ -77,10 +77,6 @@ function collect(connect) {
   return { connectDragSource: connect.dragSource() };
 }
 
-function mapStateToProps(state) {                            
-  return { tracks: selectTracks(state) };
-}
-
 function mapDispatchToProps(dispatch) {                            
   return bindActionCreators({ addNote, moveNote }, dispatch);
 }
@@ -91,4 +87,4 @@ const NoteInKeyboard_DS = DragSource(
   collect
 )(NoteInKeyboard);
 
-export default connect(mapStateToProps, mapDispatchToProps)(NoteInKeyboard_DS);
+export default connect(null, mapDispatchToProps)(NoteInKeyboard_DS);
