@@ -6,7 +6,7 @@ import './note-column.css';
 import Keyboard from '../keyboard';
 import NoteInKeyboard from '../../containers/note-in-keyboard';
 
-const NoteColumn = (props) => {
+const NoteColumn = () => {
 
   return (
     <div className="note-column">

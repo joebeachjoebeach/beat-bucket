@@ -13,7 +13,7 @@ import Note from '../../components/note';
 
 const NoteInBucket = ({
   value,
-  styleName,
+  active,
   connectDragSource,
   connectDropTarget,
   isDragging }) => {                    
@@ -23,7 +23,7 @@ const NoteInBucket = ({
   return connectDragSource(
     connectDropTarget(
       <div style={{ opacity }}>
-        <Note value={value} styleName={styleName} />
+        <Note value={value} active={active} />
       </div>
     ));
 };

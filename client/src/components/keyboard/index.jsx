@@ -10,7 +10,7 @@ const NaturalOctave = ({ octave }) => {
   const naturals = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 
   return naturals.map((value, i) => {
-    return <NoteInKeyboard value={`${value}${octave}`} key={i} />;
+    return <NoteInKeyboard value={`${value}${octave}`} key={i} style="background-color: black;" />;
   });
 };
 

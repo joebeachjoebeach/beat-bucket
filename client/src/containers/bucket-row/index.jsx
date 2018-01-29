@@ -25,7 +25,7 @@ const BucketRow = ({
   }
 
   function handleBaseNoteClick() {
-    const payload = baseNote <= 0.25 ? 2 : baseNote / 2;
+    const payload = baseNote <= 1 ? 8 : baseNote / 2;
     changeBaseNote({ baseNote: payload, trackId: id });
   }
 

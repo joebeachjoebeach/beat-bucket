@@ -1,6 +1,5 @@
 .note {
   align-items: center;
-  background-color: rgb(243, 167, 18);
   display: flex;
   font-size: 0.9rem;
   height: 24px;
@@ -9,6 +8,6 @@
   width: 60px;
 }
 
-.note-current {
-  color: red;
+.active {
+  opacity: 0.5;
 }

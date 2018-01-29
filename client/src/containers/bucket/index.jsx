@@ -36,14 +36,12 @@ class Bucket extends Component {
   renderNotes() {
     const { notes, currentNote, bucketId, trackId, nextId } = this.props;
     return notes.map((note, i) => {
-      let styleName = '';
-      if (currentNote[0] === bucketId && currentNote[1] === i)
-        styleName = 'note-current';
+      let active = currentNote[0] === bucketId && currentNote[1] === i;
 
       return (
         <NoteInBucket
           value={note.value}
-          styleName={styleName}
+          active={active}
           index={i}
           key={i}
           id={note.id}
