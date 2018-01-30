@@ -4,16 +4,25 @@
   width: 100%;
 }
 
-  .project-header {
-    display: flex;
-    height: 50px;
-    justify-content: space-between;
-    width: 100%;
+.project-header {
+display: flex;
+height: 50px;
+justify-content: space-between;
+width: 100%;
+}
+
+.project-title {
+  background-color: inherit;
+  color: inherit;
+  font-size: 1.3rem;
+  height: 80%;
+  margin: 0 0 0 10px;
+}
+
+  .project-title-input {
+    border: 1px solid white;
   }
 
-    .project-header-title {
-      margin: 0 0 0 10px;
-    }
 
 .play {
   border-bottom: 13px solid transparent;

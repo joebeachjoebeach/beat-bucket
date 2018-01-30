@@ -8,6 +8,7 @@ import {
 const dummy_data = {
   bpm: 75,
   playing: false,
+  projectTitle: 'New Project'
 };
 
 export default function(state = dummy_data, action) {

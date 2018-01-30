@@ -1,45 +1,87 @@
 // PROJECT
 
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DropTarget } from 'react-dnd';
 import { play, stop } from '../../redux/actions/actions-globals';
-import { selectPlaying } from '../../redux/selectors';
+import { selectPlaying, selectProjectTitle } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 
 import './project.css';
 
 import Tracks from '../tracks';
+import EditableText from '../../components/editable-text';
 
-const Project = ({ play, stop, playing, connectDropTarget }) => {
+class Project extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { editingTitle: false };
 
-  function handlePlayStopClick() {
+    this.handlePlayStopClick = this.handlePlayStopClick.bind(this);
+    this.handleTitleClick = this.handleTitleClick.bind(this);
+    this.handleTitleBlur = this.handleTitleBlur.bind(this);
+  }
+
+  handlePlayStopClick() {
+    const { playing, stop, play } = this.props;
     playing
       ? stop()
       : play();
   }
 
-  function renderPlayStop() {
-    const className = playing ? 'stop' : 'play';
+  handleTitleClick() {
+    this.setState({ editingTitle: true });
+  }
+
+  handleTitleBlur() {
+    this.setState({ editingTitle: false });
+  }
+
+  renderPlayStop() {
+    const className = this.props.playing ? 'stop' : 'play';
     return (
-      <button onClick={handlePlayStopClick} className="project-playbutton">
+      <button onClick={this.handlePlayStopClick} className="project-playbutton">
         <div className={className} />
       </button>
     );
   }
 
-  return connectDropTarget(
-    <div className="project">
-      <div className="project-header">
-        <div className="project-header-title">Project Title</div>
-        {renderPlayStop()}
-        <button className="project-savebutton">Save</button>
+  renderTitle() {
+    if (this.state.editingTitle) {
+      return (
+        <input
+          value={this.props.title}
+          className="project-title project-title-input"
+          onBlur={this.handleTitleBlur}
+        />
+      );
+    }
+    else {
+      return (
+        <div
+          className="project-title"
+          onClick={this.handleTitleClick}
+        >
+          {this.props.title}
+        </div>
+      );
+    }
+  }
+
+  render() {
+    return this.props.connectDropTarget(
+      <div className="project">
+        <div className="project-header">
+          <EditableText value={this.props.title} />
+          {this.renderPlayStop()}
+          <button className="project-savebutton">Save</button>
+        </div>
+        <Tracks />
       </div>
-      <Tracks />
-    </div>
-  );
-};
+    );
+  }
+}
 
 const projectTarget = {
   drop(_, monitor) {
@@ -57,7 +99,10 @@ function collect(connect) {
 }
 
 function mapStateToProps(state) {
-  return { playing: selectPlaying(state) };
+  return {
+    playing: selectPlaying(state),
+    title: selectProjectTitle(state)
+  };
 }
 
 function mapDispatchToProps(dispatch) {

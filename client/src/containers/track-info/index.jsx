@@ -13,6 +13,8 @@ import { deleteTrack } from '../../redux/actions/actions-tracks';
 import { selectTrack } from '../../redux/selectors';
 import './track-info.css';
 
+import EditableText from '../../components/editable-text'
+
 class TrackInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -67,7 +69,7 @@ class TrackInfo extends React.Component {
           }
         </div>
         <div className="track-info-right">
-          <div className="track-info-title">{name}</div>
+          <EditableText value={name} />
           <div className="track-info-buttons">
             <button
               onClick={this.handleMuteClick}

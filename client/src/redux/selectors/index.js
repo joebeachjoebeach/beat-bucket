@@ -41,3 +41,7 @@ export function selectNextId(id) {
 export function selectOctave(state) {
   return state.globals.octave;
 }
+
+export function selectProjectTitle(state) {
+  return state.globals.projectTitle;
+}
