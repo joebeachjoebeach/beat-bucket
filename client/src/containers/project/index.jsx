@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DropTarget } from 'react-dnd';
-import { play, stop } from '../../redux/actions/actions-globals';
+import { play, stop, changeProjectTitle } from '../../redux/actions/actions-globals';
 import { selectPlaying, selectProjectTitle } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 
@@ -21,6 +21,7 @@ class Project extends Component {
     this.handlePlayStopClick = this.handlePlayStopClick.bind(this);
     this.handleTitleClick = this.handleTitleClick.bind(this);
     this.handleTitleBlur = this.handleTitleBlur.bind(this);
+    this.handleProjectTitleChange = this.handleProjectTitleChange.bind(this);
   }
 
   handlePlayStopClick() {
@@ -38,6 +39,10 @@ class Project extends Component {
     this.setState({ editingTitle: false });
   }
 
+  handleProjectTitleChange(newTitle) {
+    this.props.changeProjectTitle({ title: newTitle });
+  }
+
   renderPlayStop() {
     const className = this.props.playing ? 'stop' : 'play';
     return (
@@ -47,33 +52,14 @@ class Project extends Component {
     );
   }
 
-  renderTitle() {
-    if (this.state.editingTitle) {
-      return (
-        <input
-          value={this.props.title}
-          className="project-title project-title-input"
-          onBlur={this.handleTitleBlur}
-        />
-      );
-    }
-    else {
-      return (
-        <div
-          className="project-title"
-          onClick={this.handleTitleClick}
-        >
-          {this.props.title}
-        </div>
-      );
-    }
-  }
-
   render() {
+    const { title } = this.props;
     return this.props.connectDropTarget(
       <div className="project">
         <div className="project-header">
-          <EditableText value={this.props.title} />
+          <div className="project-title">
+            <EditableText value={title} onInputChange={this.handleProjectTitleChange} />
+          </div>
           {this.renderPlayStop()}
           <button className="project-savebutton">Save</button>
         </div>
@@ -106,7 +92,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ play, stop }, dispatch);
+  return bindActionCreators({ play, stop, changeProjectTitle }, dispatch);
 }
 
 const dt_Project = DropTarget(ItemTypes.NOTE, projectTarget, collect)(Project);

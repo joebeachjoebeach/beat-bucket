@@ -10,10 +10,11 @@ import {
   unsolo,
 } from '../../redux/actions/actions-track';
 import { deleteTrack } from '../../redux/actions/actions-tracks';
+import { changeTrackName } from '../../redux/actions/actions-track';
 import { selectTrack } from '../../redux/selectors';
 import './track-info.css';
 
-import EditableText from '../../components/editable-text'
+import EditableText from '../../components/editable-text';
 
 class TrackInfo extends React.Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class TrackInfo extends React.Component {
     this.handleDeleteTrackClick = this.handleDeleteTrackClick.bind(this);
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    this.handleTrackNameChange = this.handleTrackNameChange.bind(this);
   }
 
   handleMuteClick() {
@@ -53,6 +55,10 @@ class TrackInfo extends React.Component {
     this.setState({ hover: false });
   }
 
+  handleTrackNameChange(name) {
+    this.props.changeTrackName({ name, trackId: this.props.id });
+  }
+
   render() {
     const { name } = this.props;
     const { hover } = this.state;
@@ -69,7 +75,9 @@ class TrackInfo extends React.Component {
           }
         </div>
         <div className="track-info-right">
-          <EditableText value={name} />
+          <div className="track-info-text">
+            <EditableText value={name} onInputChange={this.handleTrackNameChange} />
+          </div>
           <div className="track-info-buttons">
             <button
               onClick={this.handleMuteClick}
@@ -96,7 +104,15 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ mute, solo, unmute, unsolo, deleteTrack }, dispatch);
+  const actions = {
+    mute,
+    solo,
+    unmute,
+    unsolo,
+    deleteTrack,
+    changeTrackName
+  };
+  return bindActionCreators(actions, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrackInfo);

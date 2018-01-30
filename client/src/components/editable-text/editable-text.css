@@ -1,3 +1,7 @@
 .editable-text {
-
+  background-color: inherit;
+  color: inherit;
+  font-size: inherit;
+  height: 100%;
+  width: 100%;
 }

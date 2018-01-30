@@ -6,7 +6,8 @@ import {
   SOLO,
   UNMUTE,
   UNSOLO,
-  CHANGE_BASE_NOTE
+  CHANGE_BASE_NOTE,
+  CHANGE_TRACK_NAME
 } from '../actions/actions-track';
 
 import {
@@ -65,6 +66,11 @@ export default function TrackReducer(state = {}, action) {
   case CHANGE_BASE_NOTE:
     newState = { ...state };
     newState.baseNote = action.payload.baseNote;
+    return newState;
+
+  case CHANGE_TRACK_NAME:
+    newState = { ...state };
+    newState.name = action.payload.name;
     return newState;
 
   default:

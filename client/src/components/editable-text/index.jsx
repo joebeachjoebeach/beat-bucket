@@ -11,6 +11,8 @@ class EditableText extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.focusInput = this.focusInput.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidUpdate() {
@@ -30,19 +32,32 @@ class EditableText extends React.Component {
     this.textInput.focus();
   }
 
+  onInputChange(event) {
+    this.props.onInputChange(event.target.value);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.handleBlur();
+  }
+
   render() {
     if (this.state.editing) {
       return (
-        <input
-          value={this.props.value}
-          onBlur={this.handleBlur}
-          ref={(input) => { this.textInput = input; }}
-        />
+        <form onSubmit={this.handleSubmit}>
+          <input
+            className="editable-text"
+            value={this.props.value}
+            onBlur={this.handleBlur}
+            onChange={this.onInputChange}
+            ref={(input) => { this.textInput = input; }}
+          />
+        </form>
       );
     }
     else {
       return (
-        <div onClick={this.handleClick}>
+        <div className="editable-text" onClick={this.handleClick}>
           {this.props.value}
         </div>
       );

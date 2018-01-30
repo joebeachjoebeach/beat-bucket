@@ -11,7 +11,8 @@ import {
   SOLO,
   UNMUTE,
   UNSOLO,
-  CHANGE_BASE_NOTE
+  CHANGE_BASE_NOTE,
+  CHANGE_TRACK_NAME
 } from '../actions/actions-track.js';
 
 import {
@@ -88,6 +89,7 @@ export default function TracksReducer(state = dummy, action) {
   case ADD_BUCKET:
   case DELETE_BUCKET:
   case CHANGE_BASE_NOTE:
+  case CHANGE_TRACK_NAME:
     newState = { ...state };
     targetTrack = newState[action.payload.trackId];
     newState[action.payload.trackId] = TrackReducer(targetTrack, action);
