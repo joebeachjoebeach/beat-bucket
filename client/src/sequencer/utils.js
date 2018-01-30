@@ -1,8 +1,17 @@
 export function createPartEvents(sequence, baseNote) {
   const events = [];
-  sequence.forEach((bucket, bucketIndex) => {
+
+  // place a dummy 'rest' note in any empty bucket
+  // this ensures that a previously played note doesn't light up in the view
+  const mappedSequence = sequence.map(bucket => {
+    if (bucket.length < 1)
+      return [{ value: 'rest' }];
+    return bucket;
+  });
+  mappedSequence.forEach((bucket, bucketIndex) => {
     bucket.forEach(({ value }, noteIndex) => {
-      const [ dur, time ] = getDurAndTime(bucket.length, bucketIndex, noteIndex, baseNote);
+      const [ dur, time ] =
+        getDurAndTime(bucket.length, bucketIndex, noteIndex, baseNote);
       events.push({ value, dur, time, noteIndex, bucketIndex });
     });
   });
