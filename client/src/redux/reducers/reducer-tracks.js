@@ -1,5 +1,7 @@
 // TRACKS REDUCER
 
+import { STOP } from '../actions/actions-globals.js';
+
 import {
   ADD_TRACK,
   DELETE_TRACK
@@ -104,6 +106,12 @@ export default function TracksReducer(state = dummy, action) {
   case DELETE_TRACK:
     newState = { ...state };
     delete newState[action.payload.trackId];
+    return newState;
+
+  case STOP:
+    newState = Object.keys(state).map(key => {
+      return TrackReducer(state[key], action);
+    });
     return newState;
 
   default:

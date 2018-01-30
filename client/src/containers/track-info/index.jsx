@@ -59,6 +59,39 @@ class TrackInfo extends React.Component {
     this.props.changeTrackName({ name, trackId: this.props.id });
   }
 
+  renderMuteSolo() {
+    const { muted, soloed } = this.props;
+
+    const styleName = 'track-info-button track-info-mutesolo';
+
+    let muteStyle = muted
+      ? styleName + ' track-info-mutesolo-active'
+      : styleName;
+
+    let soloStyle = soloed
+      ? styleName + ' track-info-mutesolo-active'
+      : styleName;
+
+    return (
+      <div className="track-info-buttons">
+        <button
+          onClick={this.handleMuteClick}
+          className={muteStyle}
+          title="mute track"
+        >
+          m
+        </button>
+        <button
+          onClick={this.handleSoloClick}
+          className={soloStyle}
+          title="solo track"
+        >
+          s
+        </button>
+      </div>
+    );
+  }
+
   render() {
     const { name } = this.props;
     const { hover } = this.state;
@@ -69,29 +102,23 @@ class TrackInfo extends React.Component {
       >
         <div className="track-info-left">
           {hover && 
-            <button className="track-info-delete" onClick={this.handleDeleteTrackClick}>
+            <button
+              className="track-info-button track-info-delete"
+              onClick={this.handleDeleteTrackClick}
+              title="delete track"
+            >
               x
             </button>
           }
         </div>
         <div className="track-info-right">
           <div className="track-info-text">
-            <EditableText value={name} onInputChange={this.handleTrackNameChange} />
+            <EditableText
+              value={name}
+              onInputChange={this.handleTrackNameChange}
+            />
           </div>
-          <div className="track-info-buttons">
-            <button
-              onClick={this.handleMuteClick}
-              className="track-info-button"
-            >
-              m
-            </button>
-            <button
-              onClick={this.handleSoloClick}
-              className="track-info-button"
-            >
-              s
-            </button>
-          </div>
+          {this.renderMuteSolo()}
         </div>
       </div>
     );

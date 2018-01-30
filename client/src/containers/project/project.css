@@ -5,35 +5,43 @@
 }
 
 .project-header {
-display: flex;
-height: 50px;
-justify-content: space-between;
-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  height: 70px;
+  justify-content: space-between;
+  padding: 10px 10px 0 10px;
+  width: 100%;
 }
 
 .project-title {
   background-color: inherit;
   color: inherit;
   font-size: 1.3rem;
-  height: 80%;
   margin: 0 0 0 10px;
+  width: 250px;
 }
 
-  .project-title-input {
-    border: 1px solid white;
-  }
-
+.playstop-button {
+  align-items: center;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.3);
+  border: none;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  width: 40px;
+}
 
 .play {
   border-bottom: 13px solid transparent;
-  border-left: 20px solid black;
+  border-left: 20px solid white;
   border-top: 13px solid transparent;
   height: 0;
   width: 0; 
 }
 
 .stop {
-  background-color: black;
+  background-color: white;
   height: 20px;
   width: 20px;
 }

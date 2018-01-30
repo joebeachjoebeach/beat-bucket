@@ -1,7 +1,11 @@
 .editable-text {
   background-color: inherit;
+  border: 1px solid transparent;
   color: inherit;
   font-size: inherit;
   height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   width: 100%;
 }

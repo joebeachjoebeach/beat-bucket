@@ -46,7 +46,7 @@ class Project extends Component {
   renderPlayStop() {
     const className = this.props.playing ? 'stop' : 'play';
     return (
-      <button onClick={this.handlePlayStopClick} className="project-playbutton">
+      <button onClick={this.handlePlayStopClick} className="playstop-button">
         <div className={className} />
       </button>
     );
@@ -58,10 +58,14 @@ class Project extends Component {
       <div className="project">
         <div className="project-header">
           <div className="project-title">
-            <EditableText value={title} onInputChange={this.handleProjectTitleChange} />
+            <EditableText
+              value={title}
+              onInputChange={this.handleProjectTitleChange}
+            />
           </div>
           {this.renderPlayStop()}
-          <button className="project-savebutton">Save</button>
+          <div />
+          {/*<button className="project-savebutton">Save</button>*/}
         </div>
         <Tracks />
       </div>
@@ -92,7 +96,12 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ play, stop, changeProjectTitle }, dispatch);
+  const actions = {
+    play,
+    stop,
+    changeProjectTitle
+  };
+  return bindActionCreators(actions, dispatch);
 }
 
 const dt_Project = DropTarget(ItemTypes.NOTE, projectTarget, collect)(Project);

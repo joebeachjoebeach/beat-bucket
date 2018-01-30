@@ -9,8 +9,7 @@ const AccountBar = () => {
 
   return (
     <div className="account-bar">
-      <button className="account-bar-button">Log In</button>
-      <button className="account-bar-button">Sign Up</button>
+      {/*Account*/}
     </div>
   );
 };

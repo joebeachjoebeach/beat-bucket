@@ -30,6 +30,7 @@ class EditableText extends React.Component {
 
   focusInput() {
     this.textInput.focus();
+    // this.textInput.select();
   }
 
   onInputChange(event) {

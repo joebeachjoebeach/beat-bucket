@@ -58,11 +58,21 @@ const BucketRow = ({
 
   return (
     <div className="bucketrow">
-      <button onClick={handleBaseNoteClick} className="bucketrow-button">
+      <button
+        onClick={handleBaseNoteClick}
+        className="bucketrow-button"
+        title="change bucket note duration"
+      >
         {renderNoteSymbol()}
       </button>
       {renderBuckets()}
-      <button onClick={handleAddBucketClick} className="bucketrow-button">+</button>
+      <button
+        onClick={handleAddBucketClick}
+        className="bucketrow-button"
+        title="add bucket"
+      >
+        +
+      </button>
     </div>
   );
 };

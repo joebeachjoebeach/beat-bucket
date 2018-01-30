@@ -13,7 +13,7 @@ function intFromNote(note) {
 
 function generateColor(noteValue) {
   if (noteValue === 'rest')
-    return 'rgba(0, 0, 0, 0.3)';
+    return '#4C9393';
 
   const octaveColors = {
     2: [50, 60, 120],

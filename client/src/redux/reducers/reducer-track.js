@@ -1,5 +1,7 @@
 // TRACK REDUCER
 
+import { STOP } from '../actions/actions-globals.js';
+
 import {
   UPDATE_CURRENT_NOTE,
   MUTE,
@@ -71,6 +73,11 @@ export default function TrackReducer(state = {}, action) {
   case CHANGE_TRACK_NAME:
     newState = { ...state };
     newState.name = action.payload.name;
+    return newState;
+
+  case STOP:
+    newState = { ...state };
+    newState.currentNote = [];
     return newState;
 
   default:

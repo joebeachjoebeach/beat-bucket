@@ -24,7 +24,13 @@ const Tracks = ({ tracks, addTrack }) => {
   return (
     <div className="tracks">
       {renderTracks()}
-      <button onClick={handleNewTrackClick} className="tracks-new">New Track</button>
+      <button
+        onClick={handleNewTrackClick}
+        className="tracks-new"
+        title="create new track"
+      >
+        +
+      </button>
     </div>
   );
 };

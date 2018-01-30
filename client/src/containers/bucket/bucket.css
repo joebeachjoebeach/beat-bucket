@@ -11,8 +11,8 @@
   border-top: none;
   display: flex;
   flex-direction: column-reverse;
-  min-height: 105px;
   margin: 0 7px;
+  min-height: 105px;
   padding: 5px 0;
   width: 70px;
 }
@@ -22,11 +22,12 @@
 }
 
 .deletebucket {
-  background-color: inherit;
-  border-radius: 10px;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.2);
+  border: none;
   color: white;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
+  height: 20px;
   margin: 5px 0 0 0;
+  width: 20px;
 }
-
-

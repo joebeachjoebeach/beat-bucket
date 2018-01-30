@@ -65,7 +65,11 @@ class Bucket extends Component {
         </div>
         <div className="deletebucket-container">
           {this.state.hover &&
-            <button onClick={this.handleDeleteBucketClick} className="deletebucket">
+            <button
+              onClick={this.handleDeleteBucketClick}
+              className="deletebucket"
+              title="delete bucket"
+            >
               x
             </button>
           }
