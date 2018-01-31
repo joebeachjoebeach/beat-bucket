@@ -5,15 +5,40 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DragSource } from 'react-dnd';
 import { addNote, moveNote } from '../../redux/actions/actions-sequence';
+import { updateTestNote } from '../../redux/actions/actions-globals';
+import { selectTestNote } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 import './note-in-keyboard.css';
 
 import Note from '../../components/note';
 
-const NoteInKeyboard = ({ value, styleName, connectDragSource }) => {                    
+const NoteInKeyboard = ({
+  value,
+  styleName,
+  updateTestNote,
+  connectDragSource,
+  isDragging }) => {
+
+  function handleMouseDown() {
+    if (!isDragging)
+      updateTestNote({ on: true, value });
+  }
+
+  function handleMouseUp() {
+    updateTestNote({ on: false, value });
+  }
+
+  function handleDragStart() {
+    updateTestNote({ on: false, value });
+  }
 
   return connectDragSource(
-    <div className={`note-in-keyboard ${styleName}`}>
+    <div
+      className={`note-in-keyboard ${styleName}`}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onDragStart={handleDragStart}
+    >
       <Note value={value} styleName={styleName} />
     </div>
   );                    
@@ -72,12 +97,19 @@ const noteInKeyboardSource = {
   }
 };
 
-function collect(connect) {
-  return { connectDragSource: connect.dragSource() };
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  };
+}
+
+function mapStateToProps(state) {
+  return { testNote: selectTestNote(state) };
 }
 
 function mapDispatchToProps(dispatch) {                            
-  return bindActionCreators({ addNote, moveNote }, dispatch);
+  return bindActionCreators({ addNote, moveNote, updateTestNote }, dispatch);
 }
 
 const NoteInKeyboard_DS = DragSource(
@@ -86,4 +118,4 @@ const NoteInKeyboard_DS = DragSource(
   collect
 )(NoteInKeyboard);
 
-export default connect(null, mapDispatchToProps)(NoteInKeyboard_DS);
+export default connect(mapStateToProps, mapDispatchToProps)(NoteInKeyboard_DS);

@@ -45,3 +45,7 @@ export function selectOctave(state) {
 export function selectProjectTitle(state) {
   return state.globals.projectTitle;
 }
+
+export function selectTestNote(state) {
+  return state.globals.testNote;
+}

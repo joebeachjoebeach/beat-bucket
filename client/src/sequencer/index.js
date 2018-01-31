@@ -6,7 +6,8 @@ import {
   selectTracks,
   selectPlaying,
   selectBpm,
-  selectTracksLength
+  selectTracksLength,
+  selectTestNote
 } from '../redux/selectors';
 
 import { observeStore } from '../redux/observers';
@@ -16,6 +17,8 @@ export default class Sequencer {
     this.store = store;
     this.tracks = this.generateTracks();
     Tone.Transport.bpm.value = selectBpm(store.getState());
+
+    this.synth = new Tone.Synth().toMaster();
 
     this.unsubscribePlaying = observeStore(
       store,
@@ -27,6 +30,12 @@ export default class Sequencer {
       store,
       selectTracksLength,
       this.handleTrackCountChange.bind(this)
+    );
+
+    this.unsubscribeTestNote = observeStore(
+      store,
+      selectTestNote,
+      this.handleTestNoteChange.bind(this)
     );
   }
 
@@ -56,6 +65,12 @@ export default class Sequencer {
     playing
       ? Tone.Transport.start('+0.1')
       : Tone.Transport.stop();
+  }
+
+  handleTestNoteChange({ on, value }) {
+    on
+      ? this.synth.triggerAttack(value)
+      : this.synth.triggerRelease();
   }
 
   // initialize Track objects for each track in the store

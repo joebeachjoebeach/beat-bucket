@@ -3,13 +3,15 @@
 import {
   PLAY,
   STOP,
-  CHANGE_PROJECT_TITLE
+  CHANGE_PROJECT_TITLE,
+  UPDATE_TEST_NOTE
 } from '../actions/actions-globals';
 
 const dummy_data = {
   bpm: 75,
   playing: false,
-  projectTitle: 'New Project'
+  projectTitle: 'New Project',
+  testNote: { on: false, value: '' }
 };
 
 export default function(state = dummy_data, action) {
@@ -29,6 +31,11 @@ export default function(state = dummy_data, action) {
   case CHANGE_PROJECT_TITLE:
     newState = { ...state };
     newState.projectTitle = action.payload.title;
+    return newState;
+
+  case UPDATE_TEST_NOTE:
+    newState = { ...state };
+    newState.testNote = action.payload;
     return newState;
 
   default:
