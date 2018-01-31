@@ -7,6 +7,7 @@ export const UNMUTE = 'unmute';
 export const UNSOLO = 'unsolo';
 export const CHANGE_BASE_NOTE = 'change_base_note';
 export const CHANGE_TRACK_NAME = 'change_track_name';
+export const UPDATE_TRACK_VOLUME = 'update_track_volume';
 
 export function updateCurrentNote({ bucketId, noteIndex, trackId }) {
   return {
@@ -54,5 +55,12 @@ export function changeTrackName({ name, trackId }) {
   return {
     type: CHANGE_TRACK_NAME,
     payload: { name, trackId }
+  };
+}
+
+export function updateTrackVolume({ volume, trackId }) {
+  return {
+    type: UPDATE_TRACK_VOLUME,
+    payload: { volume, trackId }
   };
 }

@@ -9,7 +9,8 @@ import {
   UNMUTE,
   UNSOLO,
   CHANGE_BASE_NOTE,
-  CHANGE_TRACK_NAME
+  CHANGE_TRACK_NAME,
+  UPDATE_TRACK_VOLUME
 } from '../actions/actions-track';
 
 import {
@@ -78,6 +79,11 @@ export default function TrackReducer(state = {}, action) {
   case STOP:
     newState = { ...state };
     newState.currentNote = [];
+    return newState;
+
+  case UPDATE_TRACK_VOLUME:
+    newState = { ...state };
+    newState.volume = action.payload.volume;
     return newState;
 
   default:

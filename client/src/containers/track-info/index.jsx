@@ -10,7 +10,7 @@ import {
   unsolo,
 } from '../../redux/actions/actions-track';
 import { deleteTrack } from '../../redux/actions/actions-tracks';
-import { changeTrackName } from '../../redux/actions/actions-track';
+import { changeTrackName, updateTrackVolume } from '../../redux/actions/actions-track';
 import { selectTrack } from '../../redux/selectors';
 import './track-info.css';
 
@@ -26,6 +26,7 @@ class TrackInfo extends React.Component {
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.handleTrackNameChange = this.handleTrackNameChange.bind(this);
+    this.handleVolumeChange = this.handleVolumeChange.bind(this);
   }
 
   handleMuteClick() {
@@ -56,7 +57,14 @@ class TrackInfo extends React.Component {
   }
 
   handleTrackNameChange(name) {
-    this.props.changeTrackName({ name, trackId: this.props.id });
+    this.props.changeTrackName({ trackId: this.props.id, name });
+  }
+
+  handleVolumeChange(event) {
+    this.props.updateTrackVolume({
+      trackId: this.props.id,
+      volume: Number(event.target.value)
+    });
   }
 
   renderMuteSolo() {
@@ -93,7 +101,7 @@ class TrackInfo extends React.Component {
   }
 
   render() {
-    const { name } = this.props;
+    const { name, volume } = this.props;
     const { hover } = this.state;
     return (
       <div className="track-info"
@@ -119,6 +127,13 @@ class TrackInfo extends React.Component {
             />
           </div>
           {this.renderMuteSolo()}
+          <input
+            type="range"
+            min="-43"
+            value={volume}
+            max="43"
+            onChange={this.handleVolumeChange}
+          />
         </div>
       </div>
     );
@@ -137,7 +152,8 @@ function mapDispatchToProps(dispatch) {
     unmute,
     unsolo,
     deleteTrack,
-    changeTrackName
+    changeTrackName,
+    updateTrackVolume
   };
   return bindActionCreators(actions, dispatch);
 }

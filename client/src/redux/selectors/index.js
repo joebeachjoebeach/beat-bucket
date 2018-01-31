@@ -49,3 +49,7 @@ export function selectProjectTitle(state) {
 export function selectTestNote(state) {
   return state.globals.testNote;
 }
+
+export function selectTrackVolume(id) {
+  return state => state.tracks[id].volume;
+}

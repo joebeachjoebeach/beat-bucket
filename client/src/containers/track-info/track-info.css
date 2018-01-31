@@ -37,11 +37,10 @@
 
   .track-info-buttons {
     display: flex;
-    margin: 5px 0 0 0;
   }
 
   .track-info-mutesolo {
-    margin: 0 3px;
+    margin: 10px 3px;
   }
 
   .track-info-mutesolo-active {

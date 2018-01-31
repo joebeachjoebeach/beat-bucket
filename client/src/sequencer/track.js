@@ -7,7 +7,8 @@ import {
   selectMuted,
   selectSequence,
   selectTrackExists,
-  selectBaseNote
+  selectBaseNote,
+  selectTrackVolume
 } from '../redux/selectors';
 import { observeStore } from '../redux/observers';
 import { updateCurrentNote } from '../redux/actions/actions-track';
@@ -48,6 +49,12 @@ export default class Track {
       store,
       selectBaseNote(id),
       this.onBaseNoteChange.bind(this)
+    );
+
+    this.unsubscribeTrackVolume = observeStore(
+      store,
+      selectTrackVolume(id),
+      this.onVolumeChange.bind(this)
     );
   }
 
@@ -115,5 +122,9 @@ export default class Track {
     this.part.removeAll();
     this.part = this.initPart(this.sequence, baseNote);
     this.baseNote = baseNote;
+  }
+
+  onVolumeChange(volume) {
+    this.synth.volume.value = volume;
   }
 }

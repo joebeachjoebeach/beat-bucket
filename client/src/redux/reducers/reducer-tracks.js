@@ -14,7 +14,8 @@ import {
   UNMUTE,
   UNSOLO,
   CHANGE_BASE_NOTE,
-  CHANGE_TRACK_NAME
+  CHANGE_TRACK_NAME,
+  UPDATE_TRACK_VOLUME
 } from '../actions/actions-track.js';
 
 import {
@@ -42,7 +43,8 @@ const dummy = {
     id: 0,
     muted: false,
     soloed: false,
-    currentNote: []
+    currentNote: [],
+    volume: 0
   },
   1: {
     name: 'Track 2',
@@ -54,7 +56,8 @@ const dummy = {
     id: 1,
     muted: false,
     soloed: false,
-    currentNote: []
+    currentNote: [],
+    volume: 0
   }
 };
 
@@ -92,6 +95,7 @@ export default function TracksReducer(state = dummy, action) {
   case DELETE_BUCKET:
   case CHANGE_BASE_NOTE:
   case CHANGE_TRACK_NAME:
+  case UPDATE_TRACK_VOLUME:
     newState = { ...state };
     targetTrack = newState[action.payload.trackId];
     newState[action.payload.trackId] = TrackReducer(targetTrack, action);
@@ -160,7 +164,8 @@ function addTrack(state) {
     id: id,
     muted: false,
     soloed: false,
-    currentNote: []
+    currentNote: [],
+    volume: 0
   };
   return newState;
 }
