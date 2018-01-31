@@ -61,10 +61,13 @@ class TrackInfo extends React.Component {
   }
 
   handleVolumeChange(event) {
-    this.props.updateTrackVolume({
-      trackId: this.props.id,
-      volume: Number(event.target.value)
-    });
+    const { muted, id, updateTrackVolume } = this.props;
+    if (!muted) {
+      updateTrackVolume({
+        trackId: id,
+        volume: Number(event.target.value)
+      });
+    }
   }
 
   renderMuteSolo() {

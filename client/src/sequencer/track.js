@@ -109,7 +109,7 @@ export default class Track {
   onMutedChange(muted) {
     muted
       ? this.synth.volume.value = -Infinity
-      : this.synth.volume.value = 0;
+      : this.synth.volume.value = selectTrackVolume(this.id)(this.store.getState());
   }
 
   onSequenceChange(sequence) {
