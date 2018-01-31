@@ -16,28 +16,22 @@ const NoteInKeyboard = ({
   value,
   styleName,
   updateTestNote,
-  connectDragSource,
-  isDragging }) => {
+  connectDragSource }) => {
 
-  function handleMouseDown() {
-    if (!isDragging)
-      updateTestNote({ on: true, value });
+  function testNoteOn() {
+    updateTestNote({ on: true, value });
   }
 
-  function handleMouseUp() {
-    updateTestNote({ on: false, value });
-  }
-
-  function handleDragStart() {
+  function testNoteOff() {
     updateTestNote({ on: false, value });
   }
 
   return connectDragSource(
     <div
       className={`note-in-keyboard ${styleName}`}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onDragStart={handleDragStart}
+      onMouseDown={testNoteOn}
+      onMouseUp={testNoteOff}
+      onDragStart={testNoteOff}
     >
       <Note value={value} styleName={styleName} />
     </div>
@@ -97,10 +91,9 @@ const noteInKeyboardSource = {
   }
 };
 
-function collect(connect, monitor) {
+function collect(connect) {
   return {
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
+    connectDragSource: connect.dragSource()
   };
 }
 
