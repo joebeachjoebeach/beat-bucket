@@ -130,13 +130,16 @@ class TrackInfo extends React.Component {
             />
           </div>
           {this.renderMuteSolo()}
-          <input
-            type="range"
-            min="-43"
-            value={volume}
-            max="43"
-            onChange={this.handleVolumeChange}
-          />
+          <div className="volume">
+            <input
+              className="volume-slider"
+              type="range"
+              min="-70"
+              value={volume}
+              max="43"
+              onChange={this.handleVolumeChange}
+            />
+          </div>
         </div>
       </div>
     );

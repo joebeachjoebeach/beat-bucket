@@ -1,6 +1,6 @@
 // TRACK REDUCER
 
-import { STOP } from '../actions/actions-globals.js';
+import { STOP } from '../actions/actions-project.js';
 
 import {
   UPDATE_CURRENT_NOTE,

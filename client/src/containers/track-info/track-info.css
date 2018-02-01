@@ -50,3 +50,11 @@
 .hidden {
   display: none;
 }
+
+.volume {
+  display: flex;
+}
+
+  .volume-slider {
+    width: 110px;
+  }

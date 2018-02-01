@@ -1,11 +1,11 @@
 // NOTE-IN-KEYBOARD
 
 import React from 'react';
-import { connect } from 'react-redux';                        
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DragSource } from 'react-dnd';
 import { addNote, moveNote } from '../../redux/actions/actions-sequence';
-import { updateTestNote } from '../../redux/actions/actions-globals';
+import { updateTestNote } from '../../redux/actions/actions-project';
 import { selectTestNote } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 import './note-in-keyboard.css';
@@ -19,11 +19,13 @@ const NoteInKeyboard = ({
   connectDragSource }) => {
 
   function testNoteOn() {
-    updateTestNote({ on: true, value });
+    if (value !== 'rest')
+      updateTestNote({ on: true, value });
   }
 
   function testNoteOff() {
-    updateTestNote({ on: false, value });
+    if (value !== 'rest')
+      updateTestNote({ on: false, value });
   }
 
   return connectDragSource(

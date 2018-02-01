@@ -1,55 +1,55 @@
 export function selectTracks(state) {
-  return state.tracks;
+  return state.project.tracks;
 }
 
 export function selectTrack(id) {
-  return state => state.tracks[id];
+  return state => state.project.tracks[id];
 }
 
 export function selectPlaying(state) {
-  return state.globals.playing;
+  return state.project.playing;
 }
 
 export function selectBpm(state) {
-  return state.globals.bpm;
+  return state.project.bpm;
 }
 
 export function selectMuted(id) {
-  return state => state.tracks[id].muted;
+  return state => state.project.tracks[id].muted;
 }
 
 export function selectSequence(id) {
-  return state => state.tracks[id].sequence;
+  return state => state.project.tracks[id].sequence;
 }
 
 export function selectTracksLength(state) {
-  return Object.keys(state.tracks).length;
+  return Object.keys(state.project.tracks).length;
 }
 
 export function selectTrackExists(id) {
-  return state => state.tracks[id] ? 1 : 0;
+  return state => state.project.tracks[id] ? 1 : 0;
 }
 
 export function selectBaseNote(id) {
-  return state => state.tracks[id].baseNote;
+  return state => state.project.tracks[id].baseNote;
 }
 
 export function selectNextId(id) {
-  return state => state.tracks[id].nextId;
+  return state => state.project.tracks[id].nextId;
 }
 
 export function selectOctave(state) {
-  return state.globals.octave;
+  return state.project.octave;
 }
 
 export function selectProjectTitle(state) {
-  return state.globals.projectTitle;
+  return state.project.projectTitle;
 }
 
 export function selectTestNote(state) {
-  return state.globals.testNote;
+  return state.project.testNote;
 }
 
 export function selectTrackVolume(id) {
-  return state => state.tracks[id].volume;
+  return state => state.project.tracks[id].volume;
 }

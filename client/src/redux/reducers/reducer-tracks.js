@@ -1,6 +1,6 @@
 // TRACKS REDUCER
 
-import { STOP } from '../actions/actions-globals.js';
+import { STOP } from '../actions/actions-project.js';
 
 import {
   ADD_TRACK,
@@ -29,39 +29,39 @@ import {
 import TrackReducer from './reducer-track';
 
 // dummy data to initialize the app
-const dummy = {
-  0: {
-    name: 'Track 1',
-    sequence: [
-      [{ id: 0, value: 'C4'}, { id: 1, value: 'D4' }],
-      [{ id: 2, value: 'E4'}, { id: 3, value: 'F4'}],
-      [{ id: 5, value: 'E4'}, { id: 6, value: 'rest'}],
-      [{ id: 7, value: 'rest'}, { id: 8, value: 'D4'}],
-    ],
-    nextId: 9,
-    baseNote: 4,
-    id: 0,
-    muted: false,
-    soloed: false,
-    currentNote: [],
-    volume: 0
-  },
-  1: {
-    name: 'Track 2',
-    sequence: [
-      [{ id: 0, value: 'C5'}, { id: 1, value: 'D5' }, { id: 2, value: 'E5' }]
-    ],
-    nextId: 3,
-    baseNote: 2,
-    id: 1,
-    muted: false,
-    soloed: false,
-    currentNote: [],
-    volume: 0
-  }
-};
+// const dummy = {
+//   0: {
+//     name: 'Track 1',
+//     sequence: [
+//       [{ id: 0, value: 'C4'}, { id: 1, value: 'D4' }],
+//       [{ id: 2, value: 'E4'}, { id: 3, value: 'F4'}],
+//       [{ id: 5, value: 'E4'}, { id: 6, value: 'rest'}],
+//       [{ id: 7, value: 'rest'}, { id: 8, value: 'D4'}],
+//     ],
+//     nextId: 9,
+//     baseNote: 4,
+//     id: 0,
+//     muted: false,
+//     soloed: false,
+//     currentNote: [],
+//     volume: 0
+//   },
+//   1: {
+//     name: 'Track 2',
+//     sequence: [
+//       [{ id: 0, value: 'C5'}, { id: 1, value: 'D5' }, { id: 2, value: 'E5' }]
+//     ],
+//     nextId: 3,
+//     baseNote: 2,
+//     id: 1,
+//     muted: false,
+//     soloed: false,
+//     currentNote: [],
+//     volume: 0
+//   }
+// };
 
-export default function TracksReducer(state = dummy, action) {
+export default function TracksReducer(state, action) {
   let newState;
   let targetTrack;
 

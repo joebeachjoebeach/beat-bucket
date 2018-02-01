@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DropTarget } from 'react-dnd';
-import { play, stop, changeProjectTitle } from '../../redux/actions/actions-globals';
+import { play, stop, changeProjectTitle } from '../../redux/actions/actions-project';
 import { selectPlaying, selectProjectTitle } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 
