@@ -56,5 +56,33 @@
 }
 
   .volume-slider {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 12px;
     width: 110px;
+  }
+
+  .volume-slider:focus {
+    background-color: rgb(0, 0, 0);
+    outline: none;
+  }
+
+  .volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0.5);
+    height: 10px;
+    width: 10px;
+  }
+
+  .volume-slider::-moz-range-thumb {
+    -moz-appearance: none;
+    appearance: none;
+    background-color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0.5);
+    height: 10px;
+    width: 10px;
   }
