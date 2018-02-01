@@ -1,8 +1,7 @@
 import { combineReducers } from 'redux';
-// import TracksReducer from './reducer-tracks';
-import ProjectReducer from './reducer-project';
+import project from './reducer-project';
+import user from './reducer-user';
 
-// const rootReducer = combineReducers({ tracks: TracksReducer, project: ProjectReducer });
-const rootReducer = combineReducers({ project: ProjectReducer });
+const rootReducer = combineReducers({ project, user });
 
 export default rootReducer;

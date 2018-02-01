@@ -53,3 +53,7 @@ export function selectTestNote(state) {
 export function selectTrackVolume(id) {
   return state => state.project.tracks[id].volume;
 }
+
+export function selectUsername(state) {
+  return state.user.username;
+}
