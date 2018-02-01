@@ -13,6 +13,7 @@ pytest = "*"
 bcrypt = "*"
 email-validator = "*"
 pyjwt = "*"
+flask-cors = "*"
 
 
 [dev-packages]

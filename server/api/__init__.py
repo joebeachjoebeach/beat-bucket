@@ -1,4 +1,5 @@
 from flask import Blueprint, current_app, Flask, g, jsonify, render_template, request
+from flask_cors import CORS
 from api.views.client import client_bp
 from api.views.auth import auth_bp
 from api.views.resource import resource_bp
@@ -7,6 +8,7 @@ from api.views.resource import resource_bp
 def create_app(**config_overrides):
     '''app factory'''
     app = Flask(__name__, static_folder='../dist', template_folder='../dist')
+    CORS(app)
 
     app.config.from_object('api.config')
     app.config.update(config_overrides)
