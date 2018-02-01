@@ -2,24 +2,30 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectUsername } from '../../redux/selectors';
+import { selectEmail } from '../../redux/selectors';
 import './header.css';
 
-// import AccountBar from '../../containers/account-bar';
+import AccountDropdown from '../../components/account-dropdown';
 
 class Header extends Component {
   constructor(props) {
     super(props);
     this.state = { showDropDown: false };
+    this.handleAccountClick = this.handleAccountClick.bind(this);
+  }
+
+  handleAccountClick() {
+    this.setState({ showDropDown: !this.state.showDropDown });
   }
 
   render() {
-    const { username } = this.props;
+    const { email } = this.props;
     return (
       <header className="header">
         <div className="header-title">Beat Bucket</div>
         <div className="header-account">
-          {username ? username : 'Account'}
+          <button onClick={this.handleAccountClick}>{email ? email : 'Account'}</button>
+          {this.state.showDropDown && <AccountDropdown />}
         </div>
       </header>
     );
@@ -27,7 +33,7 @@ class Header extends Component {
 }
 
 function mapStateToProps(state) {
-  return { username: selectUsername(state) };
+  return { email: selectEmail(state) };
 }
 
 export default connect(mapStateToProps)(Header);

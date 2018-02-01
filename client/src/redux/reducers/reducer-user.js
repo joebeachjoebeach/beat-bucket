@@ -1,6 +1,6 @@
 // USER REDUCER
 
-export default function(state = { username: null }, action) {
+export default function(state = { email: null }, action) {
   switch (action.type) {
   default:
     return state;

@@ -54,6 +54,6 @@ export function selectTrackVolume(id) {
   return state => state.project.tracks[id].volume;
 }
 
-export function selectUsername(state) {
-  return state.user.username;
+export function selectEmail(state) {
+  return state.user.email;
 }
