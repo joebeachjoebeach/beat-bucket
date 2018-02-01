@@ -19,7 +19,7 @@ class Header extends Component {
       <header className="header">
         <div className="header-title">Beat Bucket</div>
         <div className="header-account">
-          {/*username ? username : 'Account'*/}
+          {username ? username : 'Account'}
         </div>
       </header>
     );
