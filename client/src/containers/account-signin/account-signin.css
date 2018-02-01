@@ -1,0 +1,21 @@
+.account-signin {
+  height: 100%;
+  margin: 10px 20px;
+}
+
+.signin-container {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  justify-content: space-between;
+}
+
+.signin-form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 30px 0;
+}
+
+.signin-form-item {
+  margin: 10px 0;
+}

@@ -1,9 +1,10 @@
 .account-dropdown {
-  background-color: white;
-  background-color: rgba(255, 255, 255, 0.7);
+  /*background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.2);*/
+  background-color: #22262A;
   height: 300px;
   position: fixed;
   right: 0;
-  top: 50px;
+  top: 48px;
   width: 250px;
 }

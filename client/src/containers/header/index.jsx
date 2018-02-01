@@ -15,7 +15,9 @@ class Header extends Component {
   }
 
   handleAccountClick() {
-    this.setState({ showDropDown: !this.state.showDropDown });
+    this.setState(prevState => ({
+      showDropDown: !prevState.showDropDown
+    }));
   }
 
   render() {
@@ -25,7 +27,7 @@ class Header extends Component {
         <div className="header-title">Beat Bucket</div>
         <div className="header-account">
           <button onClick={this.handleAccountClick}>{email ? email : 'Account'}</button>
-          {this.state.showDropDown && <AccountDropdown />}
+          {this.state.showDropDown && <AccountDropdown email={email} />}
         </div>
       </header>
     );
