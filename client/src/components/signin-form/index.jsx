@@ -3,10 +3,12 @@
 import React, { Component } from 'react';
 import './signin-form.css';
 
+import InputWithMessage from '../input-with-message';
+
 class SigninForm extends Component {
 
   componentDidMount() {
-    this.emailInput.focus();
+    this.emailEl.focus();
   }
 
   render() {
@@ -15,16 +17,16 @@ class SigninForm extends Component {
       <div className="signin-container">
         {message && message}
         <form className="signin-form">
-          <input
-            className="signin-form-item input-dark"
-            type="text"
+          <InputWithMessage
+            type="email"
             placeholder="email address"
-            ref={(input) => { this.emailInput = input; }}
+            inputRef={el => { this.emailEl = el; }}
+            required
           />
-          <input
-            className="signin-form-item input-dark"
-            type="text"
+          <InputWithMessage
+            type="password"
             placeholder="password"
+            required
           />
           <input
             className="signin-form-item button-light"

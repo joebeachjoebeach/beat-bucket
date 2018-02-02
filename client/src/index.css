@@ -13,20 +13,6 @@ a {
   width: 100%;
 }
 
-.input-dark {
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.3);
-  border: none;
-  border-bottom: 1px solid transparent;
-  color: #AAA;
-  padding: 4px 5px;
-}
-
-.input-dark:focus {
-  border-bottom: 1px solid #AAA;
-  outline: none;
-}
-
 .button-dark {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.5);

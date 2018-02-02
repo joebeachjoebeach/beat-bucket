@@ -26,7 +26,12 @@ class Header extends Component {
       <header className="header">
         <div className="header-title">Beat Bucket</div>
         <div className="header-account">
-          <button onClick={this.handleAccountClick}>{email ? email : 'Account'}</button>
+          <button
+            onClick={this.handleAccountClick}
+            className="button-light"
+          >
+            {email ? email : 'Log In'}
+          </button>
           {this.state.showDropDown && <AccountDropdown email={email} />}
         </div>
       </header>

@@ -1,0 +1,26 @@
+.input-with-message {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-dark {
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.3);
+  border: none;
+  border-bottom: 1px solid transparent;
+  color: #AAA;
+  padding: 4px 5px;
+  width: auto;
+}
+
+.input-dark:focus {
+  border-bottom: 1px solid #AAA;
+  outline: none;
+}
+
+.input-message {
+  box-sizing: border-box;
+  font-size: 0.8rem;
+  height: 22px;
+  padding: 2px 10px;
+}

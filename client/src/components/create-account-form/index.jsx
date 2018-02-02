@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './create-account-form.css';
 
+import InputWithMessage from '../input-with-message';
+
 class CreateAccountForm extends Component {
   constructor(props) {
     super(props);
@@ -51,17 +53,15 @@ class CreateAccountForm extends Component {
     const { email, password, confPassword } = this.state;
     return (
       <form className="signin-form" onSubmit={this.handleCreateAccountSubmit}>
-        <input
-          className="signin-form-item input-dark"
+        <InputWithMessage
           type="email"
           placeholder="email address"
           value={email}
           onChange={this.handleEmailChange}
-          ref={(input) => { this.emailInput = input; }}
+          inputRef={el => { this.emailInput = el; }}
           required
         />
-        <input
-          className="signin-form-item input-dark"
+        <InputWithMessage
           type="password"
           placeholder="password"
           value={password}
@@ -69,8 +69,7 @@ class CreateAccountForm extends Component {
           required
           minLength="6"
         />
-        <input
-          className="signin-form-item input-dark"
+        <InputWithMessage
           type="password"
           placeholder="confirm password"
           value={confPassword}
