@@ -122,7 +122,7 @@ class CreateAccountForm extends Component {
             disabled={!formValid}
           />
         </form>
-        <a href="#" onClick={this.props.onCancelClick}>Cancel</a>
+        <button className="button-link" onClick={this.props.onCancelClick}>Cancel</button>
       </div>
     );
   }

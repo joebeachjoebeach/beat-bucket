@@ -30,3 +30,12 @@ a {
   background-color: #333;
   background-color: rgba(0, 0, 0, 0.1);
 }
+
+.button-link {
+  align-self: flex-start;
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  text-decoration: underline;
+}

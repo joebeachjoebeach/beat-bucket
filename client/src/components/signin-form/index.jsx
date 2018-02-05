@@ -57,7 +57,7 @@ class SigninForm extends Component {
             disabled={!formValid}
           />
         </form>
-        <a href="#" onClick={onCreateClick}>Create Account</a>
+        <button className="button-link" onClick={onCreateClick}>Create Account</button>
       </div>  
     );
   }
