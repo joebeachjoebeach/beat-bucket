@@ -1,9 +1,7 @@
 import datetime
 import json
 import psycopg2.extras
-import jwt
 from fixtures import temp_app, temp_db
-from test_login import login
 from utils import (get_project, login_hello, login_mackland, generate_expired_token,
                    generate_invalid_token, delete_project)
 

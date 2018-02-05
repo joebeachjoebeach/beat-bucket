@@ -3,6 +3,20 @@ import psycopg2
 import psycopg2.extras
 import bcrypt
 
+def get_user_by_id(conn, user_id):
+    '''Retrieves user data by id'''
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor.execute(
+        '''
+        SELECT * FROM users
+        WHERE id = %s
+        ''',
+        (user_id,)
+    )
+    result = cursor.fetchone()
+    cursor.close()
+    return result
+
 
 def get_user_by_email(conn, email):
     '''Retrieves user data by email'''

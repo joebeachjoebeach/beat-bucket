@@ -1,8 +1,9 @@
 from flask import Blueprint, current_app, g, jsonify, request
 import bcrypt
 from email_validator import validate_email, EmailNotValidError
-from api.db import get_db, connect_to_db, add_user, email_exists, get_user_by_email
-from api.auth import encode_auth_token
+from api.db import (get_db, connect_to_db, add_user, email_exists, get_user_by_email,
+                    get_user_by_id)
+from api.auth import encode_auth_token, decode_auth_token, get_token
 
 
 auth_bp = Blueprint('auth_bp', __name__)
@@ -71,6 +72,24 @@ def login():
         'userId': result['id'],
         'authToken': auth_token.decode()
     }), 200
+
+
+@auth_bp.route('/auth/verify', methods=['GET'])
+def verify():
+    '''Verifies a jwt'''
+    auth_token = get_token(request.headers)
+    if not auth_token:
+        return jsonify({'error': 'Forbidden: no authentication provided'}), 403
+
+    user_id = decode_auth_token(auth_token, current_app.config['SECRET_KEY'])
+
+    if user_id is None:
+        return jsonify({'error': 'Invalid token'}), 403
+
+    db_conn = get_db(current_app, g)
+    user = get_user_by_id(db_conn, user_id)
+    return jsonify({'message': 'Success', 'userId': user_id, 'email': user['email']})
+
 
 
 @auth_bp.route('/auth/logout')

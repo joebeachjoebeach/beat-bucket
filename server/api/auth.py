@@ -30,3 +30,11 @@ def decode_auth_token(auth_token, secret_key):
         return None
     except jwt.InvalidTokenError:
         return None
+
+
+def get_token(headers):
+    '''Gets the auth token from the headers if it exists'''
+    auth_header = headers.get('Authorization')
+    if auth_header:
+        return auth_header.split(' ')[1]
+    return ''

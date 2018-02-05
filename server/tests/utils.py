@@ -65,6 +65,13 @@ def login_mackland(app):
     return res_data['authToken']
 
 
+def get_verify(auth_token, app):
+    '''Posts GET to /auth/verify'''
+    return app.get(
+        '/auth/verify',
+        headers=dict(Authorization=f'Bearer {auth_token}'))
+
+
 def generate_expired_token(secret_key):
     '''Generates an expired jwt'''
     now = datetime.datetime.utcnow()

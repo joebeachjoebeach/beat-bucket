@@ -4,18 +4,10 @@ from jwt import ExpiredSignatureError, InvalidTokenError
 from api.db import (get_db, insert_project, get_project_id, insert_track, get_all_projects,
                        get_project, get_project_all, update_project, update_track, delete_track,
                        delete_project)
-from api.auth import decode_auth_token
+from api.auth import decode_auth_token, get_token
 
 
 resource_bp = Blueprint('resource_bp', __name__)
-
-
-def get_token(headers):
-    '''Gets the auth token from the headers if it exists'''
-    auth_header = headers.get('Authorization')
-    if auth_header:
-        return auth_header.split(' ')[1]
-    return ''
 
 
 @resource_bp.route('/projects', methods=['GET'])
