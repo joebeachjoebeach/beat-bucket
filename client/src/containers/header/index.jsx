@@ -11,10 +11,10 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = { showDropDown: false };
-    this.handleAccountClick = this.handleAccountClick.bind(this);
+    this.toggleHideShow = this.toggleHideShow.bind(this);
   }
 
-  handleAccountClick() {
+  toggleHideShow() {
     this.setState(prevState => ({
       showDropDown: !prevState.showDropDown
     }));
@@ -27,12 +27,17 @@ class Header extends Component {
         <div className="header-title">Beat Bucket</div>
         <div className="header-account">
           <button
-            onClick={this.handleAccountClick}
+            onClick={this.toggleHideShow}
             className="button-light"
           >
             {email ? email : 'Log In'}
           </button>
-          {this.state.showDropDown && <AccountDropdown email={email} />}
+          {this.state.showDropDown && 
+            <AccountDropdown
+              email={email}
+              hideDropDown={this.toggleHideShow}
+            />
+          }
         </div>
       </header>
     );

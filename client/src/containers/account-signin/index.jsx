@@ -3,7 +3,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import axios from 'axios';
-// import { bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
+import { setUser } from '../../redux/actions/actions-user.js';
 import './account-signin.css';
 
 import CreateAccountForm from '../../components/create-account-form';
@@ -15,6 +16,7 @@ class AccountSignin extends Component {
     this.state = { createAccount: false };
     this.handleCreateClick = this.handleCreateClick.bind(this);
     this.handleCreateAccountSuccess = this.handleCreateAccountSuccess.bind(this);
+    this.handleSignIn = this.handleSignIn.bind(this);
   }
 
   handleCreateClick(event) {
@@ -29,6 +31,12 @@ class AccountSignin extends Component {
     });
   }
 
+  handleSignIn(email, id) {
+    const { setUser, hideDropDown } = this.props;
+    setUser({ email, id });
+    hideDropDown();
+  }
+
   render() {
     return (
       <div className="account-signin">
@@ -40,6 +48,7 @@ class AccountSignin extends Component {
             : <SigninForm
               message={this.state.signinMessage}
               onCreateClick={this.handleCreateClick}
+              onSignIn={this.handleSignIn}
             />
         }
       </div>
@@ -52,8 +61,8 @@ function mapStateToProps(state) {
   return state;
 }
 
-// function mapDispatchToProps(dispatch) {
-//   return bindActionCreators(_, dispatch);
-// }
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ setUser }, dispatch);
+}
 
-export default connect(mapStateToProps)(AccountSignin);
+export default connect(mapStateToProps, mapDispatchToProps)(AccountSignin);

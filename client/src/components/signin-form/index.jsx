@@ -36,6 +36,9 @@ class SigninForm extends Component {
     )
       .then(res => {
         console.log(res);
+        const { authToken, email, userId } = res.data;
+        localStorage.setItem('authToken', authToken);
+        this.props.onSignIn(email, userId);
       })
       .catch(e => {
         console.log(e);
