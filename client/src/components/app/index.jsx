@@ -7,6 +7,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setUser } from '../../redux/actions/actions-user.js';
+import { API_BASE_URL } from '../../utils';
 import './app.css';
 
 import Header from '../../containers/header';
@@ -20,7 +21,7 @@ class App extends React.Component {
     const jwt = localStorage.getItem('authToken');
     if (jwt) {
       axios.get(
-        'http://localhost:5000/auth/verify',
+        `${API_BASE_URL}auth/verify`,
         { headers: { Authorization: `Bearer ${jwt}`} }
       )
         .then(res => {

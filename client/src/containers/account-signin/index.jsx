@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { setUser } from '../../redux/actions/actions-user.js';
+import { API_BASE_URL } from '../../utils';
 import './account-signin.css';
 
 import CreateAccountForm from '../../components/create-account-form';
@@ -33,7 +34,7 @@ class AccountSignin extends Component {
       event.preventDefault();
       if (password1 === password2) {
         axios.post(
-          'http://127.0.0.1:5000/auth/register',
+          `${API_BASE_URL}auth/register`,
           { email, password: password1 }
         )
           .then(() => {
@@ -55,7 +56,7 @@ class AccountSignin extends Component {
     return event => {
       event.preventDefault();
       axios.post(
-        'http://127.0.0.1:5000/auth/login',
+        `${API_BASE_URL}auth/login`,
         { email, password }
       )
         .then(res => {
