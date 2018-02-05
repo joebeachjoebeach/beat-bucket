@@ -8,7 +8,11 @@ import InputWithMessage from '../input-with-message';
 class SigninForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { email: '', password: '' };
+    this.state = {
+      email: '',
+      password: '',
+      formValid: false
+    };
   }
 
   componentDidMount() {
@@ -18,13 +22,17 @@ class SigninForm extends Component {
   handleInputChange(field) {
     return event => {
       const { value } = event.target;
-      this.setState({ [field]: value });
+      this.setState({ [field]: value }, this.validateForm);
     };
+  }
+
+  validateForm() {
+    this.setState({ formValid: this.state.email && this.state.password });
   }
 
   render() {
     const { message, onCreateClick, onSignInSubmit } = this.props;
-    const { email, password } = this.state;
+    const { email, password, formValid } = this.state;
     return (
       <div className="signin-container">
         {message && message}
@@ -45,7 +53,8 @@ class SigninForm extends Component {
           <input
             className="signin-form-item button-light"
             type="submit"
-            value="Log In"
+            value="Sign In"
+            disabled={!formValid}
           />
         </form>
         <a href="#" onClick={onCreateClick}>Create Account</a>

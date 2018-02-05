@@ -81,44 +81,47 @@ class CreateAccountForm extends Component {
   render() {
     const { email, password, confPassword, errors, formValid } = this.state;
     return (
-      <form
-        className="signin-form"
-        onSubmit={this.props.onCreateAccountSubmit(email, password, confPassword)}
-      >
-        <InputWithMessage
-          type="email"
-          placeholder="email address"
-          value={email}
-          onChange={this.handleInputChange('email')}
-          inputRef={el => { this.emailInput = el; }}
-          required
-          message={errors.email}
-        />
-        <InputWithMessage
-          type="password"
-          placeholder="password"
-          value={password}
-          onChange={this.handleInputChange('password')}
-          required
-          minLength="6"
-          message={errors.password}
-        />
-        <InputWithMessage
-          type="password"
-          placeholder="confirm password"
-          value={confPassword}
-          onChange={this.handleInputChange('confPassword')}
-          required
-          minLength="6"
-          message={errors.confPassword}
-        />
-        <input
-          className="signin-form-item button-light"
-          type="submit"
-          value="Create Account"
-          disabled={!formValid}
-        />
-      </form>
+      <div>
+        <form
+          className="signin-form"
+          onSubmit={this.props.onCreateAccountSubmit(email, password, confPassword)}
+        >
+          <InputWithMessage
+            type="email"
+            placeholder="email address"
+            value={email}
+            onChange={this.handleInputChange('email')}
+            inputRef={el => { this.emailInput = el; }}
+            required
+            message={errors.email}
+          />
+          <InputWithMessage
+            type="password"
+            placeholder="password"
+            value={password}
+            onChange={this.handleInputChange('password')}
+            required
+            minLength="6"
+            message={errors.password}
+          />
+          <InputWithMessage
+            type="password"
+            placeholder="confirm password"
+            value={confPassword}
+            onChange={this.handleInputChange('confPassword')}
+            required
+            minLength="6"
+            message={errors.confPassword}
+          />
+          <input
+            className="signin-form-item button-light"
+            type="submit"
+            value="Create Account"
+            disabled={!formValid}
+          />
+        </form>
+        <a href="#" onClick={this.props.onCancelClick}>Cancel</a>
+      </div>
     );
   }
 }
