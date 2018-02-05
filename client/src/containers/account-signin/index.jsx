@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import axios from 'axios';
+import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { setUser } from '../../redux/actions/actions-user.js';
 import './account-signin.css';
@@ -15,8 +15,8 @@ class AccountSignin extends Component {
     super(props);
     this.state = { createAccount: false };
     this.handleCreateClick = this.handleCreateClick.bind(this);
-    this.handleCreateAccountSuccess = this.handleCreateAccountSuccess.bind(this);
-    this.handleSignIn = this.handleSignIn.bind(this);
+    this.handleSignInSubmit = this.handleSignInSubmit.bind(this);
+    this.handleCreateAccountSubmit = this.handleCreateAccountSubmit.bind(this);
   }
 
   handleCreateClick(event) {
@@ -24,17 +24,49 @@ class AccountSignin extends Component {
     this.setState({ createAccount: true });
   }
 
-  handleCreateAccountSuccess() {
-    this.setState({
-      createAccount: false,
-      signinMessage: 'Account created. You may now sign in.'
-    });
+  handleCreateAccountSubmit(email, password1, password2) {
+
+    return event => {
+      event.preventDefault();
+      axios.post(
+        'http://127.0.0.1:5000/auth/register',
+        { email, password: password1 }
+      )
+        .then(res => {
+          console.log(res);
+          this.setState({
+            createAccount: false,
+            signinMessage: 'Account created. You may now sign in.'
+          });
+        })
+        .catch(e => {
+          console.log(e);
+          console.log(e.response);
+        });
+    };
   }
 
-  handleSignIn(email, id) {
+  handleSignInSubmit(email, password) {
     const { setUser, hideDropDown } = this.props;
-    setUser({ email, id });
-    hideDropDown();
+
+    return event => {
+      event.preventDefault();
+      axios.post(
+        'http://127.0.0.1:5000/auth/login',
+        { email, password }
+      )
+        .then(res => {
+          console.log(res);
+          const { authToken, email, userId } = res.data;
+          localStorage.setItem('authToken', authToken);
+          setUser({ email, id: userId });
+          hideDropDown();
+        })
+        .catch(e => {
+          console.log(e);
+          console.log(e.response);
+        });
+    };
   }
 
   render() {
@@ -44,11 +76,12 @@ class AccountSignin extends Component {
           this.state.createAccount
             ? <CreateAccountForm
               onSuccess={this.handleCreateAccountSuccess}
+              onCreateAccountSubmit={this.handleCreateAccountSubmit}
             />
             : <SigninForm
               message={this.state.signinMessage}
               onCreateClick={this.handleCreateClick}
-              onSignIn={this.handleSignIn}
+              onSignInSubmit={this.handleSignInSubmit}
             />
         }
       </div>
