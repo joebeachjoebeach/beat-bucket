@@ -9,20 +9,17 @@ class SigninForm extends Component {
   constructor(props) {
     super(props);
     this.state = { email: '', password: '' };
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
 
   componentDidMount() {
     this.emailEl.focus();
   }
 
-  handleEmailChange(event) {
-    this.setState({ email: event.target.value });
-  }
-
-  handlePasswordChange(event) {
-    this.setState({ password: event.target.value });
+  handleInputChange(field) {
+    return event => {
+      const { value } = event.target;
+      this.setState({ [field]: value });
+    };
   }
 
   render() {
@@ -36,13 +33,13 @@ class SigninForm extends Component {
             type="email"
             placeholder="email address"
             inputRef={el => { this.emailEl = el; }}
-            onChange={this.handleEmailChange}
+            onChange={this.handleInputChange('email')}
             required
           />
           <InputWithMessage
             type="password"
             placeholder="password"
-            onChange={this.handlePasswordChange}
+            onChange={this.handleInputChange('password')}
             required
           />
           <input

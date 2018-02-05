@@ -30,7 +30,7 @@ class Header extends Component {
             onClick={this.toggleHideShow}
             className="button-light"
           >
-            {email ? email : 'Log In'}
+            {email ? email : 'Sign In'}
           </button>
           {this.state.showDropDown && 
             <AccountDropdown

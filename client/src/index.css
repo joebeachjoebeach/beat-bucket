@@ -25,3 +25,8 @@ a {
   background-color: rgba(255, 255, 255, 0.4);
   border: none;
 }
+
+.button-light:disabled {
+  background-color: #333;
+  background-color: rgba(255, 255, 255, 0.1);
+}
