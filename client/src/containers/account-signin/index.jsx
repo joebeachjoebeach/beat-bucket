@@ -13,7 +13,11 @@ import SigninForm from '../../components/signin-form';
 class AccountSignin extends Component {
   constructor(props) {
     super(props);
-    this.state = { createAccount: false };
+    this.state = {
+      createAccount: false,
+      signinMessage: '',
+      createAccountMessage: ''
+    };
     this.toggleCreateAccount = this.toggleCreateAccount.bind(this);
     this.handleSignInSubmit = this.handleSignInSubmit.bind(this);
     this.handleCreateAccountSubmit = this.handleCreateAccountSubmit.bind(this);
@@ -32,16 +36,14 @@ class AccountSignin extends Component {
           'http://127.0.0.1:5000/auth/register',
           { email, password: password1 }
         )
-          .then(res => {
-            console.log(res);
+          .then(() => {
             this.setState({
               createAccount: false,
               signinMessage: 'Account created. You may now sign in.'
             });
           })
           .catch(e => {
-            console.log(e);
-            console.log(e.response);
+            this.setState({ createAccountMessage: e.response.data.error });
           });
       }
     };
@@ -57,30 +59,32 @@ class AccountSignin extends Component {
         { email, password }
       )
         .then(res => {
-          console.log(res);
           const { authToken, email, userId } = res.data;
           localStorage.setItem('authToken', authToken);
           setUser({ email, id: userId });
           hideDropDown();
         })
         .catch(e => {
-          console.log(e);
-          console.log(e.response);
+          this.setState({
+            signinMessage: e.response.data.error
+          });
         });
     };
   }
 
   render() {
+    const { signinMessage, createAccountMessage } = this.state;
     return (
       <div className="account-signin">
         {
           this.state.createAccount
             ? <CreateAccountForm
+              message={createAccountMessage}
               onCancelClick={this.toggleCreateAccount}
               onCreateAccountSubmit={this.handleCreateAccountSubmit}
             />
             : <SigninForm
-              message={this.state.signinMessage}
+              message={signinMessage}
               onCreateClick={this.toggleCreateAccount}
               onSignInSubmit={this.handleSignInSubmit}
             />

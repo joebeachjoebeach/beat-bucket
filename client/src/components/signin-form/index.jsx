@@ -35,7 +35,7 @@ class SigninForm extends Component {
     const { email, password, formValid } = this.state;
     return (
       <div className="signin-container">
-        {message && message}
+        <div className="signin-message">{message && message}</div>
         <form className="signin-form" onSubmit={onSignInSubmit(email, password)}>
           <InputWithMessage
             type="email"

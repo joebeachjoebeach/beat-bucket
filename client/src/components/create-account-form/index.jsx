@@ -80,10 +80,12 @@ class CreateAccountForm extends Component {
 
   render() {
     const { email, password, confPassword, errors, formValid } = this.state;
+    const { message } = this.props;
     return (
       <div>
+        <div className="create-account-message">{message && message}</div>
         <form
-          className="signin-form"
+          className="create-account-form"
           onSubmit={this.props.onCreateAccountSubmit(email, password, confPassword)}
         >
           <InputWithMessage

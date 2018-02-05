@@ -1,3 +1,8 @@
 .create-account-form {
+  margin: 0 0 25px 0;
+}
 
+.create-account-message {
+  font-size: 0.8rem;
+  margin: 0 0 10px 0;
 }
