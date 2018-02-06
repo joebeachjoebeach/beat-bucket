@@ -80,8 +80,8 @@ def insert_project(cursor, project_dict):
     '''Inserts a new project into the database'''
     cursor.execute(
         '''
-        INSERT INTO projects (name, bpm, user_id)
-        VALUES (%(name)s, %(bpm)s, %(user_id)s)
+        INSERT INTO projects (name, bpm, user_id, shared)
+        VALUES (%(name)s, %(bpm)s, %(user_id)s, %(shared)s)
         ''',
         project_dict
     )

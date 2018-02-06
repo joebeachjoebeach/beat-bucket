@@ -7,8 +7,26 @@ def insert_track(cursor, track_dict):
 
     cursor.execute(
         '''
-        INSERT INTO tracks (name, base_note, muted, soloed, sequence, project_id)
-        VALUES (%(name)s, %(baseNote)s, %(muted)s, %(soloed)s, %(sequence)s, %(project_id)s)
+        INSERT INTO tracks (
+            name,
+            base_note,
+            muted,
+            soloed,
+            sequence,
+            project_id,
+            volume,
+            next_id
+        )
+        VALUES (
+            %(name)s,
+            %(baseNote)s,
+            %(muted)s,
+            %(soloed)s,
+            %(sequence)s,
+            %(project_id)s,
+            %(volume)s,
+            %(nextId)s
+        )
         ''',
         track_dict
     )

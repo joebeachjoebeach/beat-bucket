@@ -1,4 +1,15 @@
-from db import connect_to_db
+# from . import connect_to_db
+import psycopg2
+
+def connect_to_db(db_name):
+    '''Initializes db connection'''
+    return psycopg2.connect(
+        host='localhost',
+        port='5400',
+        database=db_name,
+        user='postgres',
+        password='password'
+    )
 
 def drop_users(cursor):
     '''Drops the users table'''
@@ -32,7 +43,8 @@ def create_projects(cursor):
             id SERIAL PRIMARY KEY,
             name VARCHAR(25) NOT NULL,
             user_id INTEGER NOT NULL REFERENCES users,
-            bpm INTEGER NOT NULL
+            bpm INTEGER NOT NULL,
+            shared BOOLEAN NOT NULL
         )
         '''
     )
@@ -52,8 +64,10 @@ def create_tracks(cursor):
             name VARCHAR(20) NOT NULL,
             project_id INTEGER NOT NULL REFERENCES projects,
             base_note INTEGER,
+            next_id INTEGER,
             muted BOOLEAN,
             soloed BOOLEAN,
+            volume INTEGER,
             sequence JSON
         )
         '''
