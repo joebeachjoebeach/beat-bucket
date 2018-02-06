@@ -193,7 +193,9 @@ def test_save_existing_project(temp_app, temp_db):
                 'baseNote': 1,
                 'muted': False,
                 'soloed': False,
-                'sequence': [['C6', 'B6', 'A6']]
+                'sequence': [['C6', 'B6', 'A6']],
+                'volume': 20,
+                'nextId': 100
             }]
         }
     }
@@ -229,7 +231,9 @@ def test_save_existing_project(temp_app, temp_db):
                     'baseNote': 3,
                     'muted': False,
                     'soloed': False,
-                    'sequence': [['C2'], ['D2']]
+                    'sequence': [['C2'], ['D2']],
+                    'volume': 20,
+                    'nextId': 120
                 }
             ]
         }

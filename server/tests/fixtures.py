@@ -58,8 +58,8 @@ def temp_db():
 
     cursor.execute(
         '''
-        INSERT INTO projects (id, name, bpm, user_id)
-        VALUES (%(id)s, %(name)s, %(bpm)s, %(user_id)s)
+        INSERT INTO projects (id, name, bpm, user_id, shared)
+        VALUES (%(id)s, %(name)s, %(bpm)s, %(user_id)s, %(shared)s)
         ''',
         project
     )
