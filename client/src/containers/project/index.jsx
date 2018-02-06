@@ -23,7 +23,7 @@ import EditableText from '../../components/editable-text';
 class Project extends Component {
   constructor(props) {
     super(props);
-    this.state = { editingName: false };
+    this.state = { editingName: false, saving: false };
 
     this.handlePlayStopClick = this.handlePlayStopClick.bind(this);
     this.handleNameClick = this.handleNameClick.bind(this);
@@ -53,27 +53,38 @@ class Project extends Component {
 
   handleSaveClick() {
     const jwt = localStorage.getItem('authToken');
-    const { bpm, name, tracks, shared, id, canSave, setProjectId, save } = this.props;
+    const {
+      bpm,
+      name,
+      tracks,
+      shared,
+      id,
+      canSave,
+      setProjectId,
+      save } = this.props;
     if (canSave) {
       if (!id) {
-        console.log('saving track [POST]');
+        this.setState({ saving: true });
         axios.post(
           `${API_BASE_URL}save`,
           { bpm, name, tracks, shared },
-          { headers: { Authorization: `Bearer ${jwt}`}}
+          { headers: { Authorization: `Bearer ${jwt}`} }
         )
           .then(res => {
             console.log(res);
             const { projectId } = res.data;
             setProjectId({ id: projectId });
+            this.setState({ saving: false });
           })
           .catch(e => {
             console.log(e);
             console.log(e.response);
+            window.alert(e.response.data.error);
+            this.setState({ saving: false });
           });
       }
       else {
-        console.log('saving track [PATCH]');
+        this.setState({ saving: true });
         axios.patch(
           `${API_BASE_URL}save`,
           { bpm, name, tracks, shared, id },
@@ -82,10 +93,13 @@ class Project extends Component {
           .then(res => {
             console.log(res);
             save();
+            this.setState({ saving: false });
           })
           .catch(e => {
             console.log(e);
             console.log(e.response);
+            window.alert(e.response.data.error);
+            this.setState({ saving: false });
           });
       }
     }
@@ -113,15 +127,21 @@ class Project extends Component {
           </div>
           {this.renderPlayStop()}
           <div />
-          <button
-            className="save-button button-dark"
-            onClick={this.handleSaveClick}
-            disabled={!canSave}
-          >
-            {canSave
-              ? 'Save'
-              : 'Saved'}
-          </button>
+          <div>
+            {/*<button className="project-button button-dark">Share</button>*/}
+            <button className="project-button button-dark">Delete</button>
+            <button
+              className="project-button button-dark"
+              onClick={this.handleSaveClick}
+              disabled={!canSave}
+            >
+              {this.state.saving
+                ? 'Saving'
+                : canSave
+                  ? 'Save'
+                  : 'Saved'}
+            </button>
+          </div>
         </div>
         <Tracks />
       </div>

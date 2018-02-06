@@ -5,7 +5,8 @@ import {
   STOP,
   CHANGE_PROJECT_NAME,
   UPDATE_TEST_NOTE,
-  SET_PROJECT_ID
+  SET_PROJECT_ID,
+  LOAD_PROJECT
 } from '../actions/actions-project';
 
 import {
@@ -119,6 +120,12 @@ export default function(state = dummy_data, action) {
   case SET_PROJECT_ID:
     newState = { ...state };
     newState.id = action.payload.id;
+    return newState;
+
+  case LOAD_PROJECT:
+    newState = action.payload.data;
+    newState.playing = false;
+    newState.testNote = { on: false, value: '' };
     return newState;
 
   default:

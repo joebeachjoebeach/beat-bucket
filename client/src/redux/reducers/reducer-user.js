@@ -1,6 +1,9 @@
 // USER REDUCER
 import { SET_USER, SAVE } from '../actions/actions-user.js';
-import { CHANGE_PROJECT_NAME, SET_PROJECT_ID } from '../actions/actions-project.js';
+import {
+  CHANGE_PROJECT_NAME,
+  SET_PROJECT_ID,
+  LOAD_PROJECT } from '../actions/actions-project.js';
 import { ADD_TRACK, DELETE_TRACK } from '../actions/actions-tracks.js';
 import {
   MUTE,
@@ -28,6 +31,7 @@ export default function(state = { email: null, id: null, canSave: true }, action
     newState.id = action.payload.id;
     return newState;
 
+  case LOAD_PROJECT:
   case SET_PROJECT_ID:
   case SAVE:
     newState = { ...state };

@@ -5,6 +5,7 @@
 }
 
 .project-header {
+  align-items: center;
   box-sizing: border-box;
   display: flex;
   height: 70px;
@@ -44,6 +45,8 @@
   width: 20px;
 }
 
-.save-button {
+.project-button {
+  font-size: 0.9rem;
   height: 40px;
+  margin: 0 2px;
 }

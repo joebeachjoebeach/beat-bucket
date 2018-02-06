@@ -62,6 +62,10 @@ export function selectEmail(state) {
   return state.user.email;
 }
 
+export function selectUserId(state) {
+  return state.user.id;
+}
+
 export function selectCanSave(state) {
   return state.user.canSave;
 }

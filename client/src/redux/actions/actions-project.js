@@ -5,6 +5,7 @@ export const STOP = 'stop';
 export const CHANGE_PROJECT_NAME = 'change_project_name';
 export const UPDATE_TEST_NOTE = 'update_test_note';
 export const SET_PROJECT_ID = 'set_project_id';
+export const LOAD_PROJECT = 'load_project';
 
 export const play = () => ({ type: PLAY });
 export const stop = () => ({ type: STOP });
@@ -22,4 +23,9 @@ export const updateTestNote = ({ on, value }) => ({
 export const setProjectId = ({ id }) => ({
   type: SET_PROJECT_ID,
   payload: { id }
+});
+
+export const loadProject = ({ data }) => ({
+  type: LOAD_PROJECT,
+  payload: { data }
 });
