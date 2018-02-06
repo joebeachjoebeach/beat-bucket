@@ -54,7 +54,7 @@ class AccountData extends React.Component {
       )
         .then(res => {
           console.log(res);
-          loadProject({ data: res.data.project });
+          loadProject({ data: res.data.project, id: res.data.id });
           hideDropDown();
         })
         .catch(e => {

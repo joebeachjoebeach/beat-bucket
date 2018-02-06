@@ -6,6 +6,7 @@ export const CHANGE_PROJECT_NAME = 'change_project_name';
 export const UPDATE_TEST_NOTE = 'update_test_note';
 export const SET_PROJECT_ID = 'set_project_id';
 export const LOAD_PROJECT = 'load_project';
+export const DELETE_PROJECT = 'delete_project';
 
 export const play = () => ({ type: PLAY });
 export const stop = () => ({ type: STOP });
@@ -25,7 +26,11 @@ export const setProjectId = ({ id }) => ({
   payload: { id }
 });
 
-export const loadProject = ({ data }) => ({
+export const loadProject = ({ data, id }) => ({
   type: LOAD_PROJECT,
-  payload: { data }
+  payload: { data, id }
+});
+
+export const deleteProject = () => ({
+  type: DELETE_PROJECT
 });

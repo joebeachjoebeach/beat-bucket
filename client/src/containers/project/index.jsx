@@ -9,7 +9,8 @@ import {
   play,
   stop,
   changeProjectName,
-  setProjectId } from '../../redux/actions/actions-project';
+  setProjectId,
+  deleteProject } from '../../redux/actions/actions-project';
 import { save } from '../../redux/actions/actions-user';
 import { selectProject, selectCanSave } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
@@ -30,6 +31,7 @@ class Project extends Component {
     this.handleNameBlur = this.handleNameBlur.bind(this);
     this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
     this.handleSaveClick = this.handleSaveClick.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
   handlePlayStopClick() {
@@ -105,6 +107,27 @@ class Project extends Component {
     }
   }
 
+  handleDeleteClick() {
+    const { id, name, deleteProject } = this.props;
+    const jwt = localStorage.getItem('authToken');
+
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+      axios.delete(
+        `${API_BASE_URL}project/${id}`,
+        { headers: { Authorization: `Bearer ${jwt}`} }
+      )
+        .then(res => {
+          console.log(res);
+          window.alert('Project successfully deleted');
+          deleteProject();
+        })
+        .catch(e => {
+          console.log(e);
+          console.log(e.response);
+        });
+    }
+  }
+
   renderPlayStop() {
     const className = this.props.playing ? 'stop' : 'play';
     return (
@@ -129,7 +152,12 @@ class Project extends Component {
           <div />
           <div>
             {/*<button className="project-button button-dark">Share</button>*/}
-            <button className="project-button button-dark">Delete</button>
+            <button
+              className="project-button button-dark"
+              onClick={this.handleDeleteClick}
+            >
+              Delete
+            </button>
             <button
               className="project-button button-dark"
               onClick={this.handleSaveClick}
@@ -177,7 +205,8 @@ function mapDispatchToProps(dispatch) {
     stop,
     changeProjectName,
     setProjectId,
-    save
+    save,
+    deleteProject
   };
   return bindActionCreators(actions, dispatch);
 }

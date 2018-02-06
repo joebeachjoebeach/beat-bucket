@@ -6,7 +6,8 @@ import {
   CHANGE_PROJECT_NAME,
   UPDATE_TEST_NOTE,
   SET_PROJECT_ID,
-  LOAD_PROJECT
+  LOAD_PROJECT,
+  DELETE_PROJECT
 } from '../actions/actions-project';
 
 import {
@@ -35,7 +36,7 @@ import {
 
 import TracksReducer from './reducer-tracks.js';
 
-const dummy_data = {
+const starterData = {
   bpm: 75,
   playing: false,
   name: 'New Project',
@@ -74,7 +75,7 @@ const dummy_data = {
   }
 };
 
-export default function(state = dummy_data, action) {
+export default function(state = starterData, action) {
   let newState;
 
   switch (action.type) {
@@ -124,8 +125,16 @@ export default function(state = dummy_data, action) {
 
   case LOAD_PROJECT:
     newState = action.payload.data;
+    newState.id = action.payload.id;
     newState.playing = false;
     newState.testNote = { on: false, value: '' };
+    return newState;
+
+  case DELETE_PROJECT:
+    newState = { ...starterData };
+    newState.tracks = { ...newState.tracks };
+    delete newState.tracks[1];
+    newState.tracks[0].sequence = [[], [], [], []];
     return newState;
 
   default:
