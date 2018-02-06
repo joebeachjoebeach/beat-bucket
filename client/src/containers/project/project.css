@@ -23,8 +23,6 @@
 
 .playstop-button {
   align-items: center;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.3);
   border: none;
   display: flex;
   height: 40px;
@@ -46,3 +44,6 @@
   width: 20px;
 }
 
+.save-button {
+  height: 40px;
+}

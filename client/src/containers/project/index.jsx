@@ -4,9 +4,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DropTarget } from 'react-dnd';
-import { play, stop, changeProjectTitle } from '../../redux/actions/actions-project';
-import { selectPlaying, selectProjectTitle } from '../../redux/selectors';
+import axios from 'axios';
+import { play, stop, changeProjectName } from '../../redux/actions/actions-project';
+import { selectProject } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
+import { API_BASE_URL } from '../../utils';
 
 import './project.css';
 
@@ -16,12 +18,12 @@ import EditableText from '../../components/editable-text';
 class Project extends Component {
   constructor(props) {
     super(props);
-    this.state = { editingTitle: false };
+    this.state = { editingName: false };
 
     this.handlePlayStopClick = this.handlePlayStopClick.bind(this);
-    this.handleTitleClick = this.handleTitleClick.bind(this);
-    this.handleTitleBlur = this.handleTitleBlur.bind(this);
-    this.handleProjectTitleChange = this.handleProjectTitleChange.bind(this);
+    this.handleNameClick = this.handleNameClick.bind(this);
+    this.handleNameBlur = this.handleNameBlur.bind(this);
+    this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
   }
 
   handlePlayStopClick() {
@@ -31,41 +33,51 @@ class Project extends Component {
       : play();
   }
 
-  handleTitleClick() {
-    this.setState({ editingTitle: true });
+  handleNameClick() {
+    this.setState({ editingName: true });
   }
 
-  handleTitleBlur() {
-    this.setState({ editingTitle: false });
+  handleNameBlur() {
+    this.setState({ editingName: false });
   }
 
-  handleProjectTitleChange(newTitle) {
-    this.props.changeProjectTitle({ title: newTitle });
+  handleProjectNameChange(newName) {
+    this.props.changeProjectName({ name: newName });
+  }
+
+  handleSaveClick() {
+    const jwt = localStorage.getItem('authToken');
+    const { bpm, name, tracks, shared } = this.props;
+    axios.post(
+      `${API_BASE_URL}save`,
+      { bpm, name, tracks, shared },
+      { headers: { Authorization: `Bearer ${jwt}`}}
+    );
   }
 
   renderPlayStop() {
     const className = this.props.playing ? 'stop' : 'play';
     return (
-      <button onClick={this.handlePlayStopClick} className="playstop-button">
+      <button onClick={this.handlePlayStopClick} className="playstop-button button-dark">
         <div className={className} />
       </button>
     );
   }
 
   render() {
-    const { title } = this.props;
+    const { name } = this.props;
     return this.props.connectDropTarget(
       <div className="project">
         <div className="project-header">
           <div className="project-title">
             <EditableText
-              value={title}
-              onInputChange={this.handleProjectTitleChange}
+              value={name}
+              onInputChange={this.handleProjectNameChange}
             />
           </div>
           {this.renderPlayStop()}
           <div />
-          {/*<button className="project-savebutton">Save</button>*/}
+          <button className="save-button button-dark">Save</button>
         </div>
         <Tracks />
       </div>
@@ -89,17 +101,14 @@ function collect(connect) {
 }
 
 function mapStateToProps(state) {
-  return {
-    playing: selectPlaying(state),
-    title: selectProjectTitle(state)
-  };
+  return { ...selectProject(state) };
 }
 
 function mapDispatchToProps(dispatch) {
   const actions = {
     play,
     stop,
-    changeProjectTitle
+    changeProjectName
   };
   return bindActionCreators(actions, dispatch);
 }

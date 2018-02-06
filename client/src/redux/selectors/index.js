@@ -42,8 +42,12 @@ export function selectOctave(state) {
   return state.project.octave;
 }
 
-export function selectProjectTitle(state) {
-  return state.project.projectTitle;
+export function selectProject(state) {
+  return state.project;
+}
+
+export function selectProjectName(state) {
+  return state.project.name;
 }
 
 export function selectTestNote(state) {

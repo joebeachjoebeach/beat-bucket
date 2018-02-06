@@ -10,11 +10,9 @@ const AccountDropdown = ({ email, hideDropDown }) => {
 
   return (
     <div className="account-dropdown">
-      {
-        email
-          ? <AccountData hideDropDown={hideDropDown} />
-          : <AccountSignin hideDropDown={hideDropDown} />
-      }
+      {email
+        ? <AccountData hideDropDown={hideDropDown} />
+        : <AccountSignin hideDropDown={hideDropDown} />}
     </div>
   );
 };

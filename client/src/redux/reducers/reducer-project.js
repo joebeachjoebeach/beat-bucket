@@ -3,7 +3,7 @@
 import {
   PLAY,
   STOP,
-  CHANGE_PROJECT_TITLE,
+  CHANGE_PROJECT_NAME,
   UPDATE_TEST_NOTE
 } from '../actions/actions-project';
 
@@ -36,8 +36,9 @@ import TracksReducer from './reducer-tracks.js';
 const dummy_data = {
   bpm: 75,
   playing: false,
-  projectTitle: 'New Project',
+  name: 'New Project',
   testNote: { on: false, value: '' },
+  shared: false,
   tracks: {
     0: {
       name: 'Track 1',
@@ -85,9 +86,9 @@ export default function(state = dummy_data, action) {
     newState.playing = false;
     return newState;
 
-  case CHANGE_PROJECT_TITLE:
+  case CHANGE_PROJECT_NAME:
     newState = { ...state };
-    newState.projectTitle = action.payload.title;
+    newState.name = action.payload.name;
     return newState;
 
   case UPDATE_TEST_NOTE:
