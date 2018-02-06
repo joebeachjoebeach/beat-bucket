@@ -2,7 +2,6 @@ import json
 import psycopg2
 import psycopg2.extras
 
-
 def get_all_projects(cursor, user_id):
     '''Gets all the projects (name, id) of a given user'''
     cursor.execute(
@@ -16,8 +15,9 @@ def get_all_projects(cursor, user_id):
     return result
 
 
-def get_project_id(cursor, user_id, name):
+def get_project_id(conn, user_id, name):
     '''Gets the id of a project by user id and project name'''
+    cursor = conn.cursor()
     cursor.execute(
         '''
         SELECT id FROM projects
@@ -25,29 +25,13 @@ def get_project_id(cursor, user_id, name):
         ''',
         (user_id, name)
     )
-    return cursor.fetchone()
+    result = cursor.fetchone()
+    cursor.close()
+    return result
 
 
-def get_project(cursor, project_id):
-    '''Gets just basic project data'''
-    cursor.execute(
-        '''
-        SELECT * FROM projects
-        WHERE id = %s
-        ''',
-        (project_id,)
-    )
-    # if the project doesn't exist, we'll get an IndexError
-    try:
-        result = cursor.fetchall()[0]
-        return result
-    except IndexError:
-        return None
-
-
-
-def get_project_all(conn, project_id):
-    '''Gets all the project data for a given project id'''
+def get_project(conn, project_id):
+    '''Gets project data'''
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     cursor.execute(
         '''
@@ -56,70 +40,96 @@ def get_project_all(conn, project_id):
         ''',
         (project_id,)
     )
+
     # try to convert it to a dict. if it can't be converted, that means the project doesn't exist
     try:
         project = dict(cursor.fetchone())
     except TypeError:
+        cursor.close()
         return None
 
-    cursor.execute(
-        '''
-        SELECT * FROM tracks
-        WHERE project_id = %s
-        ''',
-        (project_id,)
-    )
-    tracks = cursor.fetchall()
     cursor.close()
-    project['tracks'] = [dict(track) for track in tracks]
     return project
 
 
+# def get_project_all(conn, project_id):
+#     '''Gets all the project data for a given project id'''
+#     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+#     cursor.execute(
+#         '''
+#         SELECT * FROM projects
+#         WHERE id = %s
+#         ''',
+#         (project_id,)
+#     )
+#     # try to convert it to a dict. if it can't be converted, that means the project doesn't exist
+#     try:
+#         project = dict(cursor.fetchone())
+#     except TypeError:
+#         cursor.close()
+#         return None
 
-def insert_project(cursor, project_dict):
+#     cursor.close()
+#     return project
+
+
+
+def insert_project(conn, project_dict):
     '''Inserts a new project into the database'''
+    cursor = conn.cursor()
     cursor.execute(
         '''
-        INSERT INTO projects (name, bpm, user_id, shared)
-        VALUES (%(name)s, %(bpm)s, %(user_id)s, %(shared)s)
+        INSERT INTO projects (name, user_id, shared, data)
+        VALUES (%(name)s, %(user_id)s, %(shared)s, %(data)s)
         ''',
         project_dict
     )
+    cursor.close()
 
 
-def update_project(cursor, project_dict):
-    '''Updates project values with those in the dict'''
-    if 'name' in project_dict:
-        cursor.execute(
-            '''
-            UPDATE projects
-            SET name = %(name)s
-            WHERE id = %(id)s
-            ''',
-            project_dict
-        )
+# def update_project(cursor, project_dict):
+#     '''Updates project values with those in the dict'''
+#     if 'name' in project_dict:
+#         cursor.execute(
+#             '''
+#             UPDATE projects
+#             SET name = %(name)s
+#             WHERE id = %(id)s
+#             ''',
+#             project_dict
+#         )
 
-    if 'bpm' in project_dict:
-        cursor.execute(
-            '''
-            UPDATE projects
-            SET bpm = %(bpm)s
-            WHERE id = %(id)s
-            ''',
-            project_dict
-        )
+#     if 'bpm' in project_dict:
+#         cursor.execute(
+#             '''
+#             UPDATE projects
+#             SET bpm = %(bpm)s
+#             WHERE id = %(id)s
+#             ''',
+#             project_dict
+#         )
 
 
-def delete_project(cursor, project_id):
-    '''Deletes the given project'''
+def update_project(conn, project_dict):
+    ''' Updates project data '''
+    cursor = conn.cursor()
     cursor.execute(
         '''
-        DELETE FROM tracks
-        WHERE project_id = %s
+        UPDATE projects
+        SET name = %(name)s,
+            shared = %(shared)s,
+            data = %(data)s
+        WHERE id = %(id)s
         ''',
-        (project_id,)
+        project_dict
     )
+    cursor.close()
 
+
+
+def delete_project(conn, project_id):
+    '''Deletes the given project'''
+    cursor = conn.cursor()
     cursor.execute(
         '''
         DELETE FROM projects
@@ -127,3 +137,4 @@ def delete_project(cursor, project_id):
         ''',
         (project_id,)
     )
+    cursor.close()

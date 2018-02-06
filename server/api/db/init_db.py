@@ -1,3 +1,5 @@
+''' Initialize the db tables: `users` and `projects` '''
+
 # from . import connect_to_db
 import psycopg2
 

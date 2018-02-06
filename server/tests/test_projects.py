@@ -1,7 +1,6 @@
 import json
 import datetime
 import jwt
-from test_login import login
 from fixtures import temp_app, temp_db
 from utils import (get_projects, login_hello, login_mackland, generate_expired_token,
                    generate_invalid_token)

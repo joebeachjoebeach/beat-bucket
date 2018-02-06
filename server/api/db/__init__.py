@@ -2,8 +2,8 @@ import psycopg2
 
 from api.db.auth import (get_user_by_email, add_user, create_hashed_user, insert_user,
                             email_exists, get_user_by_id)
-from api.db.project import (get_all_projects, get_project_id, get_project, get_project_all,
-                               insert_project, update_project, delete_project)
+from api.db.project import (get_all_projects, get_project_id, get_project, insert_project,
+                            update_project, delete_project)
 from api.db.track import insert_track, update_track, delete_track
 
 

@@ -11,7 +11,7 @@ def post_register(user, app):
     )
 
 def test_register_user(temp_app, temp_db):
-    '''Tests getting a single user.'''
+    '''Tests registering a single user.'''
     user = {
         'email': 'krampus@krampus.com',
         'password': 'santa_claus'

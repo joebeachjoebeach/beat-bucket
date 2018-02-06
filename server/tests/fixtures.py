@@ -1,8 +1,9 @@
+''' Pytest Fixtures '''
+
+import json
 from pytest import fixture
 from api import create_app
-from api.db import (create_hashed_user, connect_to_db, get_project_id,
-                       insert_track)
-# from dummy_data import temp_project
+from api.db import create_hashed_user, connect_to_db
 from dummy_data import generate_temp_project
 
 def create_test_app():
@@ -18,7 +19,7 @@ def temp_app():
 
 @fixture
 def temp_db():
-    '''Populates the db with dummy data'''
+    '''Populates the db with dummy data and yields the db connection'''
     user_a = create_hashed_user({
         'email': 'hello@goodbye.com',
         'password': 'goodbye'
@@ -49,24 +50,24 @@ def temp_db():
         user_b
     )
 
-    project = generate_temp_project()
-    project['name'] = 'New Project 1'
-    tracks = project['tracks']
-    del project['tracks']
-    project['id'] = 1
-    project['user_id'] = 1
+    project_data = generate_temp_project()
+    project_data['name'] = 'New Project 1'
+    project_data = json.dumps(project_data)
+    project = {
+        'name': 'New Project 1',
+        'id': 1,
+        'user_id': 1,
+        'data': project_data,
+        'shared': False
+    }
 
     cursor.execute(
         '''
-        INSERT INTO projects (id, name, bpm, user_id, shared)
-        VALUES (%(id)s, %(name)s, %(bpm)s, %(user_id)s, %(shared)s)
+        INSERT INTO projects (id, name, user_id, data, shared)
+        VALUES (%(id)s, %(name)s, %(user_id)s, %(data)s, %(shared)s)
         ''',
         project
     )
-
-    for track in tracks:
-        track['project_id'] = project['id']
-        insert_track(cursor, track)
 
     db_conn.commit()
     cursor.close()
@@ -74,7 +75,6 @@ def temp_db():
     yield db_conn
 
     cursor = db_conn.cursor()
-    cursor.execute('DELETE FROM tracks')
     cursor.execute('DELETE FROM projects')
     cursor.execute('DELETE FROM users')
     db_conn.commit()

@@ -1,8 +1,8 @@
+import json
 import psycopg2.extras
 from flask import Blueprint, current_app, g, jsonify, request
-from jwt import ExpiredSignatureError, InvalidTokenError
 from api.db import (get_db, insert_project, get_project_id, insert_track, get_all_projects,
-                       get_project, get_project_all, update_project, update_track, delete_track,
+                       get_project, update_project, update_track, delete_track,
                        delete_project)
 from api.auth import decode_auth_token, get_token
 
@@ -42,7 +42,7 @@ def project_get(project_id):
         return jsonify({'error': 'Invalid token'}), 403
 
     db_conn = get_db(current_app, g)
-    project = get_project_all(db_conn, project_id)
+    project = get_project(db_conn, project_id)
 
     if project is None:
         return jsonify({'error': 'Project does not exist'}), 400
@@ -50,7 +50,11 @@ def project_get(project_id):
     if project['user_id'] != user_id:
         return jsonify({'error': 'Forbidden: project belongs to another user'}), 403
 
-    return jsonify({'message': 'Success', 'project': project}), 200
+    return jsonify({
+        'message': 'Success',
+        'project': project['data'],
+        'id': project['id']
+    }), 200
 
 
 @resource_bp.route('/project/<int:project_id>', methods=['DELETE'])
@@ -66,8 +70,7 @@ def project_delete(project_id):
         return jsonify({'error': 'Invalid token'}), 403
 
     db_conn = get_db(current_app, g)
-    cursor = db_conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    project = get_project(cursor, project_id)
+    project = get_project(db_conn, project_id)
 
     if project is None:
         return jsonify({'error': 'Project does not exist'}), 400
@@ -75,10 +78,9 @@ def project_delete(project_id):
     if project['user_id'] != user_id:
         return jsonify({'error': 'Forbidden: project belongs to another user'}), 403
 
-    delete_project(cursor, project_id)
+    delete_project(db_conn, project_id)
     db_conn.commit()
 
-    cursor.close()
     return jsonify({'message': 'Success'}), 200
 
 
@@ -95,32 +97,28 @@ def save_project():
     if user_id is None:
         return jsonify({'error': 'Invalid token'}), 403
 
-    json_data['user_id'] = user_id
-
-    tracks = json_data['tracks']
-    del json_data['tracks']
-
     db_conn = get_db(current_app, g)
-    cursor = db_conn.cursor()
 
-    # return error if that user already has a project with that name
-    if get_project_id(cursor, user_id, json_data['name']):
+    # return an error if the user already has a project with that name
+    if get_project_id(db_conn, user_id, json_data['name']):
         return jsonify({'error': 'A project with that name already exists'}), 400
 
-    insert_project(cursor, json_data)
+    project = {
+        'name': json_data['name'],
+        'user_id': user_id,
+        'shared': json_data['shared'],
+        'data': json.dumps(json_data)
+    }
 
-    project_id = get_project_id(cursor, json_data['user_id'], json_data['name'])[0]
+    insert_project(db_conn, project)
 
-    for track in tracks:
-        track['project_id'] = project_id
-        insert_track(cursor, track)
+    project_id = get_project_id(db_conn, user_id, json_data['name'])[0]
 
     db_conn.commit()
-    cursor.close()
 
     return jsonify({
-        'message': 'Project saved successfully',
-        'project_id': project_id
+        'message': 'Success',
+        'projectId': project_id
     }), 201
 
 
@@ -135,12 +133,8 @@ def project_update():
     if user_id is None:
         return jsonify({'error': 'Invalid token'}), 403
 
-    project_id = json_data['id']
-    payload = json_data['payload']
-
     db_conn = get_db(current_app, g)
-    cursor = db_conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    project = get_project(cursor, project_id)
+    project = get_project(db_conn, json_data['id'])
 
     if project is None:
         return jsonify({'error': 'Project does not exist'}), 400
@@ -148,25 +142,15 @@ def project_update():
     if user_id != project['user_id']:
         return jsonify({'error': 'Forbidden: project belongs to another user'}), 403
 
-    payload['id'] = project_id
-    update_project(cursor, payload)
+    updated_project = {
+        'id': json_data['id'],
+        'name': json_data['name'],
+        'shared': json_data['shared'],
+        'data': json.dumps(json_data)
+    }
 
-    tracks = payload.get('tracks')
-    if tracks is not None:
-        for track in tracks:
-            deleted = track.get('deleted')
-            # track to delete
-            if deleted:
-                delete_track(cursor, track['id'])
-            # new track
-            if not 'id' in track:
-                track['project_id'] = project_id
-                insert_track(cursor, track)
-            # existing track
-            else:
-                update_track(cursor, track)
+    update_project(db_conn, updated_project)
 
     db_conn.commit()
-    cursor.close()
 
     return jsonify({'message': 'Success'}), 200
