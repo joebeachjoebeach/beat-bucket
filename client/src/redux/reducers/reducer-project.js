@@ -4,7 +4,8 @@ import {
   PLAY,
   STOP,
   CHANGE_PROJECT_NAME,
-  UPDATE_TEST_NOTE
+  UPDATE_TEST_NOTE,
+  SET_PROJECT_ID
 } from '../actions/actions-project';
 
 import {
@@ -113,6 +114,11 @@ export default function(state = dummy_data, action) {
   case DELETE_BUCKET:
     newState = { ...state };
     newState.tracks = TracksReducer(newState.tracks, action);
+    return newState;
+
+  case SET_PROJECT_ID:
+    newState = { ...state };
+    newState.id = action.payload.id;
     return newState;
 
   default:

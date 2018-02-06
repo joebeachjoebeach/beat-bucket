@@ -5,8 +5,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DropTarget } from 'react-dnd';
 import axios from 'axios';
-import { play, stop, changeProjectName } from '../../redux/actions/actions-project';
-import { selectProject } from '../../redux/selectors';
+import {
+  play,
+  stop,
+  changeProjectName,
+  setProjectId } from '../../redux/actions/actions-project';
+import { save } from '../../redux/actions/actions-user';
+import { selectProject, selectCanSave } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 import { API_BASE_URL } from '../../utils';
 
@@ -24,6 +29,7 @@ class Project extends Component {
     this.handleNameClick = this.handleNameClick.bind(this);
     this.handleNameBlur = this.handleNameBlur.bind(this);
     this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
+    this.handleSaveClick = this.handleSaveClick.bind(this);
   }
 
   handlePlayStopClick() {
@@ -47,12 +53,42 @@ class Project extends Component {
 
   handleSaveClick() {
     const jwt = localStorage.getItem('authToken');
-    const { bpm, name, tracks, shared } = this.props;
-    axios.post(
-      `${API_BASE_URL}save`,
-      { bpm, name, tracks, shared },
-      { headers: { Authorization: `Bearer ${jwt}`}}
-    );
+    const { bpm, name, tracks, shared, id, canSave, setProjectId, save } = this.props;
+    if (canSave) {
+      if (!id) {
+        console.log('saving track [POST]');
+        axios.post(
+          `${API_BASE_URL}save`,
+          { bpm, name, tracks, shared },
+          { headers: { Authorization: `Bearer ${jwt}`}}
+        )
+          .then(res => {
+            console.log(res);
+            const { projectId } = res.data;
+            setProjectId({ id: projectId });
+          })
+          .catch(e => {
+            console.log(e);
+            console.log(e.response);
+          });
+      }
+      else {
+        console.log('saving track [PATCH]');
+        axios.patch(
+          `${API_BASE_URL}save`,
+          { bpm, name, tracks, shared, id },
+          { headers: { Authorization: `Bearer ${jwt}`}}
+        )
+          .then(res => {
+            console.log(res);
+            save();
+          })
+          .catch(e => {
+            console.log(e);
+            console.log(e.response);
+          });
+      }
+    }
   }
 
   renderPlayStop() {
@@ -65,7 +101,7 @@ class Project extends Component {
   }
 
   render() {
-    const { name } = this.props;
+    const { name, canSave } = this.props;
     return this.props.connectDropTarget(
       <div className="project">
         <div className="project-header">
@@ -77,7 +113,15 @@ class Project extends Component {
           </div>
           {this.renderPlayStop()}
           <div />
-          <button className="save-button button-dark">Save</button>
+          <button
+            className="save-button button-dark"
+            onClick={this.handleSaveClick}
+            disabled={!canSave}
+          >
+            {canSave
+              ? 'Save'
+              : 'Saved'}
+          </button>
         </div>
         <Tracks />
       </div>
@@ -101,14 +145,19 @@ function collect(connect) {
 }
 
 function mapStateToProps(state) {
-  return { ...selectProject(state) };
+  return {
+    ...selectProject(state),
+    canSave: selectCanSave(state)
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   const actions = {
     play,
     stop,
-    changeProjectName
+    changeProjectName,
+    setProjectId,
+    save
   };
   return bindActionCreators(actions, dispatch);
 }

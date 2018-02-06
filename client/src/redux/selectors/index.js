@@ -61,3 +61,7 @@ export function selectTrackVolume(id) {
 export function selectEmail(state) {
   return state.user.email;
 }
+
+export function selectCanSave(state) {
+  return state.user.canSave;
+}
