@@ -35,6 +35,20 @@ def drop_projects(cursor):
     cursor.execute('DROP TABLE IF EXISTS projects')
 
 
+# def create_projects(cursor):
+#     '''Creates the projects table'''
+#     cursor.execute(
+#         '''
+#         CREATE TABLE projects (
+#             id SERIAL PRIMARY KEY,
+#             name VARCHAR(25) NOT NULL,
+#             user_id INTEGER NOT NULL REFERENCES users,
+#             bpm INTEGER NOT NULL,
+#             shared BOOLEAN NOT NULL
+#         )
+#         '''
+#     )
+
 def create_projects(cursor):
     '''Creates the projects table'''
     cursor.execute(
@@ -43,7 +57,7 @@ def create_projects(cursor):
             id SERIAL PRIMARY KEY,
             name VARCHAR(25) NOT NULL,
             user_id INTEGER NOT NULL REFERENCES users,
-            bpm INTEGER NOT NULL,
+            data JSON,
             shared BOOLEAN NOT NULL
         )
         '''
@@ -55,23 +69,23 @@ def drop_tracks(cursor):
     cursor.execute('DROP TABLE IF EXISTS tracks')
 
 
-def create_tracks(cursor):
-    '''Creates the tracks table'''
-    cursor.execute(
-        '''
-        CREATE TABLE tracks (
-            id SERIAL PRIMARY KEY,
-            name VARCHAR(20) NOT NULL,
-            project_id INTEGER NOT NULL REFERENCES projects,
-            base_note INTEGER,
-            next_id INTEGER,
-            muted BOOLEAN,
-            soloed BOOLEAN,
-            volume INTEGER,
-            sequence JSON
-        )
-        '''
-    )
+# def create_tracks(cursor):
+#     '''Creates the tracks table'''
+#     cursor.execute(
+#         '''
+#         CREATE TABLE tracks (
+#             id SERIAL PRIMARY KEY,
+#             name VARCHAR(20) NOT NULL,
+#             project_id INTEGER NOT NULL REFERENCES projects,
+#             base_note INTEGER,
+#             next_id INTEGER,
+#             muted BOOLEAN,
+#             soloed BOOLEAN,
+#             volume INTEGER,
+#             sequence JSON
+#         )
+#         '''
+#     )
 
 
 def recreate_all():
@@ -92,8 +106,8 @@ def recreate_all():
     create_users(test_cur)
     create_projects(main_cur)
     create_projects(test_cur)
-    create_tracks(main_cur)
-    create_tracks(test_cur)
+    # create_tracks(main_cur)
+    # create_tracks(test_cur)
 
     main_conn.commit()
     test_conn.commit()
