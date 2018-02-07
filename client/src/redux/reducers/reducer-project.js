@@ -88,6 +88,7 @@ export default function(state = starterData(), action) {
   case STOP:
     newState = { ...state };
     newState.playing = false;
+    newState.tracks = TracksReducer(newState.tracks, action);
     return newState;
 
   case CHANGE_PROJECT_NAME:
@@ -129,6 +130,7 @@ export default function(state = starterData(), action) {
     newState.id = action.payload.id;
     newState.playing = false;
     newState.testNote = { on: false, value: '' };
+    newState.tracks = TracksReducer(newState.tracks, action);
     return newState;
 
   case DELETE_PROJECT:

@@ -1,6 +1,6 @@
 // TRACKS REDUCER
 
-import { STOP } from '../actions/actions-project.js';
+import { STOP, LOAD_PROJECT } from '../actions/actions-project.js';
 
 import {
   ADD_TRACK,
@@ -80,8 +80,10 @@ export default function TracksReducer(state, action) {
     return newState;
 
   case STOP:
-    newState = Object.keys(state).map(key => {
-      return TrackReducer(state[key], action);
+  case LOAD_PROJECT:
+    newState = { ...state };
+    Object.keys(newState).forEach(key => {
+      newState[key] = TrackReducer(newState[key], action);
     });
     return newState;
 
