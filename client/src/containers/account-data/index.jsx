@@ -5,7 +5,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setUser } from '../../redux/actions/actions-user';
-import { loadProject } from '../../redux/actions/actions-project';
+import { loadProject, createNewProject } from '../../redux/actions/actions-project';
 import { selectUserId } from '../../redux/selectors';
 import { API_BASE_URL } from '../../utils';
 import './account-data.css';
@@ -15,6 +15,7 @@ class AccountData extends React.Component {
     super(props);
     this.state = { projects: [] };
     this.handleSignOut = this.handleSignOut.bind(this);
+    this.handleNewProjectClick = this.handleNewProjectClick.bind(this);
   }
 
   componentDidMount() {
@@ -64,6 +65,12 @@ class AccountData extends React.Component {
     };
   }
 
+  handleNewProjectClick() {
+    const { createNewProject, hideDropDown } = this.props;
+    createNewProject();
+    hideDropDown();
+  }
+
   renderProjectsList() {
     return this.state.projects.map(([ id, name ]) => {
       return (
@@ -81,7 +88,7 @@ class AccountData extends React.Component {
   render() {
     return (
       <div className="account-data">
-        <button className="button-light">
+        <button className="button-light" onClick={this.handleNewProjectClick}>
           New Project
         </button>
         <div className="project-list">
@@ -104,7 +111,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ setUser, loadProject }, dispatch);
+  return bindActionCreators({ setUser, loadProject, createNewProject }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountData);

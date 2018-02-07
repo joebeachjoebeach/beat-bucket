@@ -7,7 +7,8 @@ import {
   UPDATE_TEST_NOTE,
   SET_PROJECT_ID,
   LOAD_PROJECT,
-  DELETE_PROJECT
+  DELETE_PROJECT,
+  CREATE_NEW_PROJECT
 } from '../actions/actions-project';
 
 import {
@@ -131,6 +132,7 @@ export default function(state = starterData(), action) {
     return newState;
 
   case DELETE_PROJECT:
+  case CREATE_NEW_PROJECT:
     newState = { ...starterData() };
     delete newState.tracks[1];
     newState.tracks[0].sequence = [[], [], [], []];
