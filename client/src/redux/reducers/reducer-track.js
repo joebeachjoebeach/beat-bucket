@@ -1,6 +1,6 @@
 // TRACK REDUCER
 
-import { STOP } from '../actions/actions-project.js';
+import { STOP, LOAD_PROJECT } from '../actions/actions-project.js';
 
 import {
   UPDATE_CURRENT_NOTE,
@@ -77,6 +77,7 @@ export default function TrackReducer(state = {}, action) {
     return newState;
 
   case STOP:
+  case LOAD_PROJECT:
     newState = { ...state };
     newState.currentNote = [];
     return newState;
