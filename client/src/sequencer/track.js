@@ -56,6 +56,9 @@ export default class Track {
       selectTrackVolume(id),
       this.onVolumeChange.bind(this)
     );
+
+
+    // this.interval = setInterval(() => { console.log(`track: ${this.id}`); });
   }
 
   onDelete(exists) {
@@ -70,6 +73,7 @@ export default class Track {
     this.unsubscribeSequenceChange();
     this.unsubscribeMuted();
     this.unsubscribeBaseNote();
+    this.unsubscribeTrackVolume();
 
     // dispose of the synth
     this.synth.dispose();
