@@ -13,10 +13,10 @@ export function addNote({ value, id=null, index, bucketId, trackId }) {
   };
 }
 
-export function deleteNote({ noteIndex, bucketId, trackId }) {
+export function deleteNote({ noteId, bucketId, trackId }) {
   return {
     type: DELETE_NOTE,
-    payload: { noteIndex, bucketId, trackId }
+    payload: { noteId, bucketId, trackId }
   };
 }
 

@@ -11,9 +11,7 @@ export default function BucketReducer(state, action, id) {
     return addNote(state, payload, id);
 
   case DELETE_NOTE:
-    newState = [ ...state ];
-    newState.splice(payload.noteIndex, 1);
-    return newState;
+    return deleteNote(state, action.payload);
 
   case MOVE_NOTE:
     newState = [ ...state ];
@@ -33,5 +31,12 @@ function addNote(state, payload) {
   const newState = [ ...state ];
   const noteObject = { id: payload.id, value: payload.value };
   newState.splice(payload.index, 0, noteObject);
+  return newState;
+}
+
+function deleteNote(state, payload) {
+  const newState = [ ...state ];
+  const index = newState.findIndex(el => el.id === payload.noteId);
+  newState.splice(index, 1);
   return newState;
 }

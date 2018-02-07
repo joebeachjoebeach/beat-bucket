@@ -51,8 +51,13 @@ const noteInBucketSource = {
 
       // if it's dropped in a deletion zone
       if (target === 'delete') {
-        const { index, bucketId, deleteNote } = props;
-        deleteNote({ noteIndex: index, bucketId: bucketId, trackId: props.trackId });
+        const { deleteNote } = props;
+        const { id, bucketId, trackId } = monitor.getItem();
+        deleteNote({
+          noteId: id,
+          bucketId: bucketId,
+          trackId: trackId
+        });
       }
 
       // if it's dropped in a bucket

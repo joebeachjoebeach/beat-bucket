@@ -60,7 +60,7 @@ export default function SequenceReducer(state, action) {
 
 function delFromMove(state, payload) {
   const action = deleteNote({
-    noteIndex: payload.source.index,
+    noteId: payload.source.id,
     bucketId: payload.source.bucket,
     trackId: payload.track
   });
