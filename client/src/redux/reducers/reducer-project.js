@@ -97,8 +97,14 @@ export default function(state = starterData(), action) {
     return newState;
 
   case DELETE_PROJECT:
-  case CREATE_NEW_PROJECT:
     return generateEmptyProject();
+
+  case CREATE_NEW_PROJECT:
+    if (state.id || Object.keys(state.tracks).length !== 1)
+      return generateEmptyProject();
+    newState = { ...state };
+    newState.tracks = TracksReducer(newState.tracks, action);
+    return newState;
 
   default:
     return state;
@@ -155,11 +161,3 @@ function starterData() {
     }
   };
 }
-
-/*
-const [ id1, id2 ] = Object.keys(newState.tracks);
-    console.log(id1, id2);
-    delete newState.tracks[id2];
-    newState.tracks[id1] = [[], [], [], [], [], [], [], []];
-    console.log(newState.tracks);
-*/

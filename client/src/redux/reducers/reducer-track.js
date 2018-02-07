@@ -1,6 +1,6 @@
 // TRACK REDUCER
 
-import { STOP, LOAD_PROJECT } from '../actions/actions-project.js';
+import { STOP, LOAD_PROJECT, CREATE_NEW_PROJECT } from '../actions/actions-project.js';
 
 import {
   UPDATE_CURRENT_NOTE,
@@ -85,6 +85,11 @@ export default function TrackReducer(state = {}, action) {
   case UPDATE_TRACK_VOLUME:
     newState = { ...state };
     newState.volume = action.payload.volume;
+    return newState;
+
+  case CREATE_NEW_PROJECT:
+    newState = { ...state };
+    newState.sequence = [[], [], [], [], [], [], [], []];
     return newState;
 
   default:

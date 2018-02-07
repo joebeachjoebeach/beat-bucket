@@ -2,7 +2,7 @@
 
 import uuidv4 from 'uuid/v4';
 
-import { STOP, LOAD_PROJECT } from '../actions/actions-project.js';
+import { STOP, LOAD_PROJECT, CREATE_NEW_PROJECT } from '../actions/actions-project.js';
 
 import {
   ADD_TRACK,
@@ -89,10 +89,22 @@ export default function TracksReducer(state, action) {
     });
     return newState;
 
+  // we only get this deep with CREATE_NEW_PROJECT if we're leaving an unsaved project
+  // with only one track. we want to keep that track's id, but reset its sequence
+  case CREATE_NEW_PROJECT:
+    return handleCreateNewProject(state, action);
+
   default:
     return state;
 
   }
+}
+
+function handleCreateNewProject(state, action) {
+  const newState = { ...state };
+  const id = Object.keys(newState)[0];
+  newState[id] = TrackReducer(newState[id], action);
+  return newState;
 }
 
 function moveNote(state, action) {

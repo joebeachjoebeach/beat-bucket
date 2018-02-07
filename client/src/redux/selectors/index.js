@@ -46,6 +46,10 @@ export function selectProject(state) {
   return state.project;
 }
 
+export function selectProjectId(state) {
+  return state.project.id;
+}
+
 export function selectProjectName(state) {
   return state.project.name;
 }

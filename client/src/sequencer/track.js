@@ -27,12 +27,6 @@ export default class Track {
 
     this.part = this.initPart(sequence, baseNote);
 
-    this.unsubscribeDeleted = observeStore(
-      store,
-      selectTrackExists(id),
-      this.onDelete.bind(this)
-    );
-
     this.unsubscribeSequenceChange = observeStore(
       store,
       selectSequence(id),
@@ -56,20 +50,11 @@ export default class Track {
       selectTrackVolume(id),
       this.onVolumeChange.bind(this)
     );
-
-
-    // this.interval = setInterval(() => { console.log(`track: ${this.id}`); });
-  }
-
-  onDelete(exists) {
-    if (!exists) {
-      this.deleteSelf();
-    }
   }
 
   deleteSelf() {
     // unsubscibe from all store subscriptions
-    this.unsubscribeDeleted();
+    // this.unsubscribeDeleted();
     this.unsubscribeSequenceChange();
     this.unsubscribeMuted();
     this.unsubscribeBaseNote();
