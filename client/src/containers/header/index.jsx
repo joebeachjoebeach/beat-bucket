@@ -2,7 +2,9 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { selectEmail } from '../../redux/selectors';
+import { createNewProject } from '../../redux/actions/actions-project';
 import './header.css';
 
 import AccountDropdown from '../../components/account-dropdown';
@@ -12,12 +14,17 @@ class Header extends Component {
     super(props);
     this.state = { showDropDown: false };
     this.toggleHideShow = this.toggleHideShow.bind(this);
+    this.handleNewProjectClick = this.handleNewProjectClick.bind(this);
   }
 
   toggleHideShow() {
     this.setState(prevState => ({
       showDropDown: !prevState.showDropDown
     }));
+  }
+
+  handleNewProjectClick() {
+    this.props.createNewProject();
   }
 
   render() {
@@ -27,8 +34,14 @@ class Header extends Component {
         <div className="header-title">Beat Bucket</div>
         <div className="header-account">
           <button
+            className="button-light header-button"
+            onClick={this.handleNewProjectClick}
+          >
+            New Project
+          </button>
+          <button
             onClick={this.toggleHideShow}
-            className="button-light"
+            className="button-light header-button"
           >
             {email ? email : 'Sign In'}
           </button>
@@ -48,4 +61,8 @@ function mapStateToProps(state) {
   return { email: selectEmail(state) };
 }
 
-export default connect(mapStateToProps)(Header);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ createNewProject }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

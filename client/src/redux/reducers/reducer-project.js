@@ -2,6 +2,8 @@
 
 import uuidv4 from 'uuid/v4';
 
+import { SET_USER } from '../../redux/actions/actions-user';
+
 import {
   PLAY,
   STOP,
@@ -100,11 +102,12 @@ export default function(state = starterData(), action) {
     return generateEmptyProject();
 
   case CREATE_NEW_PROJECT:
-    if (state.id || Object.keys(state.tracks).length !== 1)
-      return generateEmptyProject();
-    newState = { ...state };
-    newState.tracks = TracksReducer(newState.tracks, action);
-    return newState;
+    return simulateEmptyProject(state, action);
+
+  case SET_USER:
+    if (!action.payload.email && !action.payload.id)
+      return simulateEmptyProject(state, action);
+    return state;
 
   default:
     return state;
@@ -116,6 +119,14 @@ function generateEmptyProject() {
   const [ id1, id2 ] = Object.keys(newState.tracks);
   delete newState.tracks[id2];
   newState.tracks[id1].sequence = [[], [], [], [], [], [], [], []];
+  return newState;
+}
+
+function simulateEmptyProject(state, action) {
+  if (state.id || Object.keys(state.tracks).length !== 1)
+    return generateEmptyProject();
+  const newState = { ...state };
+  newState.tracks = TracksReducer(newState.tracks, action);
   return newState;
 }
 

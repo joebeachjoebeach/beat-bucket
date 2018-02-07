@@ -46,30 +46,8 @@ export default class Sequencer {
     );
   }
 
-  // handles deleting or adding tracks
-  // handleTrackCountChange(newCount, oldCount) {
-  //   const newTracks = selectTracks(this.store.getState());
-  //   const newTrackIds = Object.keys(newTracks);
-
-  //   // adding a new track
-  //   if (newCount > oldCount || oldCount === undefined) {
-  //     this.tracks.push(
-  //       new Track(
-  //         this.store,
-  //         Math.max.apply(null, newTrackIds)
-  //       )
-  //     );
-  //   }
-
-  //   // deleting a track
-  //   // the Track class itself will handle deleting itself (clearing Tone events etc)
-  //   else
-  //     this.tracks = this.tracks.filter(track => (!!newTracks[track.id]));
-  // }
-
   // if the user adds or deletes tracks, it's simplest to just reload all the tracks
   handleTrackCountChange() {
-    console.log('track count change');
     this.reloadTracks();
   }
 
@@ -89,7 +67,6 @@ export default class Sequencer {
   // if the project id changes, that means we've loaded a new project
   // so we need to reload all the tracks
   handleProjectIdChange() {
-    console.log('project id change');
     this.reloadTracks();
   }
 

@@ -14,3 +14,7 @@
   .header-title {
     font-size: 1.2rem;
   }
+
+  .header-button {
+    margin: 0 5px;
+  }
