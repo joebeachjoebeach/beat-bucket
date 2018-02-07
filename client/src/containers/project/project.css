@@ -1,6 +1,7 @@
 .project {
   display: flex;
   flex-direction: column;
+  overflow: auto;
   width: 100%;
 }
 
@@ -44,9 +45,3 @@
   height: 20px;
   width: 20px;
 }
-
-/*.project-button {
-  font-size: 0.9rem;
-  height: 40px;
-  margin: 0 2px;
-}*/
