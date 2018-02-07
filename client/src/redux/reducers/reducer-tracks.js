@@ -1,5 +1,7 @@
 // TRACKS REDUCER
 
+import uuidv4 from 'uuid/v4';
+
 import { STOP, LOAD_PROJECT } from '../actions/actions-project.js';
 
 import {
@@ -118,15 +120,9 @@ function getSoloedTrack(state) {
 function addTrack(state) {
   const newState = { ...state };
   const trackKeys = Object.keys(newState);
-  let id;
-  if (trackKeys.length === 0) {
-    id = 0;
-  }
-  else {
-    id = Math.max.apply(null, Object.keys(newState)) + 1;
-  }
+  const id = uuidv4();
   newState[id] = {
-    name: `Track ${id + 1}`,
+    name: `Track ${trackKeys.length + 1}`,
     sequence: [ [], [], [], [], [], [], [], [] ],
     nextId: 0,
     baseNote: 4,
