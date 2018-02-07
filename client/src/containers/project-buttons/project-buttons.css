@@ -1,0 +1,25 @@
+.project-buttons {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.project-buttons-buttons {
+  display: flex;
+  height: 50%;
+  justify-content: flex-end;
+}
+
+.project-buttons-message {
+  display: flex;
+  font-size: 0.8rem;
+  height: 50%;
+  justify-content: flex-end;
+}
+
+.project-button {
+  font-size: 0.85rem;
+  margin: 3px;
+  padding: 5px;
+  width: 70px;
+}

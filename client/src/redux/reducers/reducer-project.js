@@ -36,7 +36,7 @@ import {
 
 import TracksReducer from './reducer-tracks.js';
 
-const starterData = {
+const starterData = () => ({
   bpm: 75,
   playing: false,
   name: 'New Project',
@@ -73,9 +73,9 @@ const starterData = {
       volume: 0
     }
   }
-};
+});
 
-export default function(state = starterData, action) {
+export default function(state = starterData(), action) {
   let newState;
 
   switch (action.type) {
@@ -131,8 +131,7 @@ export default function(state = starterData, action) {
     return newState;
 
   case DELETE_PROJECT:
-    newState = { ...starterData };
-    newState.tracks = { ...newState.tracks };
+    newState = { ...starterData() };
     delete newState.tracks[1];
     newState.tracks[0].sequence = [[], [], [], []];
     return newState;

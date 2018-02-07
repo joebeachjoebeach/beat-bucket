@@ -10,7 +10,7 @@
   display: flex;
   height: 70px;
   justify-content: space-between;
-  padding: 10px 10px 0 10px;
+  padding: 0 10px;
   width: 100%;
 }
 
@@ -45,8 +45,8 @@
   width: 20px;
 }
 
-.project-button {
+/*.project-button {
   font-size: 0.9rem;
   height: 40px;
   margin: 0 2px;
-}
+}*/
