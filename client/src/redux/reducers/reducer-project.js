@@ -39,49 +39,6 @@ import {
 
 import TracksReducer from './reducer-tracks.js';
 
-const starterData = () => {
-  const id1 = uuidv4();
-  const id2 = uuidv4();
-  return {
-    bpm: 75,
-    playing: false,
-    name: 'New Project',
-    testNote: { on: false, value: '' },
-    shared: false,
-    tracks: {
-      [id1]: {
-        name: 'Track 1',
-        sequence: [
-          [{ id: 0, value: 'C4'}, { id: 1, value: 'D4' }],
-          [{ id: 2, value: 'E4'}, { id: 3, value: 'F4'}],
-          [{ id: 5, value: 'E4'}, { id: 6, value: 'rest'}],
-          [{ id: 7, value: 'rest'}, { id: 8, value: 'D4'}],
-        ],
-        nextId: 9,
-        baseNote: 4,
-        id: id1,
-        muted: false,
-        soloed: false,
-        currentNote: [],
-        volume: 0
-      },
-      [id2]: {
-        name: 'Track 2',
-        sequence: [
-          [{ id: 0, value: 'C5'}, { id: 1, value: 'D5' }, { id: 2, value: 'E5' }]
-        ],
-        nextId: 3,
-        baseNote: 2,
-        id: id2,
-        muted: false,
-        soloed: false,
-        currentNote: [],
-        volume: 0
-      }
-    }
-  };
-};
-
 export default function(state = starterData(), action) {
   let newState;
 
@@ -141,12 +98,68 @@ export default function(state = starterData(), action) {
 
   case DELETE_PROJECT:
   case CREATE_NEW_PROJECT:
-    newState = { ...starterData() };
-    delete newState.tracks[1];
-    newState.tracks[0].sequence = [[], [], [], []];
-    return newState;
+    return generateEmptyProject();
 
   default:
     return state;
   }
 }
+
+function generateEmptyProject() {
+  const newState = { ...starterData() };
+  const [ id1, id2 ] = Object.keys(newState.tracks);
+  delete newState.tracks[id2];
+  newState.tracks[id1].sequence = [[], [], [], [], [], [], [], []];
+  return newState;
+}
+
+function starterData() {
+  const id1 = uuidv4();
+  const id2 = uuidv4();
+  return {
+    bpm: 75,
+    playing: false,
+    name: 'New Project',
+    testNote: { on: false, value: '' },
+    shared: false,
+    tracks: {
+      [id1]: {
+        name: 'Track 1',
+        sequence: [
+          [{ id: 0, value: 'C4'}, { id: 1, value: 'D4' }],
+          [{ id: 2, value: 'E4'}, { id: 3, value: 'F4'}],
+          [{ id: 5, value: 'E4'}, { id: 6, value: 'rest'}],
+          [{ id: 7, value: 'rest'}, { id: 8, value: 'D4'}],
+        ],
+        nextId: 9,
+        baseNote: 4,
+        id: id1,
+        muted: false,
+        soloed: false,
+        currentNote: [],
+        volume: 0
+      },
+      [id2]: {
+        name: 'Track 2',
+        sequence: [
+          [{ id: 0, value: 'C5'}, { id: 1, value: 'D5' }, { id: 2, value: 'E5' }]
+        ],
+        nextId: 3,
+        baseNote: 2,
+        id: id2,
+        muted: false,
+        soloed: false,
+        currentNote: [],
+        volume: 0
+      }
+    }
+  };
+}
+
+/*
+const [ id1, id2 ] = Object.keys(newState.tracks);
+    console.log(id1, id2);
+    delete newState.tracks[id2];
+    newState.tracks[id1] = [[], [], [], [], [], [], [], []];
+    console.log(newState.tracks);
+*/

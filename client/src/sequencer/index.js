@@ -20,11 +20,11 @@ export default class Sequencer {
 
     this.synth = new Tone.Synth().toMaster();
 
-    // this.unsubscribePlaying = observeStore(
-    //   store,
-    //   selectPlaying,
-    //   this.handlePlayingChange.bind(this)
-    // );
+    this.unsubscribePlaying = observeStore(
+      store,
+      selectPlaying,
+      this.handlePlayingChange.bind(this)
+    );
     
     // this.unsubscribeChangeTracks = observeStore(
     //   store,
@@ -32,11 +32,11 @@ export default class Sequencer {
     //   this.handleTrackCountChange.bind(this)
     // );
 
-    // this.unsubscribeTestNote = observeStore(
-    //   store,
-    //   selectTestNote,
-    //   this.handleTestNoteChange.bind(this)
-    // );
+    this.unsubscribeTestNote = observeStore(
+      store,
+      selectTestNote,
+      this.handleTestNoteChange.bind(this)
+    );
   }
 
   // handles deleting or adding tracks
