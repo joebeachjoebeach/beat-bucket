@@ -1,0 +1,5 @@
+.note-in-bucket {
+  display: flex;
+  flex-grow: 1;
+  margin: 1px 0;
+}

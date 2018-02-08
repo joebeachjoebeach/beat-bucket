@@ -9,6 +9,8 @@ import flow from 'lodash/flow';
 import { deleteNote, addNote, moveNote } from '../../redux/actions/actions-sequence';
 import ItemTypes from '../../dnd/item-types';
 
+import './note-in-bucket.css';
+
 import Note from '../../components/note';
 
 const NoteInBucket = ({
@@ -22,7 +24,7 @@ const NoteInBucket = ({
 
   return connectDragSource(
     connectDropTarget(
-      <div style={{ opacity }}>
+      <div className="note-in-bucket" style={{ opacity }}>
         <Note value={value} active={active} />
       </div>
     ));
