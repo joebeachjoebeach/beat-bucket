@@ -141,7 +141,7 @@ class ProjectButtons extends React.Component {
             <span>
               {message}
               <button
-                className="button-dark"
+                className="button-dark close-message"
                 onClick={this.hideMessage}
               >
                 x

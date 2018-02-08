@@ -31,6 +31,7 @@ export default function(state = { email: null, id: null, canSave: true }, action
     newState = { ...state };
     newState.email = action.payload.email;
     newState.id = action.payload.id;
+    newState.canSave = true;
     return newState;
 
   case LOAD_PROJECT:
