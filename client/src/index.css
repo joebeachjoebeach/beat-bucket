@@ -17,13 +17,31 @@ a {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.5);
   border: none;
+  border-bottom: 1px solid transparent;
   color: white;
+}
+
+.button-dark:focus {
+  border-bottom: 1px solid #888;
+  outline: none;
+}
+
+.button-dark:disabled {
+  color: #777;
+  background-color: #333;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .button-light {
   background-color: rgb(255, 255, 255);
   background-color: rgba(255, 255, 255, 0.4);
   border: none;
+  border-bottom: 1px solid transparent;
+}
+
+.button-light:focus {
+  border-bottom: 1px solid white;
+  outline: none;
 }
 
 .button-light:disabled {
