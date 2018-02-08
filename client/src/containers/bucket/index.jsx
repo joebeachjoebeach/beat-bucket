@@ -54,13 +54,19 @@ class Bucket extends Component {
   }
 
   render() {
+    const { currentNote, bucketId } = this.props;
+    const active = currentNote[0] === bucketId;
+    let styleName = active
+      ? 'bucket bucket-playing'
+      : 'bucket';
+
     return this.props.connectDropTarget(
       <div
         className="bucket-container"
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
-        <div className="bucket">
+        <div className={styleName}>
           {this.renderNotes()}
         </div>
         <div className="deletebucket-container">

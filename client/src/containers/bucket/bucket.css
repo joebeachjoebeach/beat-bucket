@@ -7,15 +7,19 @@
 .bucket {
   align-items: center;
   background-color: white;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-top: none;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid transparent;
   display: flex;
   flex-direction: column-reverse;
-  margin: 0 7px;
+  margin: 0 4px;
   min-height: 105px;
-  padding: 5px 0;
+  padding: 4px 0;
   width: 70px;
 }
+
+  .bucket-playing {
+    border: 1px solid #999;
+  }
 
 .deletebucket-container {
   height: 20px;
