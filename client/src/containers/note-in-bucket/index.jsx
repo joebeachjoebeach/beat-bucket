@@ -55,11 +55,7 @@ const noteInBucketSource = {
       if (target === 'delete') {
         const { deleteNote } = props;
         const { bucketId, trackId, noteIndex } = monitor.getItem();
-        deleteNote({
-          noteIndex,
-          bucketId: bucketId,
-          trackId: trackId
-        });
+        deleteNote({ noteIndex, bucketId, trackId });
       }
 
       // if it's dropped in a bucket

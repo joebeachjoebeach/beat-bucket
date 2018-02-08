@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DragSource } from 'react-dnd';
-import { addNote, moveNote } from '../../redux/actions/actions-sequence';
+import { addNote, moveNote, deleteNote } from '../../redux/actions/actions-sequence';
 import { updateTestNote } from '../../redux/actions/actions-project';
 import { selectTestNote } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
@@ -51,7 +51,7 @@ const noteInKeyboardSource = {
 
   endDrag(props, monitor) {
     if (monitor.didDrop()) {
-      const { value, addNote, moveNote } = props;
+      const { value, addNote, moveNote, deleteNote } = props;
       const { target, bucketId, trackId, nextId, length } = monitor.getDropResult();
 
       // if it's dropped in a bucket
@@ -89,6 +89,11 @@ const noteInKeyboardSource = {
           moveNote(payload);
         }
       }
+      // if it's dragged into a bucket, but then pulled out to be deleted
+      else if (target === 'delete' && monitor.getItem().source !== 'keyboard') {
+        const { noteIndex, bucketId, trackId } = monitor.getItem();
+        deleteNote({ noteIndex, bucketId, trackId });
+      }
     }
   }
 };
@@ -103,8 +108,14 @@ function mapStateToProps(state) {
   return { testNote: selectTestNote(state) };
 }
 
-function mapDispatchToProps(dispatch) {                            
-  return bindActionCreators({ addNote, moveNote, updateTestNote }, dispatch);
+function mapDispatchToProps(dispatch) {
+  const actions = {
+    addNote,
+    deleteNote,
+    moveNote,
+    updateTestNote
+  };
+  return bindActionCreators(actions, dispatch);
 }
 
 const NoteInKeyboard_DS = DragSource(
