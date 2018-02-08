@@ -133,7 +133,11 @@ class ProjectButtons extends React.Component {
   renderPlayStop() {
     const className = this.props.playing ? 'stop' : 'play';
     return (
-      <button onClick={this.handlePlayStopClick} className="playstop-button button-dark">
+      <button
+        title={className}
+        onClick={this.handlePlayStopClick}
+        className="playstop-button button-dark"
+      >
         <div className={className} />
       </button>
     );
@@ -149,6 +153,7 @@ class ProjectButtons extends React.Component {
             <div className="bpm-play">
               {this.renderPlayStop()}
               <input
+                title="change bpm"
                 name="bpm"
                 className="button-dark bpm-input"
                 type="number"
@@ -188,6 +193,7 @@ class ProjectButtons extends React.Component {
             <span>
               {message}
               <button
+                title="hide message"
                 className="button-dark close-message"
                 onClick={this.hideMessage}
               >

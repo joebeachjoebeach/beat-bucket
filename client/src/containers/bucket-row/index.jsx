@@ -61,7 +61,7 @@ const BucketRow = ({
       <button
         onClick={handleBaseNoteClick}
         className="button-light bucketrow-button"
-        title="change bucket note duration"
+        title="change beat value"
       >
         {renderNoteSymbol()}
       </button>

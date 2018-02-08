@@ -132,6 +132,7 @@ class TrackInfo extends React.Component {
           {this.renderMuteSolo()}
           <div className="volume">
             <input
+              title="change track volume"
               className="volume-slider"
               type="range"
               min="-70"
