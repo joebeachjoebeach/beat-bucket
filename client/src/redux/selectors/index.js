@@ -26,10 +26,6 @@ export function selectTracksLength(state) {
   return Object.keys(state.project.tracks).length;
 }
 
-export function selectTrackExists(id) {
-  return state => state.project.tracks[id] ? 1 : 0;
-}
-
 export function selectBaseNote(id) {
   return state => state.project.tracks[id].baseNote;
 }

@@ -3,7 +3,6 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { selectCanSave, selectEmail } from '../../redux/selectors';
 import { API_BASE_URL } from '../../utils';
 import './project-buttons.css';
@@ -155,16 +154,11 @@ class ProjectButtons extends React.Component {
   }
 }
 
-
 function mapStateToProps(state) {
   return {
     canSave: selectCanSave(state),
     email: selectEmail(state)
   };
 }
-
-// function mapDispatchToProps(dispatch) {
-//   return bindActionCreators(null, dispatch);
-// }
 
 export default connect(mapStateToProps)(ProjectButtons);

@@ -6,7 +6,6 @@ import {
   selectTrack,
   selectMuted,
   selectSequence,
-  selectTrackExists,
   selectBaseNote,
   selectTrackVolume
 } from '../redux/selectors';
