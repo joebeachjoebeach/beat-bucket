@@ -5,7 +5,8 @@ import {
   SET_PROJECT_ID,
   LOAD_PROJECT,
   DELETE_PROJECT,
-  CHANGE_BPM } from '../actions/actions-project.js';
+  CHANGE_BPM,
+  CREATE_NEW_PROJECT } from '../actions/actions-project.js';
 import { ADD_TRACK, DELETE_TRACK } from '../actions/actions-tracks.js';
 import {
   MUTE,
@@ -42,6 +43,7 @@ export default function(state = { email: null, id: null, canSave: true }, action
     return newState;
 
   case CHANGE_BPM:
+  case CREATE_NEW_PROJECT:
   case CHANGE_PROJECT_NAME:
   case DELETE_PROJECT:
   case ADD_TRACK:

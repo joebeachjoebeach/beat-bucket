@@ -58,8 +58,8 @@ class EditableText extends React.Component {
     }
     else {
       return (
-        <div className="editable-text editable-text-div" onClick={this.handleClick}>
-          {this.props.value}
+        <div className="editable-text editable-text-div">
+          <span onClick={this.handleClick}>{this.props.value}</span>
         </div>
       );
     }

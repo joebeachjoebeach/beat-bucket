@@ -4,14 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DropTarget } from 'react-dnd';
-import {
-  play,
-  stop,
-  changeProjectName,
-  setProjectId,
-  deleteProject,
-  changeBPM } from '../../redux/actions/actions-project';
-import { save } from '../../redux/actions/actions-user';
+import { changeProjectName, setProjectId } from '../../redux/actions/actions-project';
 import { selectProject } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 
@@ -26,18 +19,9 @@ class Project extends Component {
     super(props);
     this.state = { editingName: false, saving: false };
 
-    this.handlePlayStopClick = this.handlePlayStopClick.bind(this);
     this.handleNameClick = this.handleNameClick.bind(this);
     this.handleNameBlur = this.handleNameBlur.bind(this);
     this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
-    this.handleBPMChange = this.handleBPMChange.bind(this);
-  }
-
-  handlePlayStopClick() {
-    const { playing, stop, play } = this.props;
-    playing
-      ? stop()
-      : play();
   }
 
   handleNameClick() {
@@ -52,44 +36,17 @@ class Project extends Component {
     this.props.changeProjectName({ name: newName });
   }
 
-  handleBPMChange(event) {
-    let newBPM = Number(event.target.value);
-    this.props.changeBPM({ bpm: newBPM });
-  }
-
-  renderPlayStop() {
-    const className = this.props.playing ? 'stop' : 'play';
-    return (
-      <button onClick={this.handlePlayStopClick} className="playstop-button button-dark">
-        <div className={className} />
-      </button>
-    );
-  }
-
   render() {
-    const { name, bpm } = this.props;
+    const { name } = this.props;
     return this.props.connectDropTarget(
       <div className="project">
         <div className="project-header">
-          <div className="title-bpm">
-            <div className="project-title">
-              <EditableText
-                value={name}
-                onInputChange={this.handleProjectNameChange}
-              />
-            </div>
-            <input
-              name="bpm"
-              className="button-dark bpm-input"
-              type="number"
-              min="20"
-              max="400"
-              value={bpm}
-              onChange={this.handleBPMChange}
+          <div className="project-title">
+            <EditableText
+              value={name}
+              onInputChange={this.handleProjectNameChange}
             />
-            <label htmlFor="bpm">BPM</label>
           </div>
-          {this.renderPlayStop()}
           <ProjectButtons {...this.props} />
         </div>
         <Tracks />
@@ -118,16 +75,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  const actions = {
-    play,
-    stop,
-    changeProjectName,
-    setProjectId,
-    save,
-    deleteProject,
-    changeBPM
-  };
-  return bindActionCreators(actions, dispatch);
+  return bindActionCreators({ changeProjectName, setProjectId }, dispatch);
 }
 
 const dt_Project = DropTarget(ItemTypes.NOTE, projectTarget, collect)(Project);

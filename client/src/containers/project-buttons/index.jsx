@@ -3,7 +3,14 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { selectCanSave, selectEmail } from '../../redux/selectors';
+import {
+  play,
+  stop,
+  changeBPM,
+  deleteProject } from '../../redux/actions/actions-project';
+import { save } from '../../redux/actions/actions-user';
 import { API_BASE_URL } from '../../utils';
 import './project-buttons.css';
 
@@ -14,11 +21,25 @@ class ProjectButtons extends React.Component {
     this.handleSaveClick = this.handleSaveClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
     this.hideMessage = this.hideMessage.bind(this);
+    this.handlePlayStopClick = this.handlePlayStopClick.bind(this);
+    this.handleBPMChange = this.handleBPMChange.bind(this);
   }
 
   componentDidUpdate() {
     this.state.message &&
       setTimeout(() => { this.hideMessage(); }, 3000);
+  }
+
+  handlePlayStopClick() {
+    const { playing, stop, play } = this.props;
+    playing
+      ? stop()
+      : play();
+  }
+
+  handleBPMChange(event) {
+    let newBPM = Number(event.target.value);
+    this.props.changeBPM({ bpm: newBPM });
   }
 
   handleSaveClick() {
@@ -109,32 +130,58 @@ class ProjectButtons extends React.Component {
     this.setState({ message: '' });
   }
 
+  renderPlayStop() {
+    const className = this.props.playing ? 'stop' : 'play';
+    return (
+      <button onClick={this.handlePlayStopClick} className="playstop-button button-dark">
+        <div className={className} />
+      </button>
+    );
+  }
+
   render() {
-    const { canSave, email, id } = this.props;
+    const { canSave, email, id, bpm } = this.props;
     const { message } = this.state;
     return (
       <div className="project-buttons">
         <div className="project-buttons-buttons">
-          {/*<button className="button-dark project-button">Share</button>*/}
-          {email && id &&
+          <div className="project-buttons-left">
+            <div className="bpm-play">
+              {this.renderPlayStop()}
+              <input
+                name="bpm"
+                className="button-dark bpm-input"
+                type="number"
+                min="20"
+                max="400"
+                value={bpm}
+                onChange={this.handleBPMChange}
+              />
+              <label htmlFor="bpm" className="bpm-label">bpm</label>
+            </div>
+          </div>
+          <div className="project-buttons-right">
+            {/*<button className="button-dark project-button">Share</button>*/}
+            {email && id &&
+              <button
+                className="button-dark project-button"
+                onClick={this.handleDeleteClick}
+              >
+                Delete
+              </button>
+            }
             <button
               className="button-dark project-button"
-              onClick={this.handleDeleteClick}
+              onClick={this.handleSaveClick}
+              disabled={!canSave}
             >
-              Delete
+              {this.state.saving
+                ? 'Saving'
+                : canSave
+                  ? 'Save'
+                  : 'Saved'}
             </button>
-          }
-          <button
-            className="button-dark project-button"
-            onClick={this.handleSaveClick}
-            disabled={!canSave}
-          >
-            {this.state.saving
-              ? 'Saving'
-              : canSave
-                ? 'Save'
-                : 'Saved'}
-          </button>
+          </div>
         </div>
         <div className="project-buttons-message">
           {message &&
@@ -161,4 +208,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ProjectButtons);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ play, stop, changeBPM, deleteProject, save }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectButtons);

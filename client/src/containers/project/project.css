@@ -15,42 +15,10 @@
   width: 100%;
 }
 
-.title-bpm {
-  align-items: center;
-  display: flex;
-}
-
 .project-title {
   background-color: inherit;
   color: inherit;
   font-size: 1.4rem;
   margin: 0 10px;
-  width: 250px;
-}
-
-.bpm-input {
-  margin: 0 10px;
-  padding: 5px 10px;
-}
-
-.playstop-button {
-  align-items: center;
-  display: flex;
-  height: 40px;
-  justify-content: center;
-  width: 40px;
-}
-
-.play {
-  border-bottom: 13px solid transparent;
-  border-left: 20px solid white;
-  border-top: 13px solid transparent;
-  height: 0;
-  width: 0; 
-}
-
-.stop {
-  background-color: white;
-  height: 20px;
-  width: 20px;
+  width: 45%;
 }
