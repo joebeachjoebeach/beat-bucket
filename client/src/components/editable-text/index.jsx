@@ -47,7 +47,7 @@ class EditableText extends React.Component {
       return (
         <form onSubmit={this.handleSubmit}>
           <input
-            className="editable-text"
+            className="editable-text editable-text-input"
             value={this.props.value}
             onBlur={this.handleBlur}
             onChange={this.onInputChange}
@@ -58,7 +58,7 @@ class EditableText extends React.Component {
     }
     else {
       return (
-        <div className="editable-text" onClick={this.handleClick}>
+        <div className="editable-text editable-text-div" onClick={this.handleClick}>
           {this.props.value}
         </div>
       );

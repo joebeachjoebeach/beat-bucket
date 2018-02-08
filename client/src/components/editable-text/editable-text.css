@@ -1,11 +1,26 @@
 .editable-text {
   background-color: inherit;
-  border: 1px solid transparent;
   color: inherit;
   font-size: inherit;
   height: 100%;
+  padding: 2px;
+  width: 100%;
+}
+
+.editable-text-div {
+  border-bottom: 1px solid transparent;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 100%;
 }
+
+.editable-text-input {
+  border: none;
+  border-bottom: 1px solid transparent;
+}
+
+.editable-text-input:focus {
+  border-bottom: 1px solid #AAA;
+  outline: none;
+}
+

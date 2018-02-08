@@ -73,7 +73,7 @@ class TrackInfo extends React.Component {
   renderMuteSolo() {
     const { muted, soloed } = this.props;
 
-    const styleName = 'track-info-button track-info-mutesolo';
+    const styleName = 'button-dark track-info-mutesolo';
 
     let muteStyle = muted
       ? styleName + ' track-info-mutesolo-active'
@@ -114,7 +114,7 @@ class TrackInfo extends React.Component {
         <div className="track-info-left">
           {hover && 
             <button
-              className="track-info-button track-info-delete"
+              className="button-dark track-info-delete"
               onClick={this.handleDeleteTrackClick}
               title="delete track"
             >

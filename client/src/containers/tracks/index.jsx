@@ -26,7 +26,7 @@ const Tracks = ({ tracks, addTrack }) => {
       {renderTracks()}
       <button
         onClick={handleNewTrackClick}
-        className="tracks-new"
+        className="button-dark tracks-new"
         title="create new track"
       >
         +

@@ -60,7 +60,7 @@ const BucketRow = ({
     <div className="bucketrow">
       <button
         onClick={handleBaseNoteClick}
-        className="bucketrow-button"
+        className="button-light bucketrow-button"
         title="change bucket note duration"
       >
         {renderNoteSymbol()}
@@ -68,7 +68,7 @@ const BucketRow = ({
       {renderBuckets()}
       <button
         onClick={handleAddBucketClick}
-        className="bucketrow-button"
+        className="button-light bucketrow-button"
         title="add bucket"
       >
         +

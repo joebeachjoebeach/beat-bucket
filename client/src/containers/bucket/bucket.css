@@ -25,11 +25,7 @@
   height: 20px;
 }
 
-.deletebucket {
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.2);
-  border: none;
-  color: white;
+.delete-bucket {
   font-size: 0.8rem;
   height: 20px;
   margin: 5px 0 0 0;

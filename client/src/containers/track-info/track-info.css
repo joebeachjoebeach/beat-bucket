@@ -10,13 +10,6 @@
     width: 25px;
   }
 
-  .track-info-button {
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.5);
-    border: none;
-    color: white;
-  }
-
   .track-info-delete {
     font-size: 0.8rem;
     height: 20px;

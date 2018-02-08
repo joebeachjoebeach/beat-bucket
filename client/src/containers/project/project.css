@@ -23,8 +23,8 @@
 .project-title {
   background-color: inherit;
   color: inherit;
-  font-size: 1.3rem;
-  margin: 0 0 0 10px;
+  font-size: 1.4rem;
+  margin: 0 10px;
   width: 250px;
 }
 
@@ -35,7 +35,6 @@
 
 .playstop-button {
   align-items: center;
-  border: none;
   display: flex;
   height: 40px;
   justify-content: center;

@@ -78,7 +78,6 @@ class Project extends Component {
                 onInputChange={this.handleProjectNameChange}
               />
             </div>
-            <label htmlFor="bpm">BPM:</label>
             <input
               name="bpm"
               className="button-dark bpm-input"
@@ -88,6 +87,7 @@ class Project extends Component {
               value={bpm}
               onChange={this.handleBPMChange}
             />
+            <label htmlFor="bpm">BPM</label>
           </div>
           {this.renderPlayStop()}
           <ProjectButtons {...this.props} />

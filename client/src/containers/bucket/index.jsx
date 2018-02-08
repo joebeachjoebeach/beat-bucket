@@ -73,7 +73,7 @@ class Bucket extends Component {
           {this.state.hover &&
             <button
               onClick={this.handleDeleteBucketClick}
-              className="deletebucket"
+              className="button-dark delete-bucket"
               title="delete bucket"
             >
               x
