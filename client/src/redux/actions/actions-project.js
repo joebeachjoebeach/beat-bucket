@@ -8,6 +8,7 @@ export const SET_PROJECT_ID = 'set_project_id';
 export const LOAD_PROJECT = 'load_project';
 export const DELETE_PROJECT = 'delete_project';
 export const CREATE_NEW_PROJECT = 'new_project';
+export const CHANGE_BPM = 'change_bpm';
 
 export const play = () => ({ type: PLAY });
 export const stop = () => ({ type: STOP });
@@ -38,4 +39,9 @@ export const deleteProject = () => ({
 
 export const createNewProject = () => ({
   type: CREATE_NEW_PROJECT
+});
+
+export const changeBPM = ({ bpm }) => ({
+  type: CHANGE_BPM,
+  payload: { bpm }
 });

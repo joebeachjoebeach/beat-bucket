@@ -44,6 +44,12 @@ export default class Sequencer {
       selectProjectId,
       this.handleProjectIdChange.bind(this)
     );
+
+    this.unsubscribeBPMChange = observeStore(
+      store,
+      selectBpm,
+      this.handleBPMChange.bind(this)
+    );
   }
 
   // if the user adds or deletes tracks, it's simplest to just reload all the tracks
@@ -68,6 +74,10 @@ export default class Sequencer {
   // so we need to reload all the tracks
   handleProjectIdChange() {
     this.reloadTracks();
+  }
+
+  handleBPMChange(bpm) {
+    Tone.Transport.bpm.value = bpm;
   }
 
   reloadTracks() {

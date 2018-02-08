@@ -12,7 +12,8 @@ import {
   SET_PROJECT_ID,
   LOAD_PROJECT,
   DELETE_PROJECT,
-  CREATE_NEW_PROJECT
+  CREATE_NEW_PROJECT,
+  CHANGE_BPM
 } from '../actions/actions-project';
 
 import {
@@ -108,6 +109,11 @@ export default function(state = starterData(), action) {
     if (!action.payload.email && !action.payload.id)
       return simulateEmptyProject(state, action);
     return state;
+
+  case CHANGE_BPM:
+    newState = { ...state };
+    newState.bpm = action.payload.bpm;
+    return newState;
 
   default:
     return state;

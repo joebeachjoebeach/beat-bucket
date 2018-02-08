@@ -28,9 +28,8 @@ class App extends React.Component {
           const { email, userId } = res.data;
           this.props.setUser({ email, id: userId });
         })
-        .catch(e => {
-          console.log(e);
-          console.log(e.response);
+        .catch(() => {
+          return;
         });
     }
   }

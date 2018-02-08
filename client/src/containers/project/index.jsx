@@ -9,7 +9,8 @@ import {
   stop,
   changeProjectName,
   setProjectId,
-  deleteProject } from '../../redux/actions/actions-project';
+  deleteProject,
+  changeBPM } from '../../redux/actions/actions-project';
 import { save } from '../../redux/actions/actions-user';
 import { selectProject } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
@@ -29,6 +30,7 @@ class Project extends Component {
     this.handleNameClick = this.handleNameClick.bind(this);
     this.handleNameBlur = this.handleNameBlur.bind(this);
     this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
+    this.handleBPMChange = this.handleBPMChange.bind(this);
   }
 
   handlePlayStopClick() {
@@ -50,6 +52,11 @@ class Project extends Component {
     this.props.changeProjectName({ name: newName });
   }
 
+  handleBPMChange(event) {
+    let newBPM = Number(event.target.value);
+    this.props.changeBPM({ bpm: newBPM });
+  }
+
   renderPlayStop() {
     const className = this.props.playing ? 'stop' : 'play';
     return (
@@ -60,7 +67,7 @@ class Project extends Component {
   }
 
   render() {
-    const { name } = this.props;
+    const { name, bpm } = this.props;
     return this.props.connectDropTarget(
       <div className="project">
         <div className="project-header">
@@ -70,6 +77,13 @@ class Project extends Component {
               onInputChange={this.handleProjectNameChange}
             />
           </div>
+          <input
+            type="number"
+            min="20"
+            max="400"
+            value={bpm}
+            onChange={this.handleBPMChange}
+          />
           {this.renderPlayStop()}
           <ProjectButtons {...this.props} />
         </div>
@@ -105,7 +119,8 @@ function mapDispatchToProps(dispatch) {
     changeProjectName,
     setProjectId,
     save,
-    deleteProject
+    deleteProject,
+    changeBPM
   };
   return bindActionCreators(actions, dispatch);
 }
@@ -113,30 +128,3 @@ function mapDispatchToProps(dispatch) {
 const dt_Project = DropTarget(ItemTypes.NOTE, projectTarget, collect)(Project);
 
 export default connect(mapStateToProps, mapDispatchToProps)(dt_Project);
-
-
-/*
-<div>
-            <div>
-              {/*<button className="project-button button-dark">Share</button>}
-              <button
-                className="project-button button-dark"
-                onClick={this.handleDeleteClick}
-              >
-                Delete
-              </button>
-              <button
-                className="project-button button-dark"
-                onClick={this.handleSaveClick}
-                disabled={!canSave}
-              >
-                {this.state.saving
-                  ? 'Saving'
-                  : canSave
-                    ? 'Save'
-                    : 'Saved'}
-              </button>
-            </div>
-          </div>
-
-*/
