@@ -71,19 +71,24 @@ class Project extends Component {
     return this.props.connectDropTarget(
       <div className="project">
         <div className="project-header">
-          <div className="project-title">
-            <EditableText
-              value={name}
-              onInputChange={this.handleProjectNameChange}
+          <div className="title-bpm">
+            <div className="project-title">
+              <EditableText
+                value={name}
+                onInputChange={this.handleProjectNameChange}
+              />
+            </div>
+            <label htmlFor="bpm">BPM:</label>
+            <input
+              name="bpm"
+              className="button-dark bpm-input"
+              type="number"
+              min="20"
+              max="400"
+              value={bpm}
+              onChange={this.handleBPMChange}
             />
           </div>
-          <input
-            type="number"
-            min="20"
-            max="400"
-            value={bpm}
-            onChange={this.handleBPMChange}
-          />
           {this.renderPlayStop()}
           <ProjectButtons {...this.props} />
         </div>

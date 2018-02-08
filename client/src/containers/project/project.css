@@ -15,12 +15,22 @@
   width: 100%;
 }
 
+.title-bpm {
+  align-items: center;
+  display: flex;
+}
+
 .project-title {
   background-color: inherit;
   color: inherit;
   font-size: 1.3rem;
   margin: 0 0 0 10px;
   width: 250px;
+}
+
+.bpm-input {
+  margin: 0 10px;
+  padding: 5px 10px;
 }
 
 .playstop-button {
