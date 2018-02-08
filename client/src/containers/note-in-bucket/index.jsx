@@ -52,9 +52,9 @@ const noteInBucketSource = {
       // if it's dropped in a deletion zone
       if (target === 'delete') {
         const { deleteNote } = props;
-        const { id, bucketId, trackId } = monitor.getItem();
+        const { bucketId, trackId, noteIndex } = monitor.getItem();
         deleteNote({
-          noteId: id,
+          noteIndex,
           bucketId: bucketId,
           trackId: trackId
         });
@@ -64,21 +64,26 @@ const noteInBucketSource = {
       if (target === 'bucket') {
         // using monitor.getItem() for the source is more reliable than using props
         // because this note may have been dragged through intermediary buckets
-        const { noteIndex: index, id, bucketId: bucket, value } = monitor.getItem();
+        const {
+          noteIndex: index,
+          id,
+          bucketId: bucket,
+          value,
+          trackId } = monitor.getItem();
+
         const payload = {
           source: {
             index,
             id,
             bucket,
             value,
-            trackId: props.trackId
+            trackId
           },
           target: {
             index: monitor.getDropResult().length,
             bucket: monitor.getDropResult().bucketId,
             trackId: monitor.getDropResult().trackId
-          },
-          trackId: props.trackId,
+          }
         };
         props.moveNote(payload);
       }
