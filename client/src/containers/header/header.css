@@ -4,6 +4,9 @@
   background-color: rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   display: flex;
+  /*flex-grow: 1;*/
+  /*flex-basis: auto;*/
+  flex: none;
   height: 50px;
   justify-content: space-between;
   padding: 0 15px;

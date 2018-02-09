@@ -16,8 +16,8 @@
 
 .wrapper {
   display: flex;
-  flex-grow: 1;
-  height: 100%;
+  flex: auto;
+  min-height: 0;
   width: 100%;
 }
 

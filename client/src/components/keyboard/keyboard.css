@@ -1,14 +1,16 @@
 .keyboard {
-  overflow: auto;
+  overflow-y: auto;
   width: 100%;
 }
 
   .keyboard-notes {
     display: flex;
+    flex: none;
   }
 
   .keyboard-col {
     display: flex;
+    flex: none;
     flex-direction: column;
     margin: 0 1px;
   }
