@@ -16,7 +16,8 @@ class EditableText extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.textInput)
+    // focus and highlight when clicked
+    if (this.textInput && this.props.value === this.state.value)
       this.focusInput();
   }
 
@@ -37,7 +38,7 @@ class EditableText extends React.Component {
 
   focusInput() {
     this.textInput.focus();
-    // this.textInput.select();
+    this.textInput.select();
   }
 
   handleSubmit(event) {
@@ -46,11 +47,14 @@ class EditableText extends React.Component {
   }
 
   render() {
+    const { title, value } = this.props;
     if (this.state.editing) {
       return (
         <form onSubmit={this.handleSubmit}>
           <input
+            type="text"
             name="input"
+            title={title}
             className="editable-text editable-text-input"
             value={this.state.value}
             onBlur={this.handleBlur}
@@ -63,7 +67,7 @@ class EditableText extends React.Component {
     else {
       return (
         <div className="editable-text editable-text-div">
-          <span onClick={this.handleClick}>{this.props.value}</span>
+          <span title={title} onClick={this.handleClick}>{value}</span>
         </div>
       );
     }

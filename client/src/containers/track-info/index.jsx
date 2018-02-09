@@ -111,6 +111,7 @@ class TrackInfo extends React.Component {
           <div className="track-info-text">
             <EditableText
               value={name}
+              title="edit track title"
               onBlur={value => { changeTrackName({ trackId: id, name: value }); }}
             />
           </div>

@@ -21,6 +21,7 @@ const Project = props => {
         <div className="project-title">
           <EditableText
             value={props.name}
+            title="edit project title"
             onBlur={value => { props.changeProjectName({ name: value }); }}
           />
         </div>
