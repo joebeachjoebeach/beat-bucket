@@ -73,7 +73,8 @@ export default function TrackReducer(state = {}, action) {
 
   case CHANGE_TRACK_NAME:
     newState = { ...state };
-    newState.name = action.payload.name;
+    if (action.payload.name !== '')
+      newState.name = action.payload.name;
     return newState;
 
   case STOP:

@@ -59,7 +59,8 @@ export default function(state = starterData(), action) {
 
   case CHANGE_PROJECT_NAME:
     newState = { ...state };
-    newState.name = action.payload.name;
+    if (action.payload.name !== '')
+      newState.name = action.payload.name;
     return newState;
 
   case UPDATE_TEST_NOTE:
