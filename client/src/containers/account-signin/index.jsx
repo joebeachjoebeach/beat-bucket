@@ -60,10 +60,10 @@ class AccountSignin extends Component {
         { email, password }
       )
         .then(res => {
+          hideDropDown();
           const { authToken, email, userId } = res.data;
           localStorage.setItem('authToken', authToken);
           setUser({ email, id: userId });
-          hideDropDown();
         })
         .catch(e => {
           this.setState({
