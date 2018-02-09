@@ -28,9 +28,7 @@ class App extends React.Component {
           const { email, userId } = res.data;
           this.props.setUser({ email, id: userId });
         })
-        .catch(() => {
-          return;
-        });
+        .catch(() => { localStorage.removeItem('authToken'); });
     }
   }
 
