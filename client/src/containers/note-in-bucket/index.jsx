@@ -18,7 +18,8 @@ const NoteInBucket = ({
   active,
   connectDragSource,
   connectDropTarget,
-  isDragging }) => {                    
+  isDragging,
+  isOver }) => {                    
 
   const opacity = isDragging ? 0 : 1;
 
@@ -91,21 +92,34 @@ const noteInBucketSource = {
 
 const noteInBucketTarget = {
   hover(props, monitor, component) {
-    const dragIndex = monitor.getItem().noteIndex;
-    const hoverIndex = props.index;
+    const {
+      noteIndex: dragNoteIndex,
+      bucketId: dragBucketId,
+      trackId: dragTrackId } = monitor.getItem();
 
-    if (dragIndex === hoverIndex)
+    const {
+      index: hoverNoteIndex,
+      bucketId: hoverBucketId,
+      trackId: hoverTrackId } = props;
+
+    // if the dragSource note and the dropTarget note are in the same track, same bucket,
+    // and same index, then we don't want to do anything because they're the same note
+    if (
+      dragNoteIndex === hoverNoteIndex &&
+      dragBucketId === hoverBucketId &&
+      dragTrackId === hoverTrackId) {
       return;
+    }
 
     const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
     const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
     const clientOffset = monitor.getClientOffset();
     const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-    if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY)
+    if (dragNoteIndex < hoverNoteIndex && hoverClientY < hoverMiddleY)
       return;
 
-    if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY)
+    if (dragNoteIndex > hoverNoteIndex && hoverClientY > hoverMiddleY)
       return;
 
     const item = monitor.getItem();
@@ -115,7 +129,7 @@ const noteInBucketTarget = {
       props.addNote({
         value: item.value,
         id: props.nextId,
-        index: hoverIndex,
+        index: hoverNoteIndex,
         bucketId: props.bucketId,
         trackId: props.trackId
       });
@@ -131,14 +145,14 @@ const noteInBucketTarget = {
     // otherwise, it's a note from a bucket
     const payload = {
       source: {
-        index: dragIndex,
+        index: dragNoteIndex,
         id: item.id,
         bucket: item.bucketId,
         value: item.value,
         trackId: item.trackId
       },
       target: {
-        index: hoverIndex,
+        index: hoverNoteIndex,
         bucket: props.bucketId,
         trackId: props.trackId
       }
@@ -152,7 +166,7 @@ const noteInBucketTarget = {
       monitor.getItem().trackId = props.trackId;
     }
 
-    monitor.getItem().noteIndex = hoverIndex;
+    monitor.getItem().noteIndex = hoverNoteIndex;
     monitor.getItem().bucketId = props.bucketId;
   }
 };
@@ -165,9 +179,7 @@ function sourceCollect(connect, monitor) {
 }
 
 function targetCollect(connect) {
-  return { 
-    connectDropTarget: connect.dropTarget()
-  };
+  return { connectDropTarget: connect.dropTarget() };
 }
 
 function mapDispatchToProps(dispatch) {                            
