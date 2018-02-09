@@ -13,6 +13,7 @@ import './app.css';
 import Header from '../../containers/header';
 import Project from '../../containers/project';
 import NoteColumn from '../note-column';
+import RCFooter from '../rc-footer';
 
 class App extends React.Component {
 
@@ -40,6 +41,7 @@ class App extends React.Component {
           <Project />
           <NoteColumn />
         </div>
+        <RCFooter />
       </div>
     );
   }
