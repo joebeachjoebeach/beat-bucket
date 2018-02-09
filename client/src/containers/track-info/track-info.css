@@ -33,7 +33,9 @@
   }
 
   .track-info-mutesolo {
+    height: 25px;
     margin: 10px 3px;
+    width: 25px;
   }
 
   .track-info-mutesolo-active {

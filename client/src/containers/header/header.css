@@ -4,8 +4,6 @@
   background-color: rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   display: flex;
-  /*flex-grow: 1;*/
-  /*flex-basis: auto;*/
   flex: none;
   height: 50px;
   justify-content: space-between;
@@ -18,5 +16,7 @@
   }
 
   .header-button {
+    height: 22px;
     margin: 0 5px;
+    padding: 2px 7px;
   }
