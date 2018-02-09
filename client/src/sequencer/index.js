@@ -6,9 +6,8 @@ import {
   selectTracks,
   selectPlaying,
   selectBpm,
-  selectTracksLength,
   selectTestNote,
-  selectProjectId
+  selectProjectIdAndTrackCount
 } from '../redux/selectors';
 
 import { observeStore } from '../redux/observers';
@@ -16,23 +15,23 @@ import { observeStore } from '../redux/observers';
 export default class Sequencer {
   constructor(store) {
     this.store = store;
-    this.tracks = this.generateTracks();
+    // handleTrackCountChange will automatically run when the subscriptions are
+    // instantiated, which will fill up this.tracks
+    this.tracks = [];
     Tone.Transport.bpm.value = selectBpm(store.getState());
 
     this.synth = new Tone.Synth().toMaster();
 
     this.subscriptions = [
       observeStore(store, selectPlaying, this.handlePlayingChange.bind(this)),
-      observeStore(store, selectTracksLength, this.handleTrackCountChange.bind(this)),
       observeStore(store, selectTestNote, this.handleTestNoteChange.bind(this)),
-      observeStore(store, selectProjectId, this.handleProjectIdChange.bind(this)),
-      observeStore(store, selectBpm, this.handleBPMChange.bind(this))
+      observeStore(store, selectBpm, this.handleBPMChange.bind(this)),
+      observeStore(
+        store,
+        selectProjectIdAndTrackCount,
+        this.handleProjectIdOrTrackCountChange.bind(this)
+      )
     ];
-  }
-
-  // if the user adds or deletes tracks, it's simplest to just reload all the tracks
-  handleTrackCountChange() {
-    this.reloadTracks();
   }
 
   // play or stop the loop when global 'playing' changes
@@ -48,17 +47,14 @@ export default class Sequencer {
       : this.synth.triggerRelease();
   }
 
-  // if the project id changes, that means we've loaded a new project
-  // so we need to reload all the tracks
-  handleProjectIdChange() {
-    this.reloadTracks();
-  }
-
   handleBPMChange(bpm) {
     Tone.Transport.bpm.value = bpm;
   }
 
-  reloadTracks() {
+  // if the project id changes, then we've loaded a new project, so we need to reload.
+  // if the track count changes, we've added or deleted tracks, and the simplest way to
+  // handle that is to reload all the tracks
+  handleProjectIdOrTrackCountChange() {
     this.tracks.forEach(track => { track.deleteSelf(); });
     this.tracks = this.generateTracks();
   }

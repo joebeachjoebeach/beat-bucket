@@ -6,6 +6,8 @@ export function observeStore(store, select, onChange) {
     try {
       newState = select(store.getState());
     }
+    // when listeners unsubscribe, handleChange will still run one more time, which will
+    // sometimes throw an error, which we can ignore
     catch (e) {
       return;
     }

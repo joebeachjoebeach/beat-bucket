@@ -22,10 +22,6 @@ export function selectSequence(id) {
   return state => state.project.tracks[id].sequence;
 }
 
-export function selectTracksLength(state) {
-  return Object.keys(state.project.tracks).length;
-}
-
 export function selectBaseNote(id) {
   return state => state.project.tracks[id].baseNote;
 }
@@ -40,10 +36,6 @@ export function selectOctave(state) {
 
 export function selectProject(state) {
   return state.project;
-}
-
-export function selectProjectId(state) {
-  return state.project.id;
 }
 
 export function selectProjectName(state) {
@@ -68,4 +60,8 @@ export function selectUserId(state) {
 
 export function selectCanSave(state) {
   return state.user.canSave;
+}
+
+export function selectProjectIdAndTrackCount(state) {
+  return `${state.project.id},${Object.keys(state.project.tracks).length}`;
 }
