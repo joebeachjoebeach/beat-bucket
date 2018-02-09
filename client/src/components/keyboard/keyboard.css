@@ -28,3 +28,15 @@
     height: 104px;
     justify-content: center;
   }
+
+.keyboard::-webkit-scrollbar {
+  background-color: inherit;
+  width: 10px;
+}
+
+.keyboard::-webkit-scrollbar-thumb {
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  width: 5px;
+}

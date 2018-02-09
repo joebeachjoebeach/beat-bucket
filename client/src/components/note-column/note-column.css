@@ -1,5 +1,5 @@
 .note-column {
-  border-left: 1px solid #1b1e21;
+  border-left: 1px solid #222;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -8,8 +8,6 @@
 }
 
 .rest-box {
-  /*border-bottom: 1px solid rgba(255, 255, 255, 0.3);*/
-  /*box-shadow: 0 10px 10px black;*/
   box-sizing: border-box;
   padding: 10px 0;
 }
