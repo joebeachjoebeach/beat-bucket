@@ -21,35 +21,13 @@ export default class Sequencer {
 
     this.synth = new Tone.Synth().toMaster();
 
-    this.unsubscribePlaying = observeStore(
-      store,
-      selectPlaying,
-      this.handlePlayingChange.bind(this)
-    );
-    
-    this.unsubscribeChangeTracks = observeStore(
-      store,
-      selectTracksLength,
-      this.handleTrackCountChange.bind(this)
-    );
-
-    this.unsubscribeTestNote = observeStore(
-      store,
-      selectTestNote,
-      this.handleTestNoteChange.bind(this)
-    );
-
-    this.unsubscribeProjectId = observeStore(
-      store,
-      selectProjectId,
-      this.handleProjectIdChange.bind(this)
-    );
-
-    this.unsubscribeBPMChange = observeStore(
-      store,
-      selectBpm,
-      this.handleBPMChange.bind(this)
-    );
+    this.subscriptions = [
+      observeStore(store, selectPlaying, this.handlePlayingChange.bind(this)),
+      observeStore(store, selectTracksLength, this.handleTrackCountChange.bind(this)),
+      observeStore(store, selectTestNote, this.handleTestNoteChange.bind(this)),
+      observeStore(store, selectProjectId, this.handleProjectIdChange.bind(this)),
+      observeStore(store, selectBpm, this.handleBPMChange.bind(this))
+    ];
   }
 
   // if the user adds or deletes tracks, it's simplest to just reload all the tracks

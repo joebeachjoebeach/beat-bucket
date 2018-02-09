@@ -16,7 +16,6 @@ export default class Track {
   constructor(store, id) {
     this.store = store;
     this.id = id;
-    this.muted = false;
     this.synth = new Tone.Synth().toMaster();
 
     // get sequence and baseNote of track from the store
@@ -26,38 +25,17 @@ export default class Track {
 
     this.part = this.initPart(sequence, baseNote);
 
-    this.unsubscribeSequenceChange = observeStore(
-      store,
-      selectSequence(id),
-      this.onSequenceChange.bind(this)
-    );
-
-    this.unsubscribeMuted = observeStore(
-      store,
-      selectMuted(id),
-      this.onMutedChange.bind(this)
-    );
-
-    this.unsubscribeBaseNote = observeStore(
-      store,
-      selectBaseNote(id),
-      this.onBaseNoteChange.bind(this)
-    );
-
-    this.unsubscribeTrackVolume = observeStore(
-      store,
-      selectTrackVolume(id),
-      this.onVolumeChange.bind(this)
-    );
+    this.subscriptions = [
+      observeStore(store, selectSequence(id), this.onSequenceChange.bind(this)),
+      observeStore(store, selectMuted(id), this.onMutedChange.bind(this)),
+      observeStore(store, selectBaseNote(id), this.onBaseNoteChange.bind(this)),
+      observeStore(store, selectTrackVolume(id), this.onVolumeChange.bind(this))
+    ];
   }
 
   deleteSelf() {
-    // unsubscibe from all store subscriptions
-    // this.unsubscribeDeleted();
-    this.unsubscribeSequenceChange();
-    this.unsubscribeMuted();
-    this.unsubscribeBaseNote();
-    this.unsubscribeTrackVolume();
+    // unsubscribe from all subscriptions
+    this.subscriptions.forEach(unsubscribe => unsubscribe());
 
     // dispose of the synth
     this.synth.dispose();
