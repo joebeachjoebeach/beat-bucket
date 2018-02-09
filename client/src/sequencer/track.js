@@ -18,7 +18,6 @@ export default class Track {
     this.id = id;
     this.synth = new Tone.Synth().toMaster();
 
-    // get sequence and baseNote of track from the store
     const { sequence, baseNote } = selectTrack(id)(store.getState());
     this.sequence = sequence;
     this.baseNote = baseNote;
@@ -61,12 +60,8 @@ export default class Track {
 
   partProcessor(time, { value, dur, bucketIndex, noteIndex }) {
     // only trigger a note if it's not a rest, but dispatch currentNote in either case
-    if (value !== 'rest')
+    value !== 'rest' &&
       this.synth.triggerAttackRelease(value, dur, time);
-    this.dispatchCurrentNote(bucketIndex, noteIndex);
-  }
-
-  dispatchCurrentNote(bucketIndex, noteIndex) {
     this.store.dispatch(
       updateCurrentNote({ bucketId: bucketIndex, noteIndex, trackId: this.id })
     );
