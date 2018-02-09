@@ -6,7 +6,7 @@ def encode_auth_token(user_id, secret_key):
     '''Takes a user id and generates an auth token'''
     now = datetime.datetime.utcnow()
     payload = {
-        'exp': now + datetime.timedelta(hours=12),
+        'exp': now + datetime.timedelta(days=1),
         'iat': now,
         'sub': user_id
     }
