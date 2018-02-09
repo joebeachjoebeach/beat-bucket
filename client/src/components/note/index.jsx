@@ -32,8 +32,8 @@ function generateColor(noteValue) {
 
 function hashToSharp(noteValue) {
   if (noteValue.length === 3)
-    return noteValue.replace('#', '♯');
-  return noteValue;
+    return <span>{noteValue[0]}<sup className="sharp">♯</sup>{noteValue[2]}</span>;
+  return <span>{noteValue}</span>;
 }
 
 const Note = ({ value, active }) => {                    

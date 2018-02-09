@@ -1,5 +1,7 @@
 html, body {
-  font-family: Arial, sans-serif;
+  color: #DDD;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 300;
   height: 100%;
   width: 100%;
 }
@@ -13,12 +15,16 @@ a {
   width: 100%;
 }
 
+button, input {
+  font-family: 'Titillium Web', sans-serif;
+}
+
 .button-dark {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.5);
   border: none;
   border-bottom: 1px solid transparent;
-  color: white;
+  color: #DDD;
 }
 
 .button-dark:focus {
@@ -37,6 +43,7 @@ a {
   background-color: rgba(255, 255, 255, 0.4);
   border: none;
   border-bottom: 1px solid transparent;
+  color: #111;
 }
 
 .button-light:focus {
@@ -53,7 +60,7 @@ a {
   align-self: flex-start;
   background-color: transparent;
   border: none;
-  color: white;
+  color: #DDD;
   cursor: pointer;
   text-decoration: underline;
 }

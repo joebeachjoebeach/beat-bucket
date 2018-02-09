@@ -1,7 +1,9 @@
 .note {
   align-items: center;
+  color: #EEE;
   display: flex;
   font-size: 0.8rem;
+  font-weight: 400;
   padding: 0 0 0 7px;
   width: 53px;
 }
