@@ -1,6 +1,6 @@
 // BUCKET
 
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DropTarget } from 'react-dnd';
@@ -11,30 +11,9 @@ import './bucket.css';
 
 import NoteInBucket from '../note-in-bucket';
 
-class Bucket extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { hover: false };
-    this.handleDeleteBucketClick = this.handleDeleteBucketClick.bind(this);
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
-    this.handleMouseLeave = this.handleMouseLeave.bind(this);
-  }
+const Bucket = ({ notes, currentNote, bucketId, trackId, nextId, connectDropTarget }) => {
 
-  handleDeleteBucketClick() {
-    const { trackId, bucketId, deleteBucket } = this.props;
-    deleteBucket({ trackId: trackId, bucketId });
-  }
-
-  handleMouseEnter() {
-    this.setState({ hover: true });
-  }
-
-  handleMouseLeave() {
-    this.setState({ hover: false });
-  }
-
-  renderNotes() {
-    const { notes, currentNote, bucketId, trackId, nextId } = this.props;
+  function renderNotes() {
     return notes.map((note, i) => {
       let active = currentNote[0] === bucketId && currentNote[1] === i;
 
@@ -53,38 +32,16 @@ class Bucket extends Component {
     });
   }
 
-  render() {
-    const { currentNote, bucketId } = this.props;
-    const active = currentNote[0] === bucketId;
-    let styleName = active
-      ? 'bucket bucket-playing'
-      : 'bucket';
+  let styleName = currentNote[0] === bucketId
+    ? 'bucket bucket-playing'
+    : 'bucket';
 
-    return this.props.connectDropTarget(
-      <div
-        className="bucket-container"
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-      >
-        <div className={styleName}>
-          {this.renderNotes()}
-        </div>
-        <div className="deletebucket-container">
-          {this.state.hover &&
-            <button
-              onClick={this.handleDeleteBucketClick}
-              className="button-dark delete-bucket"
-              title="delete bucket"
-            >
-              x
-            </button>
-          }
-        </div>
-      </div>
-    );
-  }
-
-}
+  return connectDropTarget(
+    <div className={styleName}>
+      {renderNotes()}
+    </div>
+  );
+};
 
 const bucketTarget = {
   drop(props, monitor) {

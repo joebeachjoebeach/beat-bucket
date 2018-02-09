@@ -10,7 +10,7 @@ import halfNote from './half.svg';
 import sixteenthNote from './sixteenth.svg';
 import './bucket-row.css';
 
-import Bucket from '../bucket';
+import BucketContainer from '../bucket-container';
 
 const BucketRow = ({
   sequence,
@@ -46,7 +46,7 @@ const BucketRow = ({
 
   function renderBuckets() {
     return sequence.map((bucket, i) => {
-      return <Bucket 
+      return <BucketContainer 
         notes={bucket} 
         currentNote={currentNote} 
         key={i} 
