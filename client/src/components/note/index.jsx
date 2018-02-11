@@ -30,7 +30,7 @@ function generateColor(noteValue) {
   return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
 }
 
-function hashToSharp(noteValue) {
+function renderNoteValue(noteValue) {
   if (noteValue.length === 3)
     return <span>{noteValue[0]}<sup className="sharp">♯</sup>{noteValue[2]}</span>;
   return <span>{noteValue}</span>;
@@ -45,7 +45,7 @@ const Note = ({ value, active }) => {
 
   return (
     <div className="note" style={{backgroundColor: color}}>
-      {hashToSharp(value)}
+      {renderNoteValue(value)}
     </div>
   );                    
 };
