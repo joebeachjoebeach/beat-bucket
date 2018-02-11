@@ -1,5 +1,5 @@
 {
-  "name": "beat-bucket",
+  "name": "beat-bucket-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

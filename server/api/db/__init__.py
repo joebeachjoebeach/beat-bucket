@@ -18,8 +18,8 @@ def get_db(app, g):
 def connect_to_db(db_name):
     '''Initializes db connection'''
     return psycopg2.connect(
-        host='localhost',
-        port='5400',
+        host='bb-db',
+        port='5432',
         database=db_name,
         user='postgres',
         password='password'

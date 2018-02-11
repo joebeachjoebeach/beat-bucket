@@ -15,3 +15,31 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       PGDATA: /var/lib/postgresql/data/pgdata
+
+  server:
+    container_name: bb-server
+    build: ./server
+    ports:
+      - 5000:5000
+    volumes:
+      - ./server:/usr/src/app
+    environment:
+      SECRET_KEY: "development_key"
+    depends_on:
+      - postgres
+    links:
+      - postgres
+
+  client:
+    container_name: bb-client
+    build: ./client
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client:/usr/src/app
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - server
+    links:
+      - server
