@@ -3,7 +3,8 @@ import bcrypt
 from email_validator import validate_email, EmailNotValidError
 from api.db import (get_db, connect_to_db, add_user, email_exists, get_user_by_email,
                     get_user_by_id)
-from api.auth import encode_auth_token, decode_auth_token, get_token
+from api.auth import (encode_auth_token, decode_auth_token, get_token,
+                      get_user_id_from_token)
 
 
 auth_bp = Blueprint('auth_bp', __name__)
@@ -77,18 +78,17 @@ def login():
 @auth_bp.route('/auth/verify', methods=['GET'])
 def verify():
     '''Verifies a jwt'''
-    auth_token = get_token(request.headers)
-    if not auth_token:
-        return jsonify({'error': 'Forbidden: no authentication provided'}), 403
-
-    user_id = decode_auth_token(auth_token, current_app.config['SECRET_KEY'])
-
-    if user_id is None:
-        return jsonify({'error': 'Invalid token'}), 403
+    user_dict = get_user_id_from_token(request.headers, current_app.config['SECRET_KEY'])
+    if 'error' in user_dict:
+        return jsonify({'error': user_dict['error']}), user_dict['status_code']
 
     db_conn = get_db(current_app, g)
-    user = get_user_by_id(db_conn, user_id)
-    return jsonify({'message': 'Success', 'userId': user_id, 'email': user['email']})
+    user = get_user_by_id(db_conn, user_dict['user_id'])
+    return jsonify({
+        'message': 'Success',
+        'userId': user_dict['user_id'],
+        'email': user['email']
+    })
 
 
 

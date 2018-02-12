@@ -38,3 +38,20 @@ def get_token(headers):
     if auth_header:
         return auth_header.split(' ')[1]
     return ''
+
+# does this need to return both the token and the id?
+def get_user_id_from_token(headers, secret_key):
+    '''
+    Tries to get the user_id from the auth token in the headers
+    If it fails, it returns a dict with 'error' and 'status_code' keys
+    '''
+    auth_token = get_token(headers)
+    if not auth_token:
+        return {'error': 'Forbidden: no authentication provided', 'status_code': 403}
+
+    user_id = decode_auth_token(auth_token, secret_key)
+
+    if user_id is None:
+        return {'error': 'Invalid token', 'status_code': 403}
+
+    return {'user_id': user_id}
