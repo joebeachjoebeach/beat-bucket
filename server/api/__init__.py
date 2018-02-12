@@ -1,6 +1,5 @@
 from flask import Blueprint, current_app, Flask, g, jsonify, render_template, request
 from flask_cors import CORS
-from api.views.client import client_bp
 from api.views.auth import auth_bp
 from api.views.resource import resource_bp
 
@@ -13,7 +12,6 @@ def create_app(**config_overrides):
     app.config.from_object('api.config')
     app.config.update(config_overrides)
     app.register_blueprint(auth_bp)
-    app.register_blueprint(client_bp)
     app.register_blueprint(resource_bp)
 
     @app.teardown_appcontext

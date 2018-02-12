@@ -89,10 +89,3 @@ def verify():
         'userId': user_dict['user_id'],
         'email': user['email']
     })
-
-
-
-@auth_bp.route('/auth/logout')
-def logout():
-    '''Log a user out'''
-    return 'logout'
