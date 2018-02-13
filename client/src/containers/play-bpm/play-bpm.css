@@ -3,3 +3,38 @@
   align-self: flex-start;
   display: flex;
 }
+
+.bpm-input {
+  font-size: 0.9rem;
+  height: 15px;
+  margin: 0 5px;
+  padding: 5px 0 5px 15px;
+  width: 40px;
+}
+
+.bpm-label {
+  font-size: 0.9rem;
+}
+
+.playstop-button {
+  align-items: center;
+  display: flex;
+  height: 25px;
+  justify-content: center;
+  margin: 0 10px 0 0;
+  width: 25px;
+}
+
+.play {
+  border-bottom: 6px solid transparent;
+  border-left: 10px solid white;
+  border-top: 6px solid transparent;
+  height: 0;
+  width: 0; 
+}
+
+.stop {
+  background-color: white;
+  height: 10px;
+  width: 10px;
+}

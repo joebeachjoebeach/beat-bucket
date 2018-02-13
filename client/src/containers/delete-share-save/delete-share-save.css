@@ -1,3 +1,7 @@
-.delete-share-save {
-
+.project-button {
+  font-size: 0.85rem;
+  height: 25px;
+  margin: 0 3px;
+  padding: 2px;
+  width: 70px;
 }

@@ -22,7 +22,6 @@ class DeleteShareSave extends React.Component {
   handleSaveClick() {
     const jwt = localStorage.getItem('authToken');
     if (!jwt || !this.props.email) {
-      // this.setState({ message: 'Please sign in to save your project' });
       this.props.setMessage('Please sign in to save your project');
       return;
     }
@@ -77,7 +76,6 @@ class DeleteShareSave extends React.Component {
             let errorMessage = error;
             if (error === 'Invalid token')
               errorMessage = 'Please sign in to save your project';
-            // this.setState({ message: errorMessage, saving: false });
             setMessage(errorMessage);
             this.setState({ saving: false });
           });
@@ -95,8 +93,6 @@ class DeleteShareSave extends React.Component {
         { headers: { Authorization: `Bearer ${jwt}`} }
       )
         .then(() => {
-          // window.alert('Project successfully deleted');
-          // this.setState({ message: 'Project deleted successfully'});
           setMessage('Project deleted successfully');
           deleteProject();
         })
@@ -117,7 +113,6 @@ class DeleteShareSave extends React.Component {
       { headers: { Authorization: `Bearer ${jwt}`}}
     )
       .then(() => {
-        // this.setState({ message: 'Project shared successfully' });
         setMessage('Project shared successfully');
       })
       .catch(e => {
