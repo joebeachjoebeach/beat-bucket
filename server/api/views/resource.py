@@ -44,7 +44,7 @@ def project_get(project_id):
         'message': 'Success',
         'project': project['data'],
         'id': project['id']
-    }), 200
+    })
 
 
 @resource_bp.route('/project/<int:project_id>', methods=['DELETE'])
@@ -67,6 +67,29 @@ def project_delete(project_id):
     db_conn.commit()
 
     return jsonify({'message': 'Success'}), 200
+
+
+@resource_bp.route('/project/shared/<int:project_id>', methods=['GET'])
+def get_shared_project(project_id):
+    ''' Gets a shared project '''
+    # print('get shared project')
+    # print(project_id)
+
+    db_conn = get_db(current_app, g)
+    project = get_project(db_conn, project_id)
+
+    if project is None:
+        return jsonify({'error': 'Project does not exist'}), 400
+
+    if not project['shared']:
+        return jsonify({'error': 'Forbidden: Project is private'}), 403
+
+    project['data'].pop('id', None)
+
+    return jsonify({
+        'message': 'Success',
+        'project': project['data']
+    })
 
 
 @resource_bp.route('/save', methods=['POST'])

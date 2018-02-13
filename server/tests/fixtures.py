@@ -52,14 +52,30 @@ def temp_db():
 
     project_data = generate_temp_project()
     project_data['name'] = 'New Project 1'
-    project_data = json.dumps(project_data)
+    json_data = json.dumps(project_data)
     project = {
         'name': 'New Project 1',
         'id': 1,
         'user_id': 1,
-        'data': project_data,
+        'data': json_data,
         'shared': False
     }
+
+    cursor.execute(
+        '''
+        INSERT INTO projects (id, name, user_id, data, shared)
+        VALUES (%(id)s, %(name)s, %(user_id)s, %(data)s, %(shared)s)
+        ''',
+        project
+    )
+
+    project['shared'] = True
+    project['name'] = 'Test Project'
+    project['id'] = 2
+    project_data['shared'] = True
+    project_data['name'] = 'Test Project'
+    project_data['id'] = 2
+    project['data'] = json.dumps(project_data)
 
     cursor.execute(
         '''

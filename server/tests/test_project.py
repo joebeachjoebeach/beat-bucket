@@ -122,3 +122,29 @@ def test_delete_project_fail(temp_app, temp_db):
     res_data = json.loads(res.data)
     assert res.status_code == 403
     assert res_data['error'] == 'Invalid token'
+
+
+def test_get_shared_project(temp_app, temp_db):
+    ''' Tests getting a shared project '''
+    res = temp_app.get('/project/shared/2')
+    res_data = json.loads(res.data)
+    assert res.status_code == 200
+    assert isinstance(res_data['project'], dict)
+    assert 'id' not in res_data
+    assert 'name' not in res_data
+
+
+def test_get_shared_project_fail(temp_app, temp_db):
+    ''' Tests various failure cases getting a shared project '''
+
+    # get a project that exists, but isn't shared
+    res = temp_app.get('/project/shared/1')
+    res_data = json.loads(res.data)
+    assert res.status_code == 403
+    assert res_data['error'] == 'Forbidden: Project is private'
+
+    # get a project that doesn't exist
+    res = temp_app.get('/project/shared/100')
+    res_data = json.loads(res.data)
+    assert res.status_code == 400
+    assert res_data['error'] == 'Project does not exist'

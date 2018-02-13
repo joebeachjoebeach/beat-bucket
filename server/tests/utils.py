@@ -21,7 +21,7 @@ def patch_save(data, auth_token, app):
 
 
 def get_project(project_id, auth_token, app):
-    '''Sends GET to /project endpoint'''
+    '''Sends GET to /project/:id: endpoint'''
     return app.get(
         f'/project/{project_id}',
         headers=dict(Authorization=f'Bearer {auth_token}'))
