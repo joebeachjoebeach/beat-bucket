@@ -5,7 +5,7 @@ import Track from './track';
 import {
   selectTracks,
   selectPlaying,
-  selectBpm,
+  selectBPM,
   selectTestNote,
   selectProjectIdAndTrackCount
 } from '../redux/selectors';
@@ -18,14 +18,14 @@ export default class Sequencer {
     // handleTrackCountChange will automatically run when the subscriptions are
     // instantiated, which will fill up this.tracks
     this.tracks = [];
-    Tone.Transport.bpm.value = selectBpm(store.getState());
+    Tone.Transport.bpm.value = selectBPM(store.getState());
 
     this.synth = new Tone.Synth().toMaster();
 
     this.subscriptions = [
       observeStore(store, selectPlaying, this.handlePlayingChange.bind(this)),
       observeStore(store, selectTestNote, this.handleTestNoteChange.bind(this)),
-      observeStore(store, selectBpm, this.handleBPMChange.bind(this)),
+      observeStore(store, selectBPM, this.handleBPMChange.bind(this)),
       observeStore(
         store,
         selectProjectIdAndTrackCount,

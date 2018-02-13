@@ -10,7 +10,7 @@ export function selectPlaying(state) {
   return state.project.playing;
 }
 
-export function selectBpm(state) {
+export function selectBPM(state) {
   return state.project.bpm;
 }
 
