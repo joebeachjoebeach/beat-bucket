@@ -15,6 +15,10 @@
     font-size: 1.2rem;
   }
 
+  .header-link {
+    text-decoration: none;
+  }
+
   .header-button {
     height: 22px;
     margin: 0 5px;

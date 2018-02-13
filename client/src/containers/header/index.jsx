@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { selectEmail } from '../../redux/selectors';
 import { createNewProject } from '../../redux/actions/actions-project';
+import { WEB_BASE_URL } from '../../utils';
 import './header.css';
 
 import AccountDropdown from '../../components/account-dropdown';
@@ -32,7 +33,9 @@ class Header extends Component {
     const { email } = this.props;
     return (
       <header className="header">
-        <div className="header-title">Beat Bucket</div>
+        <div className="header-title">
+          <a href={WEB_BASE_URL} className="header-link">Beat Bucket</a>
+        </div>
         <div className="header-account">
           <Link to="/">
             <button
