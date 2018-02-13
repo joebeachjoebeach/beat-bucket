@@ -46,6 +46,7 @@ class App extends React.Component {
     if (path === '/share/:id' && !isNaN(params.id)) {
       axios.get(`${API_BASE_URL}project/shared/${params.id}`)
         .then(res => {
+          res.data.project.shared = false;
           this.props.loadProject({ data: res.data.project });
           this.setState({ loading: false });
         })

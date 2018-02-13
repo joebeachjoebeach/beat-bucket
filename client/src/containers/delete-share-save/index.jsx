@@ -4,6 +4,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import { selectCanSave, selectEmail } from '../../redux/selectors';
 import { deleteProject } from '../../redux/actions/actions-project';
 import { save } from '../../redux/actions/actions-user';
@@ -57,7 +58,8 @@ class DeleteShareSave extends React.Component {
             let errorMessage = error;
             if (error === 'Invalid token')
               errorMessage = 'Please sign in to save your project';
-            this.setState({ message: errorMessage, saving: false });
+            setMessage(errorMessage);
+            this.setState({ saving: false });
           });
       }
       else {
@@ -148,17 +150,19 @@ class DeleteShareSave extends React.Component {
             Delete
           </button>
         ]}
-        <button
-          className="button-dark project-button"
-          onClick={this.handleSaveClick}
-          disabled={!canSave}
-        >
-          {this.state.saving
-            ? 'Saving'
-            : canSave
-              ? 'Save'
-              : 'Saved'}
-        </button>
+        <Link to="/">
+          <button
+            className="button-dark project-button"
+            onClick={this.handleSaveClick}
+            disabled={!canSave}
+          >
+            {this.state.saving
+              ? 'Saving'
+              : canSave
+                ? 'Save'
+                : 'Saved'}
+          </button>
+        </Link>
         {this.state.showDropDown &&
           <Sharing
             {...this.props}

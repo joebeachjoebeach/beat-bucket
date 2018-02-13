@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import { selectEmail } from '../../redux/selectors';
 import { createNewProject } from '../../redux/actions/actions-project';
 import './header.css';
@@ -33,12 +34,14 @@ class Header extends Component {
       <header className="header">
         <div className="header-title">Beat Bucket</div>
         <div className="header-account">
-          <button
-            className="button-light header-button"
-            onClick={this.handleNewProjectClick}
-          >
-            New Project
-          </button>
+          <Link to="/">
+            <button
+              className="button-light header-button"
+              onClick={this.handleNewProjectClick}
+            >
+              New Project
+            </button>
+          </Link>
           <button
             onClick={this.toggleHideShow}
             className="button-light header-button"

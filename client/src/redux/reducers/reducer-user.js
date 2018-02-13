@@ -38,6 +38,8 @@ export default function(state = { email: null, id: null, canSave: true }, action
   case LOAD_PROJECT:
   case SET_PROJECT_ID:
   case SAVE:
+    if (!action.payload.id)
+      return state;
     newState = { ...state };
     newState.canSave = false;
     return newState;
