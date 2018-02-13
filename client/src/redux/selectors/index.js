@@ -65,3 +65,7 @@ export function selectCanSave(state) {
 export function selectProjectIdAndTrackCount(state) {
   return `${state.project.id},${Object.keys(state.project.tracks).length}`;
 }
+
+export function selectShared(state) {
+  return state.project.shared;
+}

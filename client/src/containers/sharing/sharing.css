@@ -1,0 +1,24 @@
+.sharing {
+  background-color: #22262A;
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  justify-content: space-between;
+  padding: 3%;
+  position: absolute;
+  top: 30px;
+  width: 94%;
+}
+
+.sharing-url {
+  display: flex;
+  flex-direction: column;
+}
+
+  .sharing-url-item {
+    margin: 5px 0;
+  }
+
+  .sharing-url-input {
+    font-size: 0.9rem;
+  }

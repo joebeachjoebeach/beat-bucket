@@ -13,7 +13,9 @@ import {
   LOAD_PROJECT,
   DELETE_PROJECT,
   CREATE_NEW_PROJECT,
-  CHANGE_BPM
+  CHANGE_BPM,
+  SHARE,
+  UNSHARE
 } from '../actions/actions-project';
 
 import {
@@ -114,6 +116,12 @@ export default function(state = starterData(), action) {
   case CHANGE_BPM:
     newState = { ...state };
     newState.bpm = action.payload.bpm;
+    return newState;
+
+  case SHARE:
+  case UNSHARE:
+    newState = { ...state };
+    newState.shared = !state.shared;
     return newState;
 
   default:

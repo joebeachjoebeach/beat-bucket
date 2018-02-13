@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import reducers from './redux/reducers';
 import registerServiceWorker from './registerServiceWorker';
 
@@ -23,7 +24,12 @@ window.sequencer = sequencer;
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <Switch>
+        <Route exact path={process.env.PUBLIC_URL + '/'} component={App} />
+        <Route path={process.env.PUBLIC_URL + '/share/:id'} component={App} />
+      </Switch>
+    </BrowserRouter>
   </Provider>
   , document.getElementById('main')
 );

@@ -10,12 +10,14 @@ import { save } from '../../redux/actions/actions-user';
 import { API_BASE_URL } from '../../utils';
 import './delete-share-save.css';
 
+import Sharing from '../sharing';
+
 class DeleteShareSave extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { saving: false };
+    this.state = { saving: false, showDropDown: false };
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
-    this.handleShareClick = this.handleShareClick.bind(this);
+    this.handleSharingClick = this.handleSharingClick.bind(this);
     this.handleSaveClick = this.handleSaveClick.bind(this);
   }
 
@@ -121,24 +123,29 @@ class DeleteShareSave extends React.Component {
       });
   }
 
+  handleSharingClick() {
+    // console.log('sharing');
+    this.setState(prevState => ({ showDropDown: !prevState.showDropDown }));
+  }
+
   render() {
     const { canSave, email, id } = this.props;
     return (
       <div className="delete-share-save">
         {email && id && [
           <button
+            className="button-dark project-button sharing-button"
+            key="share"
+            onClick={this.handleSharingClick}
+          >
+            Share ⌄
+          </button>,
+          <button
             className="button-dark project-button"
             key="delete"
             onClick={this.handleDeleteClick}
           >
             Delete
-          </button>,
-          <button
-            className="button-dark project-button"
-            key="share"
-            onClick={this.handleShareClick}
-          >
-            Share
           </button>
         ]}
         <button
@@ -152,6 +159,13 @@ class DeleteShareSave extends React.Component {
               ? 'Save'
               : 'Saved'}
         </button>
+        {this.state.showDropDown &&
+          <Sharing
+            {...this.props}
+            hideDropDown={() => this.setState({ showDropDown: false })}
+            setMessage={this.props.setMessage}
+          />
+        }
       </div>
     );
   }

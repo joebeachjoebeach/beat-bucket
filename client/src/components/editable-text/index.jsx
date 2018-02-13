@@ -59,7 +59,7 @@ class EditableText extends React.Component {
             value={this.state.value}
             onBlur={this.handleBlur}
             onChange={this.handleInputChange}
-            ref={(input) => { this.textInput = input; }}
+            ref={input => { this.textInput = input; }}
           />
         </form>
       );

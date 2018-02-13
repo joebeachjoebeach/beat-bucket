@@ -9,6 +9,8 @@ export const LOAD_PROJECT = 'load_project';
 export const DELETE_PROJECT = 'delete_project';
 export const CREATE_NEW_PROJECT = 'new_project';
 export const CHANGE_BPM = 'change_bpm';
+export const SHARE = 'share';
+export const UNSHARE = 'unshare';
 
 export const play = () => ({ type: PLAY });
 export const stop = () => ({ type: STOP });
@@ -44,4 +46,12 @@ export const createNewProject = () => ({
 export const changeBPM = ({ bpm }) => ({
   type: CHANGE_BPM,
   payload: { bpm }
+});
+
+export const share = () => ({
+  type: SHARE
+});
+
+export const unshare = () => ({
+  type: UNSHARE
 });
