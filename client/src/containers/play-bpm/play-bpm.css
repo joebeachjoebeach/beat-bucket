@@ -17,10 +17,7 @@
 }
 
 .playstop-button {
-  align-items: center;
-  display: flex;
   height: 25px;
-  justify-content: center;
   margin: 0 10px 0 0;
   width: 25px;
 }
