@@ -6,15 +6,11 @@ from api import create_app
 from api.db import create_hashed_user, connect_to_db
 from dummy_data import generate_temp_project
 
-def create_test_app():
-    '''Returns an app configured for testing'''
-    return create_app(TESTING=True, DEBUG=False, DB_NAME='beatbucket_test')
-
 
 @fixture
 def temp_app():
     '''Sets up the test app and populates the test database.'''
-    return create_test_app().test_client()
+    return create_app('api.config.TestConfig').test_client()
 
 
 @fixture

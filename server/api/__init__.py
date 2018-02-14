@@ -1,16 +1,16 @@
+import os
 from flask import Flask, g, jsonify
 from flask_cors import CORS
 from api.views.auth import auth_bp
 from api.views.resource import resource_bp
 
 
-def create_app(**config_overrides):
+def create_app(conf_obj_path):
     '''app factory'''
     app = Flask(__name__, static_folder='../dist', template_folder='../dist')
     CORS(app)
 
-    app.config.from_object('api.config')
-    app.config.update(config_overrides)
+    app.config.from_object(conf_obj_path)
     app.register_blueprint(auth_bp)
     app.register_blueprint(resource_bp)
 
