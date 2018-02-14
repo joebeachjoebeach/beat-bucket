@@ -36,11 +36,15 @@ export default function(state = { email: null, id: null, canSave: true }, action
     return newState;
 
   case LOAD_PROJECT:
-  case SET_PROJECT_ID:
-  case SAVE:
     // if there's no id (e.g. loading a shared project), no change
     if (!action.payload.id)
       return state;
+    newState = { ...state };
+    newState.canSave = false;
+    return newState;
+
+  case SET_PROJECT_ID:
+  case SAVE:
     newState = { ...state };
     newState.canSave = false;
     return newState;
