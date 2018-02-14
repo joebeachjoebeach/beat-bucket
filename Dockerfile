@@ -9,15 +9,19 @@ RUN pip install pipenv
 WORKDIR /usr/src/app
 
 # add Pipfile
-COPY ./server/Pipfile* ./
+COPY ./server/Pipfile ./
+COPY ./server/Pipfile.lock ./
 
-# install dependencies
-RUN pipenv install
+# generate requirements.txt and install dependencies
+RUN pipenv lock --requirements > requirements.txt
+RUN pip install -r requirements.txt
 
 # add app
 COPY ./server .
 
 ENV SECRET_KEY=${SECRET_KEY} DATABASE_URL=${DATABASE_URL} APP_SETTINGS="api.config.ProdConfig"
 
-# run server
-CMD ["pipenv", "run", "gunicorn", "-b 0.0.0.0:$PORT", "run:app"]
+RUN useradd -m myuser
+USER myuser
+
+CMD gunicorn -b 0.0.0.0:$PORT run:app
