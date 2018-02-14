@@ -33,8 +33,15 @@ class Sharing extends Component {
           : this.handleUnshareSuccess();
       })
       .catch(e => {
-        console.log(e);
-        console.log(e.response);
+        const { error } = e.response.data;
+        let errorMessage = error;
+        if (error === 'Invalid token') {
+          errorMessage = 'Please sign in to share your project';
+          localStorage.removeItem('authToken');
+          this.props.setUser({ email: null, userId: null });
+        }
+        this.props.hideDropDown();
+        this.props.setMessage(errorMessage);
       });
   }
 

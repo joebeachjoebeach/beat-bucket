@@ -31,8 +31,9 @@ class AccountData extends React.Component {
         this.setState({ projects: res.data.projects });
       })
       .catch(e => {
-        console.log(e);
-        console.log(e.response);
+        const { error } = e.response.data;
+        if (error === 'Invalid token')
+          this.handleSignOut();
       });
   }
 
@@ -56,8 +57,9 @@ class AccountData extends React.Component {
           hideDropDown();
         })
         .catch(e => {
-          console.log(e);
-          console.log(e.response);
+          const { error } = e.response.data;
+          if (error === 'Invalid token')
+            this.handleSignOut();
         });
     };
   }

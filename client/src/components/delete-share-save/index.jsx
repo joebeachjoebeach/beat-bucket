@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { selectCanSave, selectEmail } from '../../redux/selectors';
 import { deleteProject } from '../../redux/actions/actions-project';
-import { save } from '../../redux/actions/actions-user';
+import { setUser, save } from '../../redux/actions/actions-user';
 import { API_BASE_URL } from '../../utils';
 import './delete-share-save.css';
 
@@ -52,12 +52,13 @@ class DeleteShareSave extends React.Component {
             this.setState({ saving: false });
           })
           .catch(e => {
-            console.log(e);
-            console.log(e.response);
             const { error } = e.response.data;
             let errorMessage = error;
-            if (error === 'Invalid token')
+            if (error === 'Invalid token') {
               errorMessage = 'Please sign in to save your project';
+              localStorage.removeItem('authToken');
+              this.props.setUser({ email: null, userId: null });
+            }
             setMessage(errorMessage);
             this.setState({ saving: false });
           });
@@ -74,8 +75,6 @@ class DeleteShareSave extends React.Component {
             this.setState({ saving: false });
           })
           .catch(e => {
-            console.log(e);
-            console.log(e.response);
             const { error } = e.response.data;
             let errorMessage = error;
             if (error === 'Invalid token')
@@ -101,32 +100,19 @@ class DeleteShareSave extends React.Component {
           deleteProject();
         })
         .catch(e => {
-          console.log(e);
-          console.log(e.response);
+          const { error } = e.response.data;
+          let errorMessage = error;
+          if (error === 'Invalid token') {
+            errorMessage = 'Please sign in to delete your project';
+            localStorage.removeItem('authToken');
+            this.props.setUser({ email: null, userId: null });
+          }
+          setMessage(errorMessage);
         });
     }
   }
 
-  handleShareClick() {
-    const jwt = localStorage.getItem('authToken');
-    const { bpm, name, tracks, id, setMessage } = this.props;
-    const shared = true;
-    axios.patch(
-      `${API_BASE_URL}save`,
-      { bpm, name, tracks, shared, id },
-      { headers: { Authorization: `Bearer ${jwt}`}}
-    )
-      .then(() => {
-        setMessage('Project shared successfully');
-      })
-      .catch(e => {
-        console.log(e);
-        console.log(e.response);
-      });
-  }
-
   handleSharingClick() {
-    // console.log('sharing');
     this.setState(prevState => ({ showDropDown: !prevState.showDropDown }));
   }
 
@@ -184,7 +170,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ deleteProject, save }, dispatch);
+  return bindActionCreators({ deleteProject, save, setUser }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeleteShareSave);
