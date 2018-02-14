@@ -11,16 +11,16 @@ def get_db(app, g):
     '''gets the db'''
     db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = connect_to_db(app.config['DB_NAME'])
+        db = g._database = connect_to_db(app)
     return db
 
 
-def connect_to_db(db_name):
+def connect_to_db(app):
     '''Initializes db connection'''
     return psycopg2.connect(
         host='bb-db',
         port='5432',
-        database=db_name,
+        database=app.config['DB_NAME'],
         user='postgres',
         password='password'
     )

@@ -18,7 +18,7 @@ def temp_app():
 
 
 @fixture
-def temp_db():
+def temp_db(temp_app):
     '''Populates the db with dummy data and yields the db connection'''
     user_a = create_hashed_user({
         'email': 'hello@goodbye.com',
@@ -32,7 +32,8 @@ def temp_db():
     })
     user_b['id'] = 2
 
-    db_conn = connect_to_db('beatbucket_test')
+    # db_conn = connect_to_db('beatbucket_test')
+    db_conn = connect_to_db(temp_app.application)
     cursor = db_conn.cursor()
 
     cursor.execute(
