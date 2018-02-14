@@ -1,3 +1,5 @@
+# this is to locally test the production version of the server
+
 version: '3'
 
 services:
@@ -16,6 +18,7 @@ services:
       POSTGRES_PASSWORD: password
       PGDATA: /var/lib/postgresql/data/pgdata
 
+  # only this 'server' service has changed
   server:
     container_name: bb-server
     build:
@@ -23,10 +26,11 @@ services:
       dockerfile: Dockerfile-web
     ports:
       - 5000:5000
-    volumes:
-      - ./server:/usr/src/app
     environment:
-      SECRET_KEY: "development_key"
+      APP_SETTINGS: api.config.ProdConfig
+      SECRET_KEY: prod_key
+      DATABASE_URL: postgresql://postgres:password@bb-db:5432/beatbucket
+      DATABASE_TEST_URL: postgresql://postgres:password@bb-db:5432/beatbucket_test
     depends_on:
       - postgres
     links:
