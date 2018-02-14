@@ -11,7 +11,7 @@ import ItemTypes from '../../dnd/item-types';
 import './project.css';
 
 import Tracks from '../tracks';
-import EditableText from '../../components/editable-text';
+import EditableText from '../editable-text';
 import ProjectButtons from '../project-buttons';
 
 const Project = props => {

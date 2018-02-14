@@ -10,7 +10,7 @@ import { selectTestNote } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 import './note-in-keyboard.css';
 
-import Note from '../../components/note';
+import Note from '../note';
 
 const NoteInKeyboard = ({
   value,

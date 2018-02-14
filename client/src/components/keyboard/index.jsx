@@ -3,7 +3,7 @@
 import React from 'react';
 import './keyboard.css';
 
-import NoteInKeyboard from '../../containers/note-in-keyboard';
+import NoteInKeyboard from '../note-in-keyboard';
 
 
 const NaturalOctave = ({ octave }) => {

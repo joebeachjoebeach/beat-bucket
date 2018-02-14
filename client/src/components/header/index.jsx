@@ -9,7 +9,7 @@ import { createNewProject } from '../../redux/actions/actions-project';
 import { WEB_BASE_URL } from '../../utils';
 import './header.css';
 
-import AccountDropdown from '../../components/account-dropdown';
+import AccountDropdown from '../account-dropdown';
 
 class Header extends Component {
   constructor(props) {

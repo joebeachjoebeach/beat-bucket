@@ -14,7 +14,7 @@ import { changeTrackName, updateTrackVolume } from '../../redux/actions/actions-
 import { selectTrack } from '../../redux/selectors';
 import './track-info.css';
 
-import EditableText from '../../components/editable-text';
+import EditableText from '../editable-text';
 
 class TrackInfo extends React.Component {
   constructor(props) {

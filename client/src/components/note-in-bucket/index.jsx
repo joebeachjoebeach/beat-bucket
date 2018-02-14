@@ -11,7 +11,7 @@ import ItemTypes from '../../dnd/item-types';
 
 import './note-in-bucket.css';
 
-import Note from '../../components/note';
+import Note from '../note';
 
 const NoteInBucket = ({
   value,

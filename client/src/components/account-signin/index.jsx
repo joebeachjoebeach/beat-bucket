@@ -8,8 +8,8 @@ import { setUser } from '../../redux/actions/actions-user.js';
 import { API_BASE_URL } from '../../utils';
 import './account-signin.css';
 
-import CreateAccountForm from '../../components/create-account-form';
-import SigninForm from '../../components/signin-form';
+import CreateAccountForm from '../create-account-form';
+import SigninForm from '../signin-form';
 
 class AccountSignin extends Component {
   constructor(props) {

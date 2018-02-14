@@ -3,8 +3,8 @@
 import React from 'react';
 import './account-dropdown.css';
 
-import AccountSignin from '../../containers/account-signin';
-import AccountData from '../../containers/account-data';
+import AccountSignin from '../account-signin';
+import AccountData from '../account-data';
 
 const AccountDropdown = ({ email, hideDropDown }) => {
 

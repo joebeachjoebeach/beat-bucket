@@ -4,7 +4,7 @@ import React from 'react';
 import './note-column.css';
 
 import Keyboard from '../keyboard';
-import NoteInKeyboard from '../../containers/note-in-keyboard';
+import NoteInKeyboard from '../note-in-keyboard';
 
 const NoteColumn = () => {
 

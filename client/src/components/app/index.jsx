@@ -11,8 +11,8 @@ import { loadProject } from '../../redux/actions/actions-project';
 import { API_BASE_URL } from '../../utils';
 import './app.css';
 
-import Header from '../../containers/header';
-import Project from '../../containers/project';
+import Header from '../header';
+import Project from '../project';
 import NoteColumn from '../note-column';
 import RCFooter from '../rc-footer';
 
