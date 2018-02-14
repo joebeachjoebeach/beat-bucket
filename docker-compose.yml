@@ -40,8 +40,6 @@ services:
       - 3000:3000
     volumes:
       - ./client:/usr/src/app
-    environment:
-      NODE_ENV: development
     depends_on:
       - server
     links:

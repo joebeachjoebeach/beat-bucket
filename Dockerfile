@@ -13,6 +13,7 @@ COPY ./server/Pipfile ./
 COPY ./server/Pipfile.lock ./
 
 # generate requirements.txt and install dependencies
+# trying to do this with `pipenv install` leads to permissions issues w/ Heroku
 RUN pipenv lock --requirements > requirements.txt
 RUN pip install -r requirements.txt
 
