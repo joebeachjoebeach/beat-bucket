@@ -34,7 +34,7 @@ def create_projects(cursor):
         '''
         CREATE TABLE projects (
             id SERIAL PRIMARY KEY,
-            name VARCHAR(25) NOT NULL,
+            name VARCHAR(100) NOT NULL,
             user_id INTEGER NOT NULL REFERENCES users,
             data JSON,
             shared BOOLEAN NOT NULL
