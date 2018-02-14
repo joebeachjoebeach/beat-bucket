@@ -24,10 +24,10 @@ services:
     volumes:
       - ./server:/usr/src/app
     environment:
-      APP_SETTINGS: "api.config.DevConfig"
-      SECRET_KEY: "development_key"
-      DATABASE_URL: "postgresql://postgres:password@bb-db:5432/beatbucket"
-      DATABASE_TEST_URL: "postgresql://postgres:password@bb-db:5432/beatbucket_test"
+      APP_SETTINGS: api.config.DevConfig
+      SECRET_KEY: development_key
+      DATABASE_URL: postgresql://postgres:password@bb-db:5432/beatbucket
+      DATABASE_TEST_URL: postgresql://postgres:password@bb-db:5432/beatbucket_test
     depends_on:
       - postgres
     links:

@@ -1,17 +1,8 @@
 ''' Initialize the db tables: `users` and `projects` '''
 
-# from . import connect_to_db
+import os
 import psycopg2
 
-def connect_to_db(db_name):
-    '''Initializes db connection'''
-    return psycopg2.connect(
-        host='localhost',
-        port='5400',
-        database=db_name,
-        user='postgres',
-        password='password'
-    )
 
 def drop_users(cursor):
     '''Drops the users table'''
@@ -37,20 +28,6 @@ def drop_projects(cursor):
     cursor.execute('DROP TABLE IF EXISTS projects')
 
 
-# def create_projects(cursor):
-#     '''Creates the projects table'''
-#     cursor.execute(
-#         '''
-#         CREATE TABLE projects (
-#             id SERIAL PRIMARY KEY,
-#             name VARCHAR(25) NOT NULL,
-#             user_id INTEGER NOT NULL REFERENCES users,
-#             bpm INTEGER NOT NULL,
-#             shared BOOLEAN NOT NULL
-#         )
-#         '''
-#     )
-
 def create_projects(cursor):
     '''Creates the projects table'''
     cursor.execute(
@@ -66,58 +43,30 @@ def create_projects(cursor):
     )
 
 
-def drop_tracks(cursor):
-    '''Drops the tracks table'''
-    cursor.execute('DROP TABLE IF EXISTS tracks')
-
-
-# def create_tracks(cursor):
-#     '''Creates the tracks table'''
-#     cursor.execute(
-#         '''
-#         CREATE TABLE tracks (
-#             id SERIAL PRIMARY KEY,
-#             name VARCHAR(20) NOT NULL,
-#             project_id INTEGER NOT NULL REFERENCES projects,
-#             base_note INTEGER,
-#             next_id INTEGER,
-#             muted BOOLEAN,
-#             soloed BOOLEAN,
-#             volume INTEGER,
-#             sequence JSON
-#         )
-#         '''
-#     )
-
-
 def recreate_all():
     '''recreates all the tables'''
-    main_conn = connect_to_db('beatbucket')
-    test_conn = connect_to_db('beatbucket_test')
-
+    main_db_url = os.getenv('DATABASE_URL', None)
+    main_conn = psycopg2.connect(main_db_url)
     main_cur = main_conn.cursor()
-    test_cur = test_conn.cursor()
-
-    drop_tracks(main_cur)
-    drop_tracks(test_cur)
     drop_projects(main_cur)
-    drop_projects(test_cur)
     drop_users(main_cur)
-    drop_users(test_cur)
     create_users(main_cur)
-    create_users(test_cur)
     create_projects(main_cur)
-    create_projects(test_cur)
-    # create_tracks(main_cur)
-    # create_tracks(test_cur)
-
     main_conn.commit()
-    test_conn.commit()
-
     main_cur.close()
-    test_cur.close()
     main_conn.close()
-    test_conn.close()
+
+    test_db_url = os.getenv('DATABASE_TEST_URL', None)
+    if test_db_url is not None:
+        test_conn = psycopg2.connect(test_db_url)
+        test_cur = test_conn.cursor()
+        drop_projects(test_cur)
+        drop_users(test_cur)
+        create_users(test_cur)
+        create_projects(test_cur)
+        test_conn.commit()
+        test_cur.close()
+        test_conn.close()
 
 
 if __name__ == '__main__':

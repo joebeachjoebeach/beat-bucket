@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  server:
+    container_name: bb-server
+    build:
+      context: ./server
+      dockerfile: Dockerfile-web
+    ports:
+      - 5000:5000
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      APP_SETTINGS: api.config.ProdConfig
+      DATABASE_URL: ${DATABASE_URL}
+
