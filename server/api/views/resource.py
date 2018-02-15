@@ -79,7 +79,7 @@ def get_shared_project(project_id):
     project = get_project(db_conn, project_id)
 
     if project is None:
-        return jsonify({'error': 'Project does not exist'}), 400
+        return jsonify({'error': 'Project does not exist'}), 404
 
     if not project['shared']:
         return jsonify({'error': 'Forbidden: Project is private'}), 403
@@ -137,7 +137,7 @@ def project_update():
     project = get_project(db_conn, json_data['id'])
 
     if project is None:
-        return jsonify({'error': 'Project does not exist'}), 400
+        return jsonify({'error': 'Project does not exist'}), 404
 
     if user_dict['user_id'] != project['user_id']:
         return jsonify({'error': 'Forbidden: project belongs to another user'}), 403

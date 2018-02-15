@@ -55,27 +55,27 @@ def test_save_new_project_fail(temp_app, temp_db):
         content_type='application/json'
     )
     res_data = json.loads(res.data)
-    assert res.status_code == 403
-    assert res_data['error'] == 'Forbidden: no authentication provided'
+    assert res.status_code == 401
+    assert res_data['error'] == 'No authentication provided'
 
     # Tests trying to save project with no auth token
     res = post_save(data, '', temp_app)
     res_data = json.loads(res.data)
-    assert res.status_code == 403
-    assert res_data['error'] == 'Forbidden: no authentication provided'
+    assert res.status_code == 401
+    assert res_data['error'] == 'No authentication provided'
 
     # Tests trying to save project with an expired token
     token = generate_expired_token(temp_app.application.config['SECRET_KEY'])
     res = post_save(data, token, temp_app)
     res_data = json.loads(res.data)
-    assert res.status_code == 403
+    assert res.status_code == 401
     assert res_data['error'] == 'Invalid token'
 
     # Tests trying to save project with a token signed with the wrong key
     token = generate_invalid_token()
     res = post_save(data, token, temp_app)
     res_data = json.loads(res.data)
-    assert res.status_code == 403
+    assert res.status_code == 401
     assert res_data['error'] == 'Invalid token'
 
 
@@ -113,7 +113,7 @@ def test_save_existing_project_fail(temp_app, temp_db):
     project['id'] = 0
     res = patch_save(project, auth_token, temp_app)
     res_data = json.loads(res.data)
-    assert res.status_code == 400
+    assert res.status_code == 404
     assert res_data['error'] == 'Project does not exist'
 
     # Tests trying to save a project created by a different user
@@ -130,25 +130,25 @@ def test_save_existing_project_fail(temp_app, temp_db):
         content_type='application/json'
     )
     res_data = json.loads(res.data)
-    assert res.status_code == 403
-    assert res_data['error'] == 'Forbidden: no authentication provided'
+    assert res.status_code == 401
+    assert res_data['error'] == 'No authentication provided'
 
     # Tests trying to save a project with no auth token
     res = patch_save(project, '', temp_app)
     res_data = json.loads(res.data)
-    assert res.status_code == 403
-    assert res_data['error'] == 'Forbidden: no authentication provided'
+    assert res.status_code == 401
+    assert res_data['error'] == 'No authentication provided'
 
     # Tests trying to save a project with an expired auth token
     token = generate_expired_token(temp_app.application.config['SECRET_KEY'])
     res = patch_save(project, token, temp_app)
     res_data = json.loads(res.data)
-    assert res.status_code == 403
+    assert res.status_code == 401
     assert res_data['error'] == 'Invalid token'
 
     # Tests trying to save a project with an invalid auth token
     token = generate_invalid_token()
     res = patch_save(project, token, temp_app)
     res_data = json.loads(res.data)
-    assert res.status_code == 403
+    assert res.status_code == 401
     assert res_data['error'] == 'Invalid token'

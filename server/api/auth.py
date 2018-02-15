@@ -47,11 +47,11 @@ def get_user_id_from_token(headers, secret_key):
     '''
     auth_token = get_token(headers)
     if not auth_token:
-        return {'error': 'Forbidden: no authentication provided', 'status_code': 403}
+        return {'error': 'No authentication provided', 'status_code': 401}
 
     user_id = decode_auth_token(auth_token, secret_key)
 
     if user_id is None:
-        return {'error': 'Invalid token', 'status_code': 403}
+        return {'error': 'Invalid token', 'status_code': 401}
 
     return {'user_id': user_id}
