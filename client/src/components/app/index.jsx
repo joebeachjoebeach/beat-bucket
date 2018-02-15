@@ -43,10 +43,6 @@ class App extends React.Component {
           )
             .then(res => {
               this.props.loadProjects(res.data.projects);
-            })
-            .catch(e => {
-              console.log(e);
-              if (e.response) console.log(e.response.data);
             });
         })
         .catch(() => { localStorage.removeItem('authToken'); });
