@@ -13,14 +13,18 @@ import App from './components/app';
 
 import Sequencer from './sequencer';
 
-const store = createStore(
-  reducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+// if we're in a dev environment and have the redux devtools, use them
+let store;
+if (process.env.NODE_ENV === 'development' && window.__REDUX_DEVTOOLS_EXTENSION__) {
+  store = createStore(
+    reducers,
+    window.__REDUX_DEVTOOLS_EXTENSION__()
+  );
+}
+else
+  store = createStore(reducers);
 
 const sequencer = new Sequencer(store);
-
-window.sequencer = sequencer;
 
 ReactDOM.render(
   <Provider store={store}>

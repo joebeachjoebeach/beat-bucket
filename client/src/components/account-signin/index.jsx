@@ -17,7 +17,8 @@ class AccountSignin extends Component {
     this.state = {
       createAccount: false,
       signinMessage: '',
-      createAccountMessage: ''
+      createAccountMessage: '',
+      loading: false
     };
     this.toggleCreateAccount = this.toggleCreateAccount.bind(this);
     this.handleSignInSubmit = this.handleSignInSubmit.bind(this);
@@ -29,52 +30,53 @@ class AccountSignin extends Component {
   }
 
   handleCreateAccountSubmit(email, password1, password2) {
-
-    return event => {
-      event.preventDefault();
-      if (password1 === password2) {
-        axios.post(
-          `${API_BASE_URL}auth/register`,
-          { email, password: password1 }
-        )
-          .then(() => {
-            this.setState({
-              createAccount: false,
-              signinMessage: 'Account created. You may now sign in.'
-            });
-          })
-          .catch(e => {
-            this.setState({ createAccountMessage: e.response.data.error });
+    if (password1 === password2) {
+      this.setState({ loading: true });
+      axios.post(
+        `${API_BASE_URL}auth/register`,
+        { email, password: password1 }
+      )
+        .then(() => {
+          this.setState({
+            createAccount: false,
+            signinMessage: 'Account created. You may now sign in.',
+            loading: false
           });
-      }
-    };
+        })
+        .catch(e => {
+          this.setState({
+            createAccountMessage: e.response.data.error,
+            loading: false
+          });
+        });
+    }
   }
 
   handleSignInSubmit(email, password) {
     const { setUser, hideDropDown } = this.props;
+    this.setState({ loading: true });
 
-    return event => {
-      event.preventDefault();
-      axios.post(
-        `${API_BASE_URL}auth/login`,
-        { email, password }
-      )
-        .then(res => {
-          hideDropDown();
-          const { authToken, email, userId } = res.data;
-          localStorage.setItem('authToken', authToken);
-          setUser({ email, id: userId });
-        })
-        .catch(e => {
-          this.setState({
-            signinMessage: e.response.data.error
-          });
+    axios.post(
+      `${API_BASE_URL}auth/login`,
+      { email, password }
+    )
+      .then(res => {
+        this.setState({ loading: false });
+        hideDropDown();
+        const { authToken, email, userId } = res.data;
+        localStorage.setItem('authToken', authToken);
+        setUser({ email, id: userId });
+      })
+      .catch(e => {
+        this.setState({
+          signinMessage: e.response.data.error,
+          loading: false
         });
-    };
+      });
   }
 
   render() {
-    const { signinMessage, createAccountMessage } = this.state;
+    const { signinMessage, createAccountMessage, loading } = this.state;
     return (
       <div className="account-signin">
         {
@@ -82,12 +84,14 @@ class AccountSignin extends Component {
             ? <CreateAccountForm
               message={createAccountMessage}
               onCancelClick={this.toggleCreateAccount}
-              onCreateAccountSubmit={this.handleCreateAccountSubmit}
+              onSubmit={this.handleCreateAccountSubmit}
+              loading={loading}
             />
             : <SigninForm
               message={signinMessage}
               onCreateClick={this.toggleCreateAccount}
-              onSignInSubmit={this.handleSignInSubmit}
+              onSubmit={this.handleSignInSubmit}
+              loading={loading}
             />
         }
       </div>

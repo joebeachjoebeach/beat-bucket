@@ -351,7 +351,7 @@ function mario() {
           [ { id: 27, value: 'E3' }, { id: 28, value: 'D3' } ]
         ],
         soloed: false,
-        volume: -7
+        volume: 0
       }
     },
     playing: false,

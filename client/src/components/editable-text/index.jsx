@@ -21,6 +21,11 @@ class EditableText extends React.Component {
       this.focusInput();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.props.value)
+      this.setState({ value: nextProps.value });
+  }
+
   handleInputChange(event) {
     this.setState({ value: event.target.value });
   }

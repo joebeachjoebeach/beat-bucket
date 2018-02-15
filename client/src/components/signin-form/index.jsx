@@ -13,6 +13,7 @@ class SigninForm extends Component {
       password: '',
       formValid: false
     };
+    this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -26,17 +27,22 @@ class SigninForm extends Component {
     };
   }
 
+  onFormSubmit(event) {
+    event.preventDefault();
+    this.props.onSubmit(this.state.email, this.state.password);
+  }
+
   validateForm() {
     this.setState({ formValid: this.state.email && this.state.password });
   }
 
   render() {
-    const { message, onCreateClick, onSignInSubmit } = this.props;
-    const { email, password, formValid } = this.state;
+    const { message, onCreateClick, loading } = this.props;
+    const { formValid } = this.state;
     return (
       <div className="signin-container">
         <div className="signin-message">{message && message}</div>
-        <form className="signin-form" onSubmit={onSignInSubmit(email, password)}>
+        <form className="signin-form" onSubmit={this.onFormSubmit}>
           <InputWithMessage
             type="email"
             placeholder="email address"
@@ -54,7 +60,7 @@ class SigninForm extends Component {
             className="signin-form-item button-light"
             type="submit"
             value="Sign In"
-            disabled={!formValid}
+            disabled={!formValid || loading}
           />
         </form>
         <button className="button-link" onClick={onCreateClick}>Create Account</button>

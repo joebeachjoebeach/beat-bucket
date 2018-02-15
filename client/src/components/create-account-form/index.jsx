@@ -22,6 +22,7 @@ class CreateAccountForm extends Component {
       confPasswordValid: false,
       formValid: false
     };
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -33,6 +34,12 @@ class CreateAccountForm extends Component {
       const { value } = event.target;
       this.setState({ [field]: value }, () => { this.validateInput(field, value); });
     };
+  }
+
+  handleFormSubmit(event) {
+    event.preventDefault();
+    const { email, password, confPassword } = this.state;
+    this.props.onSubmit(email, password, confPassword);
   }
 
   validateInput(field, value) {
@@ -80,13 +87,13 @@ class CreateAccountForm extends Component {
 
   render() {
     const { email, password, confPassword, errors, formValid } = this.state;
-    const { message } = this.props;
+    const { message, loading } = this.props;
     return (
       <div>
         <div className="create-account-message">{message && message}</div>
         <form
           className="create-account-form"
-          onSubmit={this.props.onCreateAccountSubmit(email, password, confPassword)}
+          onSubmit={this.handleFormSubmit}
         >
           <InputWithMessage
             type="email"
@@ -119,7 +126,7 @@ class CreateAccountForm extends Component {
             className="signin-form-item button-light"
             type="submit"
             value="Create Account"
-            disabled={!formValid}
+            disabled={!formValid || loading}
           />
         </form>
         <button className="button-link" onClick={this.props.onCancelClick}>Cancel</button>

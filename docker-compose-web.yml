@@ -3,39 +3,6 @@
 version: '3'
 
 services:
-  # postgres db -- persists to local volume
-  postgres:
-    container_name: bb-db
-    ports:
-      - 5400:5432
-    volumes:
-      # add-hoc transfers
-      - ~/code/.docker-volumes/host:/host
-      # postgres data
-      - ~/code/.docker-volumes/postgres/beatbucket:/var/lib/postgresql/data
-    image: postgres
-    environment:
-      POSTGRES_PASSWORD: password
-      PGDATA: /var/lib/postgresql/data/pgdata
-
-  # only this 'server' service has changed
-  server:
-    container_name: bb-server
-    build:
-      context: ./server
-      dockerfile: Dockerfile-web
-    ports:
-      - 5000:5000
-    environment:
-      APP_SETTINGS: api.config.ProdConfig
-      SECRET_KEY: prod_key
-      DATABASE_URL: postgresql://postgres:password@bb-db:5432/beatbucket
-      DATABASE_TEST_URL: postgresql://postgres:password@bb-db:5432/beatbucket_test
-    depends_on:
-      - postgres
-    links:
-      - postgres
-
   client:
     container_name: bb-client
     build: ./client
@@ -44,8 +11,6 @@ services:
     volumes:
       - ./client:/usr/src/app
     environment:
-      NODE_ENV: development
-    depends_on:
-      - server
-    links:
-      - server
+      NODE_ENV: production
+      REACT_APP_API_URL: https://beat-bucket.herokuapp.com/
+      REACT_APP_WEB_URL: http://localhost:3000
