@@ -68,6 +68,12 @@ class App extends React.Component {
           });
         });
     }
+    else {
+      this.setState({
+        message: 'Oops, we can\'t find that shared project. Please check the URL.',
+        error: true
+      });
+    }
   }
 
   render() {
