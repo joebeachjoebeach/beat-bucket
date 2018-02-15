@@ -6,21 +6,19 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setUser } from '../../redux/actions/actions-user';
 import { loadProject } from '../../redux/actions/actions-project';
-import { selectUserId, selectProjects } from '../../redux/selectors';
+import { selectProjects } from '../../redux/selectors';
 import { API_BASE_URL } from '../../utils';
 import './account-data.css';
 
-function AccountData(props) {
+function AccountData({ projects, setUser, hideDropDown, loadProject}) {
 
   function handleSignOut() {
-    const { setUser, hideDropDown } = props;
     localStorage.removeItem('authToken');
     setUser({ email: null, userId: null });
     hideDropDown();
   }
 
   function handleProjectClick(id) {
-    const { loadProject, hideDropDown } = props;
     return () => {
       const jwt = localStorage.getItem('authToken');
       axios.get(
@@ -40,8 +38,8 @@ function AccountData(props) {
   }
 
   function renderProjectsList() {
-    return Object.keys(props.projects).map(id => {
-      const name = props.projects[id];
+    return Object.keys(projects).map(id => {
+      const name = projects[id];
       return (
         <button
           className="project-list-button"
@@ -71,7 +69,7 @@ function AccountData(props) {
 }
 
 function mapStateToProps(state) {
-  return { id: selectUserId(state), projects: selectProjects(state) };
+  return { projects: selectProjects(state) };
 }
 
 function mapDispatchToProps(dispatch) {
