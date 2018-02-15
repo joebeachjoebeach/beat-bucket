@@ -6,7 +6,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setUser } from '../../redux/actions/actions-user.js';
+import { setUser, loadProjects } from '../../redux/actions/actions-user.js';
 import { loadProject } from '../../redux/actions/actions-project';
 import { API_BASE_URL } from '../../utils';
 import './app.css';
@@ -37,6 +37,18 @@ class App extends React.Component {
         .then(res => {
           const { email, userId } = res.data;
           this.props.setUser({ email, id: userId });
+          axios.get(
+            `${API_BASE_URL}projects`,
+            { headers: { Authorization: `Bearer ${jwt}`} }
+          )
+            .then(res => {
+              this.props.loadProjects(res.data.projects);
+              // this.setState({ projects: res.data.projects });
+            })
+            .catch(e => {
+              console.log(e);
+              if (e.response) console.log(e.response.data);
+            });
         })
         .catch(() => { localStorage.removeItem('authToken'); });
     }
@@ -92,7 +104,7 @@ class App extends React.Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ setUser, loadProject }, dispatch);
+  return bindActionCreators({ setUser, loadProject, loadProjects }, dispatch);
 }
 
 const ddc_App = DragDropContext(HTML5Backend)(App);

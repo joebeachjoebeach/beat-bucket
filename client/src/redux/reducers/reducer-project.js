@@ -2,14 +2,13 @@
 
 import uuidv4 from 'uuid/v4';
 
-import { SET_USER } from '../../redux/actions/actions-user';
+import { SET_USER, SAVE } from '../../redux/actions/actions-user';
 
 import {
   PLAY,
   STOP,
   CHANGE_PROJECT_NAME,
   UPDATE_TEST_NOTE,
-  SET_PROJECT_ID,
   LOAD_PROJECT,
   DELETE_PROJECT,
   CREATE_NEW_PROJECT,
@@ -89,7 +88,9 @@ export default function(state = mario(), action) {
     newState.tracks = TracksReducer(newState.tracks, action);
     return newState;
 
-  case SET_PROJECT_ID:
+  case SAVE:
+    if (state.hasOwnProperty(action.payload.id))
+      return state;
     newState = { ...state };
     newState.id = action.payload.id;
     return newState;
@@ -150,7 +151,6 @@ function starterData() {
   const id2 = uuidv4();
   return {
     bpm: 75,
-    playing: false,
     name: 'New Project',
     testNote: { on: false, value: '' },
     shared: false,

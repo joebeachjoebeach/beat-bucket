@@ -35,7 +35,6 @@ class DeleteShareSave extends React.Component {
       shared,
       id,
       canSave,
-      setProjectId,
       save,
       setMessage } = this.props;
     if (canSave) {
@@ -48,7 +47,7 @@ class DeleteShareSave extends React.Component {
         )
           .then(res => {
             const { projectId } = res.data;
-            setProjectId({ id: projectId });
+            save({ id: projectId, name });
             this.setState({ saving: false });
           })
           .catch(e => {
@@ -71,7 +70,7 @@ class DeleteShareSave extends React.Component {
           { headers: { Authorization: `Bearer ${jwt}`}}
         )
           .then(() => {
-            save();
+            save({ id, name });
             this.setState({ saving: false });
           })
           .catch(e => {
@@ -97,7 +96,7 @@ class DeleteShareSave extends React.Component {
       )
         .then(() => {
           setMessage('Project deleted successfully');
-          deleteProject();
+          deleteProject(id);
         })
         .catch(e => {
           const { error } = e.response.data;

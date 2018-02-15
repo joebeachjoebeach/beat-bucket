@@ -69,3 +69,7 @@ export function selectProjectIdAndTrackCount(state) {
 export function selectShared(state) {
   return state.project.shared;
 }
+
+export function selectProjects(state) {
+  return state.user.projects;
+}

@@ -6,46 +6,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setUser } from '../../redux/actions/actions-user';
 import { loadProject } from '../../redux/actions/actions-project';
-import { selectUserId } from '../../redux/selectors';
+import { selectUserId, selectProjects } from '../../redux/selectors';
 import { API_BASE_URL } from '../../utils';
 import './account-data.css';
 
-class AccountData extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { projects: [] };
-    this.handleSignOut = this.handleSignOut.bind(this);
-  }
+function AccountData(props) {
 
-  componentDidMount() {
-    this.getProjectsList();
-  }
-
-  getProjectsList() {
-    const jwt = localStorage.getItem('authToken');
-    axios.get(
-      `${API_BASE_URL}projects`,
-      { headers: { Authorization: `Bearer ${jwt}`} }
-    )
-      .then(res => {
-        this.setState({ projects: res.data.projects });
-      })
-      .catch(e => {
-        const { error } = e.response.data;
-        if (error === 'Invalid token')
-          this.handleSignOut();
-      });
-  }
-
-  handleSignOut() {
-    const { setUser, hideDropDown } = this.props;
+  function handleSignOut() {
+    const { setUser, hideDropDown } = props;
     localStorage.removeItem('authToken');
     setUser({ email: null, userId: null });
     hideDropDown();
   }
 
-  handleProjectClick(id) {
-    const { loadProject, hideDropDown } = this.props;
+  function handleProjectClick(id) {
+    const { loadProject, hideDropDown } = props;
     return () => {
       const jwt = localStorage.getItem('authToken');
       axios.get(
@@ -59,18 +34,19 @@ class AccountData extends React.Component {
         .catch(e => {
           const { error } = e.response.data;
           if (error === 'Invalid token')
-            this.handleSignOut();
+            handleSignOut();
         });
     };
   }
 
-  renderProjectsList() {
-    return this.state.projects.map(([ id, name ]) => {
+  function renderProjectsList() {
+    return Object.keys(props.projects).map(id => {
+      const name = props.projects[id];
       return (
         <button
           className="project-list-button"
           key={id}
-          onClick={this.handleProjectClick(id)}
+          onClick={handleProjectClick(id)}
         >
           {name}
         </button>
@@ -78,26 +54,24 @@ class AccountData extends React.Component {
     }).reverse();
   }
 
-  render() {
-    return (
-      <div className="account-data">
-        <div className="project-list">
-          <header className="project-list-header">my projects:</header>
-          {this.renderProjectsList()}
-        </div>
-        <button
-          className="button-light"
-          onClick={this.handleSignOut}
-        >
-          Sign Out
-        </button>
+  return (
+    <div className="account-data">
+      <div className="project-list">
+        <header className="project-list-header">my projects:</header>
+        {renderProjectsList()}
       </div>
-    );
-  }
+      <button
+        className="button-light"
+        onClick={handleSignOut}
+      >
+        Sign Out
+      </button>
+    </div>
+  );
 }
 
 function mapStateToProps(state) {
-  return { id: selectUserId(state) };
+  return { id: selectUserId(state), projects: selectProjects(state) };
 }
 
 function mapDispatchToProps(dispatch) {

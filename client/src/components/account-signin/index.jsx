@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
-import { setUser } from '../../redux/actions/actions-user.js';
+import { setUser, loadProjects } from '../../redux/actions/actions-user.js';
 import { API_BASE_URL } from '../../utils';
 import './account-signin.css';
 
@@ -66,6 +66,17 @@ class AccountSignin extends Component {
         const { authToken, email, userId } = res.data;
         localStorage.setItem('authToken', authToken);
         setUser({ email, id: userId });
+        axios.get(
+          `${API_BASE_URL}projects`,
+          { headers: { Authorization: `Bearer ${authToken}`} }
+        )
+          .then(res => {
+            this.props.loadProjects(res.data.projects);
+          })
+          .catch(e => {
+            console.log(e);
+            if (e.response) console.log(e.response.data);
+          });
       })
       .catch(e => {
         this.setState({
@@ -105,7 +116,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ setUser }, dispatch);
+  return bindActionCreators({ setUser, loadProjects }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountSignin);

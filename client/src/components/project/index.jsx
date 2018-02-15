@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DropTarget } from 'react-dnd';
-import { changeProjectName, setProjectId } from '../../redux/actions/actions-project';
+import { changeProjectName } from '../../redux/actions/actions-project';
 import { selectProject } from '../../redux/selectors';
 import ItemTypes from '../../dnd/item-types';
 
@@ -52,7 +52,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ changeProjectName, setProjectId }, dispatch);
+  return bindActionCreators({ changeProjectName }, dispatch);
 }
 
 const dt_Project = DropTarget(ItemTypes.NOTE, projectTarget, collect)(Project);

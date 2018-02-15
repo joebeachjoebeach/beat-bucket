@@ -1,8 +1,7 @@
 // USER REDUCER
-import { SET_USER, SAVE } from '../actions/actions-user.js';
+import { SET_USER, SAVE, LOAD_PROJECTS } from '../actions/actions-user.js';
 import {
   CHANGE_PROJECT_NAME,
-  SET_PROJECT_ID,
   LOAD_PROJECT,
   DELETE_PROJECT,
   CHANGE_BPM,
@@ -23,8 +22,14 @@ import {
   ADD_BUCKET,
   DELETE_BUCKET } from '../actions/actions-sequence.js';
 
+const starter = {
+  email: null,
+  id: null,
+  canSave: true,
+  projects: {}
+};
 
-export default function(state = { email: null, id: null, canSave: true }, action) {
+export default function(state = starter, action) {
   let newState;
 
   switch (action.type) {
@@ -43,16 +48,26 @@ export default function(state = { email: null, id: null, canSave: true }, action
     newState.canSave = false;
     return newState;
 
-  case SET_PROJECT_ID:
   case SAVE:
+    return save(state, action.payload);
+
+  case LOAD_PROJECTS:
     newState = { ...state };
-    newState.canSave = false;
+    // newState.projects = action.payload;
+    newState.projects = {};
+    action.payload.forEach(([id, name]) => { newState.projects[id] = name; });
+    return newState;
+
+  case DELETE_PROJECT:
+    newState = { ...state };
+    newState.projects = { ...newState.projects };
+    delete newState.projects[action.payload];
+    newState.canSave = true;
     return newState;
 
   case CHANGE_BPM:
   case CREATE_NEW_PROJECT:
   case CHANGE_PROJECT_NAME:
-  case DELETE_PROJECT:
   case ADD_TRACK:
   case DELETE_TRACK:
   case MUTE:
@@ -76,4 +91,17 @@ export default function(state = { email: null, id: null, canSave: true }, action
   default:
     return state;
   }
+}
+
+function save(state, { id, name }) {
+  const newState = { ...state };
+  newState.canSave = false;
+  if (newState.projects.hasOwnProperty(id) && name !== newState.projects[id]) {
+    newState.projects = { ...newState.projects };
+    newState.projects[id] = name;
+  }
+  else if (!newState.projects.hasOwnProperty(id))
+    newState.projects = { ...newState.projects, [id]: name };
+
+  return newState;
 }
