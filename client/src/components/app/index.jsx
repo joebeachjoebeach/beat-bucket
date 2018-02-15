@@ -43,7 +43,6 @@ class App extends React.Component {
           )
             .then(res => {
               this.props.loadProjects(res.data.projects);
-              // this.setState({ projects: res.data.projects });
             })
             .catch(e => {
               console.log(e);
