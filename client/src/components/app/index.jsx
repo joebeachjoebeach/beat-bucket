@@ -54,7 +54,7 @@ class App extends React.Component {
 
     // if we're at a /share/:id url, try to fetch the project
     const { path, params } = this.props.match;
-    if (path === '/share/:id' && !isNaN(params.id)) {
+    if (path === '/share/:id') {
       axios.get(`${API_BASE_URL}project/shared/${params.id}`)
         .then(res => {
           res.data.project.shared = false;
@@ -67,12 +67,6 @@ class App extends React.Component {
             error: true
           });
         });
-    }
-    else {
-      this.setState({
-        message: 'Oops, we can\'t find that shared project. Please check the URL.',
-        error: true
-      });
     }
   }
 
