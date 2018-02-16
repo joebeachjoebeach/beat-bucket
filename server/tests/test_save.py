@@ -3,7 +3,7 @@ import datetime
 import psycopg2.extras
 from fixtures import temp_app, temp_db
 from utils import (login_hello, post_save, generate_expired_token, generate_invalid_token,
-                   patch_save, login_mackland)
+                   put_save, login_mackland)
 from dummy_data import generate_temp_project
 from api.auth import encode_auth_token
 
@@ -102,7 +102,7 @@ def test_save_existing_project(temp_app, temp_db):
     project['shared'] = True
     project['id'] = 1
 
-    res = patch_save(project, auth_token, temp_app)
+    res = put_save(project, auth_token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 200
     assert res_data['message'] == 'Success'
@@ -126,20 +126,20 @@ def test_save_existing_project_fail(temp_app, temp_db):
     auth_token = login_res['accessToken']
     project = generate_temp_project()
     project['id'] = 0
-    res = patch_save(project, auth_token, temp_app)
+    res = put_save(project, auth_token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 404
     assert res_data['error'] == 'Project does not exist'
 
     # Tests trying to save a project created by a different user
     project['id'] = 1
-    res = patch_save(project, auth_token, temp_app)
+    res = put_save(project, auth_token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 403
     assert res_data['error'] == 'Forbidden: project belongs to another user'
 
     # Tests trying to save a project with no auth header
-    res = temp_app.patch(
+    res = temp_app.put(
         '/save',
         data=json.dumps(project),
         content_type='application/json'
@@ -149,21 +149,21 @@ def test_save_existing_project_fail(temp_app, temp_db):
     assert res_data['error'] == 'No authentication provided'
 
     # Tests trying to save a project with no auth token
-    res = patch_save(project, '', temp_app)
+    res = put_save(project, '', temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 401
     assert res_data['error'] == 'No authentication provided'
 
     # Tests trying to save a project with an expired auth token
     token = generate_expired_token('access', temp_app.application.config['SECRET_KEY'])
-    res = patch_save(project, token, temp_app)
+    res = put_save(project, token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 401
     assert res_data['error'] == 'Invalid token'
 
     # Tests trying to save a project with an invalid auth token
     token = generate_invalid_token('access')
-    res = patch_save(project, token, temp_app)
+    res = put_save(project, token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 401
     assert res_data['error'] == 'Invalid token'
@@ -175,7 +175,7 @@ def test_save_existing_project_fail(temp_app, temp_db):
         datetime.timedelta(days=3),
         temp_app.application.config['SECRET_KEY']
     )
-    res = patch_save(project, token.decode(), temp_app)
+    res = put_save(project, token.decode(), temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 401
     assert res_data['error'] == 'Invalid token type'

@@ -134,7 +134,7 @@ def save_project():
     }), 201
 
 
-@resource_bp.route('/save', methods=['PATCH'])
+@resource_bp.route('/save', methods=['PUT'])
 def project_update():
     '''Makes changes to an existing project'''
     token_data = get_data_from_token(request.headers, current_app.config['SECRET_KEY'])

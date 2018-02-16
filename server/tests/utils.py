@@ -11,9 +11,9 @@ def post_save(data, auth_token, app):
         headers=dict(Authorization=f'Bearer {auth_token}'))
 
 
-def patch_save(data, auth_token, app):
+def put_save(data, auth_token, app):
     '''Sends PUT to /save endpoint'''
-    return app.patch(
+    return app.put(
         '/save',
         data=json.dumps(data),
         content_type='application/json',

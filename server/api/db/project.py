@@ -52,28 +52,6 @@ def get_project(conn, project_id):
     return project
 
 
-# def get_project_all(conn, project_id):
-#     '''Gets all the project data for a given project id'''
-#     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-#     cursor.execute(
-#         '''
-#         SELECT * FROM projects
-#         WHERE id = %s
-#         ''',
-#         (project_id,)
-#     )
-#     # try to convert it to a dict. if it can't be converted, that means the project doesn't exist
-#     try:
-#         project = dict(cursor.fetchone())
-#     except TypeError:
-#         cursor.close()
-#         return None
-
-#     cursor.close()
-#     return project
-
-
-
 def insert_project(conn, project_dict):
     '''Inserts a new project into the database'''
     cursor = conn.cursor()
@@ -85,29 +63,6 @@ def insert_project(conn, project_dict):
         project_dict
     )
     cursor.close()
-
-
-# def update_project(cursor, project_dict):
-#     '''Updates project values with those in the dict'''
-#     if 'name' in project_dict:
-#         cursor.execute(
-#             '''
-#             UPDATE projects
-#             SET name = %(name)s
-#             WHERE id = %(id)s
-#             ''',
-#             project_dict
-#         )
-
-#     if 'bpm' in project_dict:
-#         cursor.execute(
-#             '''
-#             UPDATE projects
-#             SET bpm = %(bpm)s
-#             WHERE id = %(id)s
-#             ''',
-#             project_dict
-#         )
 
 
 def update_project(conn, project_dict):
