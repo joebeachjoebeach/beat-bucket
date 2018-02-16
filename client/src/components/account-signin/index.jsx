@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { setUser, loadProjects } from '../../redux/actions/actions-user.js';
-import { API_BASE_URL, resourceRequest, login } from '../../utils';
+import { API_BASE_URL, resourceRequest, signIn, register } from '../../utils';
 import './account-signin.css';
 
 import CreateAccountForm from '../create-account-form';
@@ -32,61 +32,31 @@ class AccountSignin extends Component {
   handleCreateAccountSubmit(email, password1, password2) {
     if (password1 === password2) {
       this.setState({ loading: true });
-      axios.post(
-        `${API_BASE_URL}auth/register`,
-        { email, password: password1 }
-      )
-        .then(() => {
-          this.setState({
-            createAccount: false,
-            signinMessage: 'Account created. You may now sign in.',
-            loading: false
-          });
-        })
-        .catch(e => {
-          this.setState({
-            createAccountMessage: e.response.data.error,
-            loading: false
-          });
-        });
+      register(
+        { email, password: password1 },
+        {
+          success: () => {
+            this.setState({
+              createAccount: false,
+              signinMessage: 'Account created. You may now sign in.',
+              loading: false
+            });
+          },
+          failure: err => {
+            this.setState({
+              createAccountMessage: err.response.data.error,
+              loading: false
+            });
+          }
+        }
+      );
     }
   }
-
-  // handleSignInSubmit(email, password) {
-  //   const { setUser, hideDropDown } = this.props;
-  //   this.setState({ loading: true });
-
-  //   axios.post(
-  //     `${API_BASE_URL}auth/login`,
-  //     { email, password }
-  //   )
-  //     .then(res => {
-  //       this.setState({ loading: false });
-  //       hideDropDown();
-  //       const { authToken, email, userId } = res.data;
-  //       localStorage.setItem('authToken', authToken);
-  //       setUser({ email, id: userId });
-  //       axios.get(
-  //         `${API_BASE_URL}projects`,
-  //         { headers: { Authorization: `Bearer ${authToken}`} }
-  //       )
-  //         .then(res => {
-  //           this.props.loadProjects(res.data.projects);
-  //         });
-  //     })
-  //     .catch(e => {
-  //       this.setState({
-  //         signinMessage: e.response.data.error,
-  //         loading: false
-  //       });
-  //     });
-  // }
-
 
   handleSignInSubmit(email, password) {
     const { setUser, hideDropDown, loadProjects } = this.props;
     this.setState({ loading: true });
-    login(
+    signIn(
       { email, password },
       {
         success: (res) => {
@@ -94,12 +64,12 @@ class AccountSignin extends Component {
           hideDropDown();
           setUser({ email: res.data.email, id: res.data.userId });
           resourceRequest('get', 'projects', {
-            success: (res) => { loadProjects(res.data.projects); },
-            failure: (err) => { console.log(err); },
-            authFailure: (err) => { console.log(err); }
+            success: res => { loadProjects(res.data.projects); },
+            failure: err => { console.log(err); },
+            authFailure: err => { console.log(err); }
           });
         },
-        failure: (err) => {
+        failure: err => {
           let errorMessage;
           if (err.response)
             errorMessage = err.response.data.error;

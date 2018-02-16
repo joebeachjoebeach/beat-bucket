@@ -4,11 +4,11 @@ import axios from 'axios';
 export const API_BASE_URL = process.env.REACT_APP_API_URL;
 export const WEB_BASE_URL = process.env.REACT_APP_WEB_URL;
 
-export function authRefreshToken({ success, failure }) {
-  const { refreshToken } = localStorage.getItem('refreshToken');
+export function useRefreshToken({ success, failure }) {
+  const refreshToken = localStorage.getItem('refreshToken');
   if (refreshToken) {
     axios.get(
-      `${API_BASE_URL}authenticate`,
+      `${API_BASE_URL}auth/authenticate`,
       { headers: { Authorization: `Bearer ${refreshToken}` } }
     )
       .then(res => {
@@ -23,8 +23,6 @@ export function authRefreshToken({ success, failure }) {
         failure(err);
       });
   }
-  else
-    failure();
 }
 
 export function authRequest(method, path, data, handlers) {
@@ -40,7 +38,17 @@ export function authRequest(method, path, data, handlers) {
     });
 }
 
-export function login(data, handlers) {
+export function register(data, handlers) {
+  axios.post(`${API_BASE_URL}auth/register`, data)
+    .then(res => {
+      handlers.success(res);
+    })
+    .catch(err => {
+      handlers.failure(err);
+    });
+}
+
+export function signIn(data, handlers) {
   axios.post(`${API_BASE_URL}auth/login`, data)
     .then(res => {
       localStorage.setItem('accessToken', res.data.accessToken);
@@ -96,9 +104,12 @@ export function resourceRequest(method, path, handlers) {
         }
       });
   }
-  else {
-    console.log('no access token');
-  }
+}
+
+export function getSharedProject(id, handlers) {
+  axios.get(`${API_BASE_URL}project/shared/${id}`)
+    .then(res => { handlers.success(res); })
+    .catch(err => { handlers.failure(err); });
 }
 
 

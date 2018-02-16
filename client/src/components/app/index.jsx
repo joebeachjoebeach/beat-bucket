@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setUser, loadProjects } from '../../redux/actions/actions-user.js';
 import { loadProject } from '../../redux/actions/actions-project';
-import { API_BASE_URL } from '../../utils';
+import { API_BASE_URL, useRefreshToken, resourceRequest, getSharedProject } from '../../utils';
 import './app.css';
 
 import Header from '../header';
@@ -27,42 +27,37 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // if there is a saved jwt, check if it's valid and sign them in
-    const jwt = localStorage.getItem('authToken');
-    if (jwt) {
-      axios.get(
-        `${API_BASE_URL}auth/verify`,
-        { headers: { Authorization: `Bearer ${jwt}`} }
-      )
-        .then(res => {
-          const { email, userId } = res.data;
-          this.props.setUser({ email, id: userId });
-          axios.get(
-            `${API_BASE_URL}projects`,
-            { headers: { Authorization: `Bearer ${jwt}`} }
-          )
-            .then(res => {
-              this.props.loadProjects(res.data.projects);
-            });
-        })
-        .catch(() => { localStorage.removeItem('authToken'); });
-    }
+    // use the refresh token to authenticate (if it exists)
+    const { loadProjects, setUser } = this.props;
+    useRefreshToken({
+      success: res => {
+        const { email, userId } = res.data;
+        setUser({ email, id: userId });
+        resourceRequest('get', 'projects', {
+          success: res => { loadProjects(res.data.projects); },
+          failure: err => { console.log(err); },
+          authFailure: err => { console.log(err); }
+        });
+      },
+      failure: err => { console.log(err); }
+    });
 
     // if we're at a /share/:id url, try to fetch the project
     const { path, params } = this.props.match;
     if (path === '/share/:id') {
-      axios.get(`${API_BASE_URL}project/shared/${params.id}`)
-        .then(res => {
+      getSharedProject(params.id, {
+        success: res => {
           res.data.project.shared = false;
-          this.props.loadProject({ data: res.data.project });
+          this.props.loadProject({ data: res.data.project, id: null });
           this.setState({ loading: false });
-        })
-        .catch(() => {
+        },
+        failure: () => {
           this.setState({
             message: 'Oops, we can\'t find that shared project. Please check the URL.',
             error: true
           });
-        });
+        }
+      });
     }
   }
 

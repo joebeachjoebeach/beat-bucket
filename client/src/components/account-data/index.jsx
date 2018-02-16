@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { setUser } from '../../redux/actions/actions-user';
 import { loadProject } from '../../redux/actions/actions-project';
 import { selectProjects } from '../../redux/selectors';
-import { API_BASE_URL } from '../../utils';
+import { API_BASE_URL, resourceRequest } from '../../utils';
 import './account-data.css';
 
 function AccountData({ projects, setUser, hideDropDown, loadProject}) {
@@ -20,20 +20,17 @@ function AccountData({ projects, setUser, hideDropDown, loadProject}) {
 
   function handleProjectClick(id) {
     return () => {
-      const jwt = localStorage.getItem('authToken');
-      axios.get(
-        `${API_BASE_URL}project/${id}`,
-        { headers: { Authorization: `Bearer ${jwt}`} }
-      )
-        .then(res => {
+      resourceRequest('get', `project/${id}`, {
+        success: res => {
           loadProject({ data: res.data.project, id: res.data.id });
           hideDropDown();
-        })
-        .catch(e => {
-          const { error } = e.response.data;
+        },
+        failure: err => {
+          const { error } = err.response.data;
           if (error === 'Invalid token')
             handleSignOut();
-        });
+        }
+      });
     };
   }
 

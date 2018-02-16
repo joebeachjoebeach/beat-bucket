@@ -7,7 +7,6 @@ from utils import (login_hello, post_save, generate_expired_token, generate_inva
 from dummy_data import generate_temp_project
 from api.auth import encode_auth_token
 
-# todo: change this so that it uses Authorization: Bearer <token>
 
 def test_save_new_project(temp_app, temp_db):
     '''Tests saving a new project'''
