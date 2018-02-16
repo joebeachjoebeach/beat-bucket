@@ -16,8 +16,10 @@ def test_login_user(temp_app, temp_db):
     assert res_data['message'] == 'Success', 'Message should read "Success"'
     assert 'email' in res_data, 'Reponse must have email key'
     assert 'userId' in res_data, 'Response must have user_id key'
-    assert 'authToken' in res_data, 'Response must have an auth token'
-    assert isinstance(res_data['authToken'], str)
+    assert 'accessToken' in res_data, 'Response must have an access token'
+    assert 'refreshToken' in res_data, 'Response must have a refresh token'
+    assert isinstance(res_data['accessToken'], str)
+    assert isinstance(res_data['refreshToken'], str)
 
 
 def test_login_fail(temp_app, temp_db):

@@ -2,11 +2,11 @@ import datetime
 import jwt
 
 
-def encode_auth_token(user_id, secret_key):
+def encode_auth_token(user_id, expiry_time, secret_key):
     '''Takes a user id and generates an auth token'''
     now = datetime.datetime.utcnow()
     payload = {
-        'exp': now + datetime.timedelta(days=1),
+        'exp': now + expiry_time,
         'iat': now,
         'sub': user_id
     }

@@ -1,3 +1,4 @@
+import datetime
 from flask import Blueprint, current_app, g, jsonify, request
 import bcrypt
 from email_validator import validate_email, EmailNotValidError
@@ -65,13 +66,24 @@ def login():
         return jsonify({'error': 'Invalid email address or password'}), 400
 
     # generate jwt
-    auth_token = encode_auth_token(result['id'], current_app.config['SECRET_KEY'])
+    access_token = encode_auth_token(
+        result['id'],
+        datetime.timedelta(hours=1),
+        current_app.config['SECRET_KEY']
+    )
+
+    refresh_token = encode_auth_token(
+        result['id'],
+        datetime.timedelta(weeks=1),
+        current_app.config['SECRET_KEY']
+    )
 
     return jsonify({
         'message': 'Success',
         'email': result['email'],
         'userId': result['id'],
-        'authToken': auth_token.decode()
+        'accessToken': access_token.decode(),
+        'refreshToken': refresh_token.decode()
     }), 200
 
 
