@@ -1,11 +1,10 @@
 // SHARING
 
 import React, { Component } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { share, unshare } from '../../redux/actions/actions-project';
-import { API_BASE_URL, WEB_BASE_URL } from '../../utils';
+import { WEB_BASE_URL, resourceRequest } from '../../utils';
 import './sharing.css';
 
 class Sharing extends Component {
@@ -20,29 +19,24 @@ class Sharing extends Component {
   }
 
   updateSharedStatus(shared) {
-    const jwt = localStorage.getItem('authToken');
-    const { bpm, name, id, tracks } = this.props;
-    axios.patch(
-      `${API_BASE_URL}save`,
-      { bpm, name, tracks, shared, id },
-      { headers: { Authorization: `Bearer ${jwt}`}}
-    )
-      .then(() => {
+    const { bpm, name, id, tracks, hideDropDown, setMessage, setUser } = this.props;
+
+    resourceRequest('put', 'save', {
+      success: () => {
         shared
           ? this.handleShareSuccess()
           : this.handleUnshareSuccess();
-      })
-      .catch(e => {
-        const { error } = e.response.data;
-        let errorMessage = error;
-        if (error === 'Invalid token') {
-          errorMessage = 'Please sign in to share your project';
-          localStorage.removeItem('authToken');
-          this.props.setUser({ email: null, userId: null });
-        }
-        this.props.hideDropDown();
-        this.props.setMessage(errorMessage);
-      });
+      },
+      failure: err => {
+        hideDropDown();
+        setMessage(err.response.data);
+      },
+      authFailure: () => { 
+        hideDropDown();
+        setUser({ email: null, userId: null });
+      }
+    },
+    { bpm, name, tracks, shared, id });
   }
 
   handleShareSuccess() {

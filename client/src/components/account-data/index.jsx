@@ -1,13 +1,12 @@
 // ACCOUNT-DATA
 
 import React from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setUser } from '../../redux/actions/actions-user';
 import { loadProject } from '../../redux/actions/actions-project';
 import { selectProjects } from '../../redux/selectors';
-import { API_BASE_URL, resourceRequest } from '../../utils';
+import { resourceRequest } from '../../utils';
 import './account-data.css';
 
 function AccountData({ projects, setUser, hideDropDown, loadProject}) {

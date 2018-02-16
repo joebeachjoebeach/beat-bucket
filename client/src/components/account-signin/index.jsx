@@ -2,10 +2,9 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { setUser, loadProjects } from '../../redux/actions/actions-user.js';
-import { API_BASE_URL, resourceRequest, signIn, register } from '../../utils';
+import { resourceRequest, signIn, register } from '../../utils';
 import './account-signin.css';
 
 import CreateAccountForm from '../create-account-form';

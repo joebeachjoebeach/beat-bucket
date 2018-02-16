@@ -3,12 +3,11 @@
 import React from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setUser, loadProjects } from '../../redux/actions/actions-user.js';
 import { loadProject } from '../../redux/actions/actions-project';
-import { API_BASE_URL, useRefreshToken, resourceRequest, getSharedProject } from '../../utils';
+import { useRefreshToken, resourceRequest, getSharedProject } from '../../utils';
 import './app.css';
 
 import Header from '../header';

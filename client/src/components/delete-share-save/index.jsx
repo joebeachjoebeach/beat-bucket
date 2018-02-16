@@ -1,14 +1,13 @@
 // DELETE-SHARE-SAVE
 
 import React from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { selectCanSave, selectEmail } from '../../redux/selectors';
 import { deleteProject } from '../../redux/actions/actions-project';
 import { setUser, save } from '../../redux/actions/actions-user';
-import { API_BASE_URL, resourceRequest } from '../../utils';
+import { resourceRequest } from '../../utils';
 import './delete-share-save.css';
 
 import Sharing from '../sharing';
@@ -84,27 +83,16 @@ class DeleteShareSave extends React.Component {
 
   handleDeleteClick() {
     const { id, name, deleteProject, setMessage } = this.props;
-    const jwt = localStorage.getItem('authToken');
 
     if (window.confirm(`Are you sure you want to delete ${name}?`)) {
-      axios.delete(
-        `${API_BASE_URL}project/${id}`,
-        { headers: { Authorization: `Bearer ${jwt}`} }
-      )
-        .then(() => {
+      resourceRequest('delete', `project/${id}`, {
+        success: () => {
           setMessage('Project deleted successfully');
           deleteProject(id);
-        })
-        .catch(e => {
-          const { error } = e.response.data;
-          let errorMessage = error;
-          if (error === 'Invalid token') {
-            errorMessage = 'Please sign in to delete your project';
-            localStorage.removeItem('authToken');
-            this.props.setUser({ email: null, userId: null });
-          }
-          setMessage(errorMessage);
-        });
+        },
+        failure: err => { setMessage(err.response.data); },
+        authFailure: () => { setUser({ email: null, userId: null }); }
+      });
     }
   }
 

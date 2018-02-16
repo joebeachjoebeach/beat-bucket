@@ -25,19 +25,6 @@ export function useRefreshToken({ success, failure }) {
   }
 }
 
-export function authRequest(method, path, data, handlers) {
-  axios[method](
-    `${API_BASE_URL}${path}`,
-    data
-  )
-    .then(res => {
-      handlers.success(res);
-    })
-    .catch(err => {
-      handlers.failure(err);
-    });
-}
-
 export function register(data, handlers) {
   axios.post(`${API_BASE_URL}auth/register`, data)
     .then(res => {
@@ -120,5 +107,3 @@ export function getSharedProject(id, handlers) {
     .then(res => { handlers.success(res); })
     .catch(err => { handlers.failure(err); });
 }
-
-
