@@ -100,33 +100,37 @@ def authenticate():
         return jsonify({'error': 'Invalid token'}), 401
 
     db_conn = get_db(current_app, g)
-    user = get_user_by_id(db_conn, token_data['user_id'])
+    user = get_user_by_id(db_conn, token_data['sub'])
 
 
     # create new access token
     access_token = encode_auth_token(
         'access',
-        token_data['user_id'],
+        token_data['sub'],
         datetime.timedelta(minutes=30),
         current_app.config['SECRET_KEY']
     )
 
     response_data = {
         'message': 'Success',
-        'userId': token_data['user_id'],
+        'userId': token_data['sub'],
         'email': user['email'],
-        'accessToken': access_token
+        'accessToken': access_token.decode()
     }
 
+    print(token_data['exp'])
+    print(datetime.datetime.utcnow())
+
     # create a new refresh token if the current one is about to expire
-    time_til_expiry = token_data['exp'] - datetime.datetime.utcnow()
+    expiry_time = datetime.datetime.fromtimestamp(token_data['exp'])
+    time_til_expiry = expiry_time - datetime.datetime.utcnow()
     if time_til_expiry <= datetime.timedelta(minutes=35):
         refresh_token = encode_auth_token(
             'refresh',
-            token_data['user_id'],
+            token_data['sub'],
             datetime.timedelta(weeks=1),
             current_app.config['SECRET_KEY']
         )
-        response_data['refreshToken'] = refresh_token
+        response_data['refreshToken'] = refresh_token.decode()
 
     return jsonify(response_data)

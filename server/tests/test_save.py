@@ -2,10 +2,9 @@ import pprint
 import json
 import datetime
 import psycopg2.extras
-import jwt
 from fixtures import temp_app, temp_db
 from utils import (login_hello, post_save, generate_expired_token, generate_invalid_token,
-                   get_project, patch_save, login_mackland)
+                   patch_save, login_mackland)
 from dummy_data import generate_temp_project
 
 # todo: change this so that it uses Authorization: Bearer <token>

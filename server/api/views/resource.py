@@ -19,7 +19,7 @@ def projects_get():
 
     db_conn = get_db(current_app, g)
     cursor = db_conn.cursor()
-    projects = get_all_projects(cursor, token_data['user_id'])
+    projects = get_all_projects(cursor, token_data['sub'])
     cursor.close()
     return jsonify({'message': 'Success', 'projects': projects}), 200
 
@@ -37,7 +37,7 @@ def project_get(project_id):
     if project is None:
         return jsonify({'error': 'Project does not exist'}), 400
 
-    if project['user_id'] != token_data['user_id']:
+    if project['user_id'] != token_data['sub']:
         return jsonify({'error': 'Forbidden: project belongs to another user'}), 403
 
     return jsonify({
@@ -60,7 +60,7 @@ def project_delete(project_id):
     if project is None:
         return jsonify({'error': 'Project does not exist'}), 400
 
-    if project['user_id'] != token_data['user_id']:
+    if project['user_id'] != token_data['sub']:
         return jsonify({'error': 'Forbidden: project belongs to another user'}), 403
 
     delete_project(db_conn, project_id)
@@ -103,19 +103,19 @@ def save_project():
     db_conn = get_db(current_app, g)
 
     # return an error if the user already has a project with that name
-    if get_project_id(db_conn, token_data['user_id'], json_data['name']):
+    if get_project_id(db_conn, token_data['sub'], json_data['name']):
         return jsonify({'error': 'A project with that name already exists'}), 400
 
     project = {
         'name': json_data['name'],
-        'user_id': token_data['user_id'],
+        'user_id': token_data['sub'],
         'shared': json_data['shared'],
         'data': json.dumps(json_data)
     }
 
     insert_project(db_conn, project)
 
-    project_id = get_project_id(db_conn, token_data['user_id'], json_data['name'])[0]
+    project_id = get_project_id(db_conn, token_data['sub'], json_data['name'])[0]
 
     db_conn.commit()
 
@@ -139,7 +139,7 @@ def project_update():
     if project is None:
         return jsonify({'error': 'Project does not exist'}), 404
 
-    if token_data['user_id'] != project['user_id']:
+    if token_data['sub'] != project['user_id']:
         return jsonify({'error': 'Forbidden: project belongs to another user'}), 403
 
     updated_project = {
