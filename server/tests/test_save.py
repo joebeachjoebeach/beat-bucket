@@ -12,7 +12,8 @@ from dummy_data import generate_temp_project
 
 def test_save_new_project(temp_app, temp_db):
     '''Tests saving a new project'''
-    auth_token = login_hello(temp_app)
+    login_res = login_hello(temp_app)
+    auth_token = login_res['accessToken']
 
     data = generate_temp_project()
 
@@ -37,7 +38,8 @@ def test_save_new_project_fail(temp_app, temp_db):
     '''Tests various failure cases when trying to save a new project'''
 
     # Tests trying to save a project with a duplicate name under the same user
-    auth_token = login_hello(temp_app)
+    login_res = login_hello(temp_app)
+    auth_token = login_res['accessToken']
 
     data = generate_temp_project()
     data['name'] = 'New Project 1'
@@ -82,7 +84,8 @@ def test_save_new_project_fail(temp_app, temp_db):
 def test_save_existing_project(temp_app, temp_db):
     ''' Tests making changes to an existing project '''
 
-    auth_token = login_hello(temp_app)
+    login_res = login_hello(temp_app)
+    auth_token = login_res['accessToken']
     project = generate_temp_project()
     project['name'] = 'Fancy Beatz'
     project['shared'] = True
@@ -108,7 +111,8 @@ def test_save_existing_project_fail(temp_app, temp_db):
     '''Tests various failure cases when saving an existing project'''
 
     # Tests trying to save a nonexistent project
-    auth_token = login_mackland(temp_app)
+    login_res = login_mackland(temp_app)
+    auth_token = login_res['accessToken']
     project = generate_temp_project()
     project['id'] = 0
     res = patch_save(project, auth_token, temp_app)

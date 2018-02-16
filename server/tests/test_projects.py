@@ -8,7 +8,8 @@ from utils import (get_projects, login_hello, login_mackland, generate_expired_t
 
 def test_get_projects(temp_app, temp_db):
     '''Tests getting all projects by an authenticated user'''
-    auth_token = login_hello(temp_app)
+    login_res = login_hello(temp_app)
+    auth_token = login_res['accessToken']
     res = get_projects(auth_token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 200
@@ -18,7 +19,8 @@ def test_get_projects(temp_app, temp_db):
 
 def test_get_projects_none(temp_app, temp_db):
     '''Tests getting all projects by a user with no projects'''
-    auth_token = login_mackland(temp_app)
+    login_res = login_mackland(temp_app)
+    auth_token = login_res['accessToken']
     res = get_projects(auth_token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 200

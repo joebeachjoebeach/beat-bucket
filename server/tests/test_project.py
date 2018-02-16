@@ -9,7 +9,8 @@ from utils import (get_project, login_hello, login_mackland, generate_expired_to
 
 def test_get_project(temp_app, temp_db):
     '''Tests getting a specific project (with tracks)'''
-    auth_token = login_hello(temp_app)
+    login_res = login_hello(temp_app)
+    auth_token = login_res['accessToken']
     res = get_project(1, auth_token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 200
@@ -22,7 +23,8 @@ def test_get_project_fail(temp_app, temp_db):
     '''Tests various failure cases when getting a project'''
 
     # Tests trying to get nonexistent project
-    auth_token = login_mackland(temp_app)
+    login_res = login_mackland(temp_app)
+    auth_token = login_res['accessToken']
     res = get_project(0, auth_token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 400
@@ -66,7 +68,8 @@ def test_get_project_fail(temp_app, temp_db):
 
 def test_delete_project(temp_app, temp_db):
     '''Tests deleting a project'''
-    auth_token = login_hello(temp_app)
+    login_res = login_hello(temp_app)
+    auth_token = login_res['accessToken']
     res = delete_project(1, auth_token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 200
@@ -82,7 +85,8 @@ def test_delete_project_fail(temp_app, temp_db):
     '''Tests various failure cases when trying to delete a project'''
 
     # Tests trying to delete a nonexistent project'''
-    auth_token = login_mackland(temp_app)
+    login_res = login_mackland(temp_app)
+    auth_token = login_res['accessToken']
     res = delete_project(0, auth_token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 400

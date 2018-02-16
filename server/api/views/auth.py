@@ -5,7 +5,7 @@ from email_validator import validate_email, EmailNotValidError
 from api.db import (get_db, connect_to_db, add_user, email_exists, get_user_by_email,
                     get_user_by_id)
 from api.auth import (encode_auth_token, decode_auth_token, get_token,
-                      get_user_id_from_token)
+                      get_data_from_token)
 
 
 auth_bp = Blueprint('auth_bp', __name__)
@@ -67,12 +67,14 @@ def login():
 
     # generate jwt
     access_token = encode_auth_token(
+        'access',
         result['id'],
-        datetime.timedelta(hours=1),
+        datetime.timedelta(minutes=30),
         current_app.config['SECRET_KEY']
     )
 
     refresh_token = encode_auth_token(
+        'refresh',
         result['id'],
         datetime.timedelta(weeks=1),
         current_app.config['SECRET_KEY']
@@ -87,17 +89,44 @@ def login():
     }), 200
 
 
-@auth_bp.route('/auth/verify', methods=['GET'])
-def verify():
-    '''Verifies a jwt'''
-    user_dict = get_user_id_from_token(request.headers, current_app.config['SECRET_KEY'])
-    if 'error' in user_dict:
-        return jsonify({'error': user_dict['error']}), user_dict['status_code']
+@auth_bp.route('/auth/authenticate', methods=['GET'])
+def authenticate():
+    ''' Verifies a refresh token and generates an access token '''
+    token_data = get_data_from_token(request.headers, current_app.config['SECRET_KEY'])
+    if 'error' in token_data:
+        return jsonify({'error': token_data['error']}), token_data['status_code']
+
+    if token_data['type'] != 'refresh':
+        return jsonify({'error': 'Invalid token'}), 401
 
     db_conn = get_db(current_app, g)
-    user = get_user_by_id(db_conn, user_dict['user_id'])
-    return jsonify({
+    user = get_user_by_id(db_conn, token_data['user_id'])
+
+
+    # create new access token
+    access_token = encode_auth_token(
+        'access',
+        token_data['user_id'],
+        datetime.timedelta(minutes=30),
+        current_app.config['SECRET_KEY']
+    )
+
+    response_data = {
         'message': 'Success',
-        'userId': user_dict['user_id'],
-        'email': user['email']
-    })
+        'userId': token_data['user_id'],
+        'email': user['email'],
+        'accessToken': access_token
+    }
+
+    # create a new refresh token if the current one is about to expire
+    time_til_expiry = token_data['exp'] - datetime.datetime.utcnow()
+    if time_til_expiry <= datetime.timedelta(minutes=35):
+        refresh_token = encode_auth_token(
+            'refresh',
+            token_data['user_id'],
+            datetime.timedelta(weeks=1),
+            current_app.config['SECRET_KEY']
+        )
+        response_data['refreshToken'] = refresh_token
+
+    return jsonify(response_data)

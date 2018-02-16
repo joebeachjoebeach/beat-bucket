@@ -54,7 +54,7 @@ def login_hello(app):
     user = {'email': 'hello@goodbye.com', 'password': 'goodbye'}
     res = login(user, app)
     res_data = json.loads(res.data)
-    return res_data['accessToken']
+    return res_data
 
 
 def login_mackland(app):
@@ -62,13 +62,13 @@ def login_mackland(app):
     user = {'email': 'bmackland@fbi.net', 'password': 'mackland'}
     res = login(user, app)
     res_data = json.loads(res.data)
-    return res_data['accessToken']
+    return res_data
 
 
-def get_verify(auth_token, app):
-    '''Posts GET to /auth/verify'''
+def get_authenticate(auth_token, app):
+    '''Posts GET to /auth/authenticate'''
     return app.get(
-        '/auth/verify',
+        '/auth/authenticate',
         headers=dict(Authorization=f'Bearer {auth_token}'))
 
 
