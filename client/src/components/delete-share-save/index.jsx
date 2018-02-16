@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { selectCanSave, selectEmail } from '../../redux/selectors';
 import { deleteProject } from '../../redux/actions/actions-project';
 import { setUser, save } from '../../redux/actions/actions-user';
-import { API_BASE_URL } from '../../utils';
+import { API_BASE_URL, resourceRequest } from '../../utils';
 import './delete-share-save.css';
 
 import Sharing from '../sharing';
@@ -23,11 +23,12 @@ class DeleteShareSave extends React.Component {
   }
 
   handleSaveClick() {
-    const jwt = localStorage.getItem('authToken');
-    if (!jwt || !this.props.email) {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (!refreshToken || !this.props.email) {
       this.props.setMessage('Please sign in to save your project');
       return;
     }
+
     const {
       bpm,
       name,
@@ -36,51 +37,47 @@ class DeleteShareSave extends React.Component {
       id,
       canSave,
       save,
-      setMessage } = this.props;
+      setMessage,
+      setUser } = this.props;
+
     if (canSave) {
+      this.setState({ saving: true });
+      // if the project has no id, then we need a POST request to /save
       if (!id) {
-        this.setState({ saving: true });
-        axios.post(
-          `${API_BASE_URL}save`,
-          { bpm, name, tracks, shared },
-          { headers: { Authorization: `Bearer ${jwt}`} }
-        )
-          .then(res => {
-            const { projectId } = res.data;
-            save({ id: projectId, name });
+        resourceRequest('post', 'save', {
+          success: res => {
+            save({ id: res.data.projectId, name });
             this.setState({ saving: false });
-          })
-          .catch(e => {
-            const { error } = e.response.data;
-            let errorMessage = error;
-            if (error === 'Invalid token') {
-              errorMessage = 'Please sign in to save your project';
-              localStorage.removeItem('authToken');
-              this.props.setUser({ email: null, userId: null });
-            }
-            setMessage(errorMessage);
+          },
+          failure: err => {
+            setMessage(err.response.data);
             this.setState({ saving: false });
-          });
+          },
+          authFailure: () => {
+            setUser({ email: null, userId: null });
+            this.setState({ saving: false });
+          }
+        },
+        { bpm, name, tracks, shared });
       }
+
+      // if the project has an id, we need a PUT request to /save
       else {
-        this.setState({ saving: true });
-        axios.patch(
-          `${API_BASE_URL}save`,
-          { bpm, name, tracks, shared, id },
-          { headers: { Authorization: `Bearer ${jwt}`}}
-        )
-          .then(() => {
+        resourceRequest('put', 'save', {
+          success: () => {
             save({ id, name });
             this.setState({ saving: false });
-          })
-          .catch(e => {
-            const { error } = e.response.data;
-            let errorMessage = error;
-            if (error === 'Invalid token')
-              errorMessage = 'Please sign in to save your project';
-            setMessage(errorMessage);
+          },
+          failure: err => {
+            setMessage(err.response.data);
             this.setState({ saving: false });
-          });
+          },
+          authFailure: () => {
+            setUser({ email: null, userId: null });
+            this.setState({ saving: false });
+          }
+        },
+        { bpm, name, tracks, shared, id });
       }
     }
   }

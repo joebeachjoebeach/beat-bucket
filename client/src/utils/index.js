@@ -60,12 +60,21 @@ export function signIn(data, handlers) {
     });
 }
 
-export function resourceRequest(method, path, handlers) {
+export function resourceRequest(method, path, handlers, data) {
   const accessToken = localStorage.getItem('accessToken');
   if (accessToken) {
-    axios[method](
-      `${API_BASE_URL}${path}`,
-      { headers: { Authorization: `Bearer ${accessToken}` } }
+    // we may or may not be sending data
+    (
+      data
+        ? axios[method](
+          `${API_BASE_URL}${path}`,
+          data,
+          { headers: { Authorization: `Bearer ${accessToken}` } }
+        )
+        : axios[method](
+          `${API_BASE_URL}${path}`,
+          { headers: { Authorization: `Bearer ${accessToken}` } }
+        )
     )
       .then(res => {
         handlers.success(res);
