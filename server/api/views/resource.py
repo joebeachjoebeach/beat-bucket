@@ -17,6 +17,9 @@ def projects_get():
     if 'error' in token_data:
         return jsonify({'error': token_data['error']}), token_data['status_code']
 
+    if token_data['type'] != 'access':
+        return jsonify({'error': 'Invalid token type'}), 401
+
     db_conn = get_db(current_app, g)
     cursor = db_conn.cursor()
     projects = get_all_projects(cursor, token_data['sub'])
@@ -30,6 +33,9 @@ def project_get(project_id):
     token_data = get_data_from_token(request.headers, current_app.config['SECRET_KEY'])
     if 'error' in token_data:
         return jsonify({'error': token_data['error']}), token_data['status_code']
+
+    if token_data['type'] != 'access':
+        return jsonify({'error': 'Invalid token type'}), 401
 
     db_conn = get_db(current_app, g)
     project = get_project(db_conn, project_id)
@@ -54,6 +60,9 @@ def project_delete(project_id):
     if 'error' in token_data:
         return jsonify({'error': token_data['error']}), token_data['status_code']
 
+    if token_data['type'] != 'access':
+        return jsonify({'error': 'Invalid token type'}), 401
+
     db_conn = get_db(current_app, g)
     project = get_project(db_conn, project_id)
 
@@ -72,9 +81,6 @@ def project_delete(project_id):
 @resource_bp.route('/project/shared/<int:project_id>', methods=['GET'])
 def get_shared_project(project_id):
     ''' Gets a shared project '''
-    # print('get shared project')
-    # print(project_id)
-
     db_conn = get_db(current_app, g)
     project = get_project(db_conn, project_id)
 
@@ -98,6 +104,9 @@ def save_project():
     token_data = get_data_from_token(request.headers, current_app.config['SECRET_KEY'])
     if 'error' in token_data:
         return jsonify({'error': token_data['error']}), token_data['status_code']
+
+    if token_data['type'] != 'access':
+        return jsonify({'error': 'Invalid token type'}), 401
 
     json_data = request.get_json()
     db_conn = get_db(current_app, g)
@@ -131,6 +140,9 @@ def project_update():
     token_data = get_data_from_token(request.headers, current_app.config['SECRET_KEY'])
     if 'error' in token_data:
         return jsonify({'error': token_data['error']}), token_data['status_code']
+
+    if token_data['type'] != 'access':
+        return jsonify({'error': 'Invalid token type'}), 401
 
     json_data = request.get_json()
     db_conn = get_db(current_app, g)

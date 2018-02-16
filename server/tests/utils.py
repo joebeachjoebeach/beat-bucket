@@ -72,13 +72,14 @@ def get_authenticate(auth_token, app):
         headers=dict(Authorization=f'Bearer {auth_token}'))
 
 
-def generate_expired_token(secret_key):
+def generate_expired_token(token_type, secret_key):
     '''Generates an expired jwt'''
     now = datetime.datetime.utcnow()
     token_payload = {
         'exp': now - datetime.timedelta(seconds=30),
         'iat': now - datetime.timedelta(minutes=1),
-        'sub': 1
+        'sub': 1,
+        'type': token_type
     }
     return jwt.encode(
         token_payload,
@@ -87,13 +88,14 @@ def generate_expired_token(secret_key):
     )
 
 
-def generate_invalid_token():
+def generate_invalid_token(token_type):
     '''Generates a token signed with the wrong key'''
     now = datetime.datetime.utcnow()
     token_payload = {
         'exp': now + datetime.timedelta(minutes=30),
         'iat': now,
-        'sub': 1
+        'sub': 1,
+        'type': token_type
     }
     return jwt.encode(
         token_payload,

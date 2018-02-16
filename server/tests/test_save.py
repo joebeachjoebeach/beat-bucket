@@ -1,4 +1,3 @@
-import pprint
 import json
 import datetime
 import psycopg2.extras
@@ -6,6 +5,7 @@ from fixtures import temp_app, temp_db
 from utils import (login_hello, post_save, generate_expired_token, generate_invalid_token,
                    patch_save, login_mackland)
 from dummy_data import generate_temp_project
+from api.auth import encode_auth_token
 
 # todo: change this so that it uses Authorization: Bearer <token>
 
@@ -66,18 +66,30 @@ def test_save_new_project_fail(temp_app, temp_db):
     assert res_data['error'] == 'No authentication provided'
 
     # Tests trying to save project with an expired token
-    token = generate_expired_token(temp_app.application.config['SECRET_KEY'])
+    token = generate_expired_token('access', temp_app.application.config['SECRET_KEY'])
     res = post_save(data, token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 401
     assert res_data['error'] == 'Invalid token'
 
     # Tests trying to save project with a token signed with the wrong key
-    token = generate_invalid_token()
+    token = generate_invalid_token('access')
     res = post_save(data, token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 401
     assert res_data['error'] == 'Invalid token'
+
+    # Tests trying to use a refresh token to access projects
+    token = encode_auth_token(
+        'refresh',
+        1,
+        datetime.timedelta(days=3),
+        temp_app.application.config['SECRET_KEY']
+    )
+    res = post_save(data, token.decode(), temp_app)
+    res_data = json.loads(res.data)
+    assert res.status_code == 401
+    assert res_data['error'] == 'Invalid token type'
 
 
 def test_save_existing_project(temp_app, temp_db):
@@ -143,15 +155,27 @@ def test_save_existing_project_fail(temp_app, temp_db):
     assert res_data['error'] == 'No authentication provided'
 
     # Tests trying to save a project with an expired auth token
-    token = generate_expired_token(temp_app.application.config['SECRET_KEY'])
+    token = generate_expired_token('access', temp_app.application.config['SECRET_KEY'])
     res = patch_save(project, token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 401
     assert res_data['error'] == 'Invalid token'
 
     # Tests trying to save a project with an invalid auth token
-    token = generate_invalid_token()
+    token = generate_invalid_token('access')
     res = patch_save(project, token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 401
     assert res_data['error'] == 'Invalid token'
+
+    # Tests trying to use a refresh token to access projects
+    token = encode_auth_token(
+        'refresh',
+        1,
+        datetime.timedelta(days=3),
+        temp_app.application.config['SECRET_KEY']
+    )
+    res = patch_save(project, token.decode(), temp_app)
+    res_data = json.loads(res.data)
+    assert res.status_code == 401
+    assert res_data['error'] == 'Invalid token type'

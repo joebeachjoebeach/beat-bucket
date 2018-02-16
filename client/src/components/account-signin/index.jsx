@@ -94,15 +94,9 @@ class AccountSignin extends Component {
           hideDropDown();
           setUser({ email: res.data.email, id: res.data.userId });
           resourceRequest('get', 'projects', {
-            success: (res) => {
-              loadProjects(res.data.projects);
-            },
-            failure: (err) => {
-              console.log(err);
-            },
-            authFailure: (err) => {
-              console.log(err);
-            }
+            success: (res) => { loadProjects(res.data.projects); },
+            failure: (err) => { console.log(err); },
+            authFailure: (err) => { console.log(err); }
           });
         },
         failure: (err) => {

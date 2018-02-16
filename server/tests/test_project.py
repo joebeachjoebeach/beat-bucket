@@ -1,10 +1,10 @@
 import datetime
-import pprint
 import json
 import psycopg2.extras
 from fixtures import temp_app, temp_db
 from utils import (get_project, login_hello, login_mackland, generate_expired_token,
                    generate_invalid_token, delete_project)
+from api.auth import encode_auth_token
 
 
 def test_get_project(temp_app, temp_db):
@@ -52,18 +52,30 @@ def test_get_project_fail(temp_app, temp_db):
     assert res_data['error'] == 'No authentication provided'
 
     # Tests trying to get a project with an expired token
-    token = generate_expired_token(temp_app.application.config['SECRET_KEY'])
+    token = generate_expired_token('access', temp_app.application.config['SECRET_KEY'])
     res = get_project(1, token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 401
     assert res_data['error'] == 'Invalid token'
 
     # Tests trying to get a project with a token signed with the wrong key
-    token = generate_invalid_token()
+    token = generate_invalid_token('access')
     res = get_project(1, token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 401
     assert res_data['error'] == 'Invalid token'
+
+    # Tests trying to use a refresh token to access projects
+    token = encode_auth_token(
+        'refresh',
+        1,
+        datetime.timedelta(days=3),
+        temp_app.application.config['SECRET_KEY']
+    )
+    res = get_project(1, token.decode(), temp_app)
+    res_data = json.loads(res.data)
+    assert res.status_code == 401
+    assert res_data['error'] == 'Invalid token type'
 
 
 def test_delete_project(temp_app, temp_db):
@@ -114,18 +126,30 @@ def test_delete_project_fail(temp_app, temp_db):
     assert res_data['error'] == 'No authentication provided'
 
     # Tests trying to delete project with an expired token
-    token = generate_expired_token(temp_app.application.config['SECRET_KEY'])
+    token = generate_expired_token('access', temp_app.application.config['SECRET_KEY'])
     res = delete_project(1, token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 401
     assert res_data['error'] == 'Invalid token'
 
     # Tests trying to delete project with a token signed with the wrong key
-    token = generate_invalid_token()
+    token = generate_invalid_token('access')
     res = delete_project(1, token, temp_app)
     res_data = json.loads(res.data)
     assert res.status_code == 401
     assert res_data['error'] == 'Invalid token'
+
+    # Tests trying to use a refresh token to access projects
+    token = encode_auth_token(
+        'refresh',
+        1,
+        datetime.timedelta(days=3),
+        temp_app.application.config['SECRET_KEY']
+    )
+    res = delete_project(1, token.decode(), temp_app)
+    res_data = json.loads(res.data)
+    assert res.status_code == 401
+    assert res_data['error'] == 'Invalid token type'
 
 
 def test_get_shared_project(temp_app, temp_db):
