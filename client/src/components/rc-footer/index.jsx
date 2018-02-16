@@ -9,7 +9,7 @@ const RCFooter = () => {
     <div className="rc-footer">
       <span>Made with ♥ at the </span>
       <a
-        href="https://www.recurse-scout.com/loader.js?t=f8252f9ee6ff1f610bf63a6faf72a7df"
+        href="https://www.recurse.com/scout/click?t=f8252f9ee6ff1f610bf63a6faf72a7df"
         target="_blank"
         rel="noopener noreferrer"
       >
