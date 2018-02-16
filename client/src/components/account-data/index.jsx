@@ -3,6 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import { setUser } from '../../redux/actions/actions-user';
 import { loadProject } from '../../redux/actions/actions-project';
 import { selectProjects } from '../../redux/selectors';
@@ -37,13 +38,13 @@ function AccountData({ projects, setUser, hideDropDown, loadProject}) {
     return Object.keys(projects).map(id => {
       const name = projects[id];
       return (
-        <button
-          className="project-list-button"
+        <Link
           key={id}
+          className="project-list-button" to="/"
           onClick={handleProjectClick(id)}
         >
           {name}
-        </button>
+        </Link>
       );
     }).reverse();
   }

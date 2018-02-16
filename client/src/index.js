@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, BrowserRouter, Route, Switch } from 'react-router-dom';
 import reducers from './redux/reducers';
 import registerServiceWorker from './registerServiceWorker';
 
@@ -26,12 +26,23 @@ else
 
 const sequencer = new Sequencer(store);
 
+// ReactDOM.render(
+//   <Provider store={store}>
+//     <HashRouter hashType="noslash">
+//       <Switch>
+//         <Route exact path={process.env.PUBLIC_URL + '/'} component={App} />
+//         <Route path={process.env.PUBLIC_URL + '/share/:id'} component={App} />
+//       </Switch>
+//     </HashRouter>
+//   </Provider>
+//   , document.getElementById('main')
+// );
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Switch>
-        <Route exact path={process.env.PUBLIC_URL + '/'} component={App} />
-        <Route path={process.env.PUBLIC_URL + '/share/:id'} component={App} />
+        <Route exact path="/" component={App} />
+        <Route path="/share/:id" component={App} />
       </Switch>
     </BrowserRouter>
   </Provider>

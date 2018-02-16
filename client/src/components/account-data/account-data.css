@@ -18,10 +18,11 @@
 }
 
 .project-list-button {
-  border: none;
   background: transparent;
+  border: none;
   color: #DDD;
   padding: 3px 5px;
+  text-decoration: none;
   text-align: left;
 }
 
