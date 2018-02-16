@@ -30,6 +30,7 @@ class AccountSignin extends Component {
 
   handleCreateAccountSubmit(email, password1, password2) {
     if (password1 === password2) {
+      email = email.trim();
       this.setState({ loading: true });
       register(
         { email, password: password1 },
@@ -53,6 +54,7 @@ class AccountSignin extends Component {
   }
 
   handleSignInSubmit(email, password) {
+    email = email.trim();
     const { setUser, hideDropDown, loadProjects } = this.props;
     this.setState({ loading: true });
     signIn(
