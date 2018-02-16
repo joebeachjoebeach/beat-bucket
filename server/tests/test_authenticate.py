@@ -64,3 +64,15 @@ def test_authenticate_fail(temp_app, temp_db):
     res_data = json.loads(res.data)
     assert res.status_code == 401
     assert res_data['error'] == 'Invalid token'
+
+    # Tests trying to use an access token to refresh
+    token = encode_auth_token(
+        'access',
+        1,
+        datetime.timedelta(days=3),
+        temp_app.application.config['SECRET_KEY']
+    )
+    res = get_authenticate(token.decode(), temp_app)
+    res_data = json.loads(res.data)
+    assert res.status_code == 401
+    assert res_data['error'] == 'Invalid token type'

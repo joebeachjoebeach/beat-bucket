@@ -50,38 +50,23 @@ export function signIn(data, handlers) {
 export function resourceRequest(method, path, handlers, data) {
   const accessToken = localStorage.getItem('accessToken');
   if (accessToken) {
-    // we may or may not be sending data
-    (
-      data
-        ? axios[method](
-          `${API_BASE_URL}${path}`,
-          data,
-          { headers: { Authorization: `Bearer ${accessToken}` } }
-        )
-        : axios[method](
-          `${API_BASE_URL}${path}`,
-          { headers: { Authorization: `Bearer ${accessToken}` } }
-        )
-    )
+    buildRequest(method, path, handlers, accessToken, data)
       .then(res => {
         handlers.success(res);
       })
       .catch(() => {
         localStorage.removeItem('accessToken');
-        const { refreshToken } = localStorage.getItem('refreshToken');
+        const refreshToken = localStorage.getItem('refreshToken');
         if (refreshToken) {
           axios.get(
-            `${API_BASE_URL}authenticate`,
+            `${API_BASE_URL}auth/authenticate`,
             { headers: { Authorization: `Bearer ${refreshToken}` } }
           )
             .then(res => {
               const { accessToken, refreshToken } = res.data;
               localStorage.setItem('accessToken', accessToken);
               refreshToken && localStorage.setItem('refreshToken', refreshToken);
-              axios[method](
-                `${API_BASE_URL}${path}`,
-                { headers: { Authorization: `Bearer ${accessToken}` } }
-              )
+              buildRequest(method, path, handlers, accessToken, data)
                 .then(res => {
                   handlers.success(res);
                 })
@@ -100,6 +85,21 @@ export function resourceRequest(method, path, handlers, data) {
         }
       });
   }
+}
+
+function buildRequest(method, path, handlers, accessToken, data) {
+  if (data) {
+    return axios[method](
+      `${API_BASE_URL}${path}`,
+      data,
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
+  }
+
+  return axios[method](
+    `${API_BASE_URL}${path}`,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
 }
 
 export function getSharedProject(id, handlers) {

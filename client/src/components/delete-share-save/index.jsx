@@ -49,7 +49,7 @@ class DeleteShareSave extends React.Component {
             this.setState({ saving: false });
           },
           failure: err => {
-            setMessage(err.response.data);
+            setMessage(err.response.data.error);
             this.setState({ saving: false });
           },
           authFailure: () => {
@@ -68,7 +68,7 @@ class DeleteShareSave extends React.Component {
             this.setState({ saving: false });
           },
           failure: err => {
-            setMessage(err.response.data);
+            setMessage(err.response.data.error);
             this.setState({ saving: false });
           },
           authFailure: () => {
@@ -90,7 +90,7 @@ class DeleteShareSave extends React.Component {
           setMessage('Project deleted successfully');
           deleteProject(id);
         },
-        failure: err => { setMessage(err.response.data); },
+        failure: err => { setMessage(err.response.data.error); },
         authFailure: () => { setUser({ email: null, userId: null }); }
       });
     }
