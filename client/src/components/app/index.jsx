@@ -42,7 +42,6 @@ class App extends React.Component {
 
     // if we're at a /share/:id url, try to fetch the project
     const { path, params } = this.props.match;
-    console.log(this.props.match);
     if (path === '/share/:id') {
       getSharedProject(params.id, {
         success: res => {
