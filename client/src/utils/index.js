@@ -4,7 +4,8 @@ import axios from 'axios';
 export const API_BASE_URL = process.env.REACT_APP_API_URL;
 export const WEB_BASE_URL = process.env.REACT_APP_WEB_URL;
 
-export function useRefreshToken({ success, failure }) {
+// uses the refresh token to get user data and access token
+export function useRefreshToken({ success }) {
   const refreshToken = localStorage.getItem('refreshToken');
   if (refreshToken) {
     axios.get(
@@ -17,14 +18,14 @@ export function useRefreshToken({ success, failure }) {
         refreshToken && localStorage.setItem('refreshToken', refreshToken);
         success(res);
       })
-      .catch(err => {
+      .catch(() => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        failure(err);
       });
   }
 }
 
+// registers a new user
 export function register(data, handlers) {
   axios.post(`${API_BASE_URL}auth/register`, data)
     .then(res => {
@@ -35,6 +36,7 @@ export function register(data, handlers) {
     });
 }
 
+// signs a user in
 export function signIn(data, handlers) {
   axios.post(`${API_BASE_URL}auth/login`, data)
     .then(res => {
@@ -47,6 +49,9 @@ export function signIn(data, handlers) {
     });
 }
 
+// handles all requests to the resource server where authentication is required
+// if the access token fails, it will use the refresh to get a new access token
+// and try the request again
 export function resourceRequest(method, path, handlers, data) {
   const accessToken = localStorage.getItem('accessToken');
   if (accessToken) {
@@ -67,12 +72,8 @@ export function resourceRequest(method, path, handlers, data) {
               localStorage.setItem('accessToken', accessToken);
               refreshToken && localStorage.setItem('refreshToken', refreshToken);
               buildRequest(method, path, handlers, accessToken, data)
-                .then(res => {
-                  handlers.success(res);
-                })
-                .catch(err => {
-                  handlers.failure(err);
-                });
+                .then(res => { handlers.success(res); })
+                .catch(err => { handlers.failure(err); });
             })
             .catch(err => {
               localStorage.removeItem('accessToken');
@@ -80,13 +81,11 @@ export function resourceRequest(method, path, handlers, data) {
               handlers.authFailure(err);
             });
         }
-        else {
-          handlers.authFailure();
-        }
       });
   }
 }
 
+// sends a request with data if provided, without if not, and returns a promise
 function buildRequest(method, path, handlers, accessToken, data) {
   if (data) {
     return axios[method](
@@ -102,6 +101,7 @@ function buildRequest(method, path, handlers, accessToken, data) {
   );
 }
 
+// gets a shared project (no authentication required for this)
 export function getSharedProject(id, handlers) {
   axios.get(`${API_BASE_URL}project/shared/${id}`)
     .then(res => { handlers.success(res); })

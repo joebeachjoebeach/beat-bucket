@@ -34,11 +34,10 @@ class App extends React.Component {
         setUser({ email, id: userId });
         resourceRequest('get', 'projects', {
           success: res => { loadProjects(res.data.projects); },
-          failure: err => { console.log(err); },
-          authFailure: err => { console.log(err); }
+          failure: () => { return; },
+          authFailure: () => { return; }
         });
       },
-      failure: err => { console.log(err); }
     });
 
     // if we're at a /share/:id url, try to fetch the project
