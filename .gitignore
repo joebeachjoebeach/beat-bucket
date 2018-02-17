@@ -10,12 +10,6 @@ npm-debug.log
 # mac
 .DS_Store
 
-# webpack build
-dist/bundle.js
-dist/style.css
-dist/*.svg
-dist/*.png
-
 #sublime files
 **.sublime-project
 **.sublime-workspace
