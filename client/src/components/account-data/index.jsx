@@ -13,7 +13,8 @@ import './account-data.css';
 function AccountData({ projects, setUser, hideDropDown, loadProject}) {
 
   function handleSignOut() {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('accessToken');
     setUser({ email: null, userId: null });
     hideDropDown();
   }
