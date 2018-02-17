@@ -1,4 +1,4 @@
-# this is to locally test the production version of the server
+# this is to run the client development server against the deployed production server
 
 version: '3'
 
@@ -13,4 +13,4 @@ services:
     environment:
       NODE_ENV: production
       REACT_APP_API_URL: https://beat-bucket.herokuapp.com/
-      REACT_APP_WEB_URL: http://localhost:3000
+      REACT_APP_WEB_URL: http://localhost:3000/
