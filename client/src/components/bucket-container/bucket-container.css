@@ -1,3 +1,23 @@
 .bucket-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
 
+.deletebucket-container {
+  height: 20px;
+}
+
+.delete-bucket {
+  align-items: center;
+  display: flex;
+  font-size: 0.8rem;
+  height: 20px;
+  justify-content: center;
+  margin: 5px 0 0 0;
+  width: 30px;
+}
+
+.three-dots {
+  height: 20px;
 }
