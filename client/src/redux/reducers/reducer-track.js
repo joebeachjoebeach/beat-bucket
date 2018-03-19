@@ -19,6 +19,7 @@ import {
   MOVE_NOTE,
   ADD_BUCKET,
   DELETE_BUCKET,
+  CLEAR_BUCKET,
   deleteNote,
   addNote
 } from '../actions/actions-sequence';
@@ -53,6 +54,7 @@ export default function TrackReducer(state = {}, action) {
   case DELETE_NOTE:
   case ADD_BUCKET:
   case DELETE_BUCKET:
+  case CLEAR_BUCKET:
     newState = { ...state };
     newState.sequence = SequenceReducer(newState.sequence, action);
     return newState;

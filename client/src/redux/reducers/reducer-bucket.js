@@ -1,6 +1,10 @@
 // BUCKET REDUCER
 
-import { ADD_NOTE, DELETE_NOTE, MOVE_NOTE } from '../actions/actions-sequence';
+import {
+  ADD_NOTE,
+  DELETE_NOTE,
+  MOVE_NOTE,
+  CLEAR_BUCKET } from '../actions/actions-sequence';
 
 export default function BucketReducer(state, action, id) {
   let newState;
@@ -23,6 +27,9 @@ export default function BucketReducer(state, action, id) {
       newState.splice(payload.source.index, 1)[0]
     );
     return newState;
+
+  case CLEAR_BUCKET:
+    return [];
 
   default:
     return state;

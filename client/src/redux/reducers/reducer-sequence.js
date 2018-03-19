@@ -6,6 +6,7 @@ import {
   MOVE_NOTE,
   ADD_BUCKET,
   DELETE_BUCKET,
+  CLEAR_BUCKET,
   deleteNote,
   addNote
 } from '../actions/actions-sequence';
@@ -18,14 +19,16 @@ export default function SequenceReducer(state, action) {
   switch (type) {
 
   case ADD_NOTE:
+  case DELETE_NOTE:
+  case CLEAR_BUCKET:
     newState = [ ...state ];
     newState[payload.bucketId] = BucketReducer(newState[payload.bucketId], action);
     return newState;
 
-  case DELETE_NOTE:
-    newState = [ ...state ];
-    newState[payload.bucketId] = BucketReducer(newState[payload.bucketId], action);
-    return newState;
+  // case DELETE_NOTE:
+  //   newState = [ ...state ];
+  //   newState[payload.bucketId] = BucketReducer(newState[payload.bucketId], action);
+  //   return newState;
 
   case MOVE_NOTE:
     newState = [ ...state ];

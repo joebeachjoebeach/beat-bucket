@@ -14,14 +14,13 @@ class BucketContainer extends Component {
   constructor(props) {
     super(props);
     this.state = { hover: false, showOptions: false };
-    this.handleDeleteBucketClick = this.handleDeleteBucketClick.bind(this);
+    this.handleThreeDotsClick = this.handleThreeDotsClick.bind(this);
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    this.hideOptions = this.hideOptions.bind(this);
   }
 
-  handleDeleteBucketClick() {
-    // const { trackId, bucketId, deleteBucket } = this.props;
-    // deleteBucket({ trackId: trackId, bucketId });
+  handleThreeDotsClick() {
     this.setState({ showOptions: true });
   }
 
@@ -33,8 +32,13 @@ class BucketContainer extends Component {
     this.setState({ hover: false, showOptions: false });
   }
 
+  hideOptions() {
+    this.setState({ showOptions: false });
+  }
+
   render() {
     const { hover, showOptions } = this.state;
+    const { trackId, bucketId } = this.props;
     return (
       <div
         className="bucket-container"
@@ -45,7 +49,7 @@ class BucketContainer extends Component {
         <div className="deletebucket-container">
           {hover && !showOptions &&
             <button
-              onClick={this.handleDeleteBucketClick}
+              onClick={this.handleThreeDotsClick}
               className="button-dark delete-bucket"
               title="delete bucket"
             >
@@ -53,7 +57,13 @@ class BucketContainer extends Component {
             </button>
           }
         </div>
-        {showOptions && hover && <BucketOptions />}
+        {showOptions && hover && 
+          <BucketOptions
+            trackId={trackId}
+            bucketId={bucketId}
+            hideParentOptions={this.hideOptions}
+          />
+        }
       </div>
     );
   }

@@ -5,6 +5,7 @@ export const DELETE_NOTE = 'delete_note';
 export const MOVE_NOTE = 'move_note';
 export const ADD_BUCKET = 'add_bucket';
 export const DELETE_BUCKET = 'delete_bucket';
+export const CLEAR_BUCKET = 'clear_bucket';
 
 export function addNote({ value, id=null, index, bucketId, trackId }) {
   return {
@@ -37,6 +38,13 @@ export function addBucket({ trackId }) {
 export function deleteBucket({ trackId, bucketId }) {
   return {
     type: DELETE_BUCKET,
+    payload: { trackId, bucketId }
+  };
+}
+
+export function clearBucket({ trackId, bucketId }) {
+  return {
+    type: CLEAR_BUCKET,
     payload: { trackId, bucketId }
   };
 }

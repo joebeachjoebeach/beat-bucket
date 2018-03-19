@@ -25,7 +25,8 @@ import {
   DELETE_NOTE,
   MOVE_NOTE,
   ADD_BUCKET,
-  DELETE_BUCKET
+  DELETE_BUCKET,
+  CLEAR_BUCKET
 } from '../actions/actions-sequence.js';
 
 import TrackReducer from './reducer-track';
@@ -62,6 +63,7 @@ export default function TracksReducer(state, action) {
   case ADD_NOTE:
   case ADD_BUCKET:
   case DELETE_BUCKET:
+  case CLEAR_BUCKET:
   case CHANGE_BASE_NOTE:
   case CHANGE_TRACK_NAME:
   case UPDATE_TRACK_VOLUME:

@@ -38,7 +38,8 @@ import {
   DELETE_NOTE,
   MOVE_NOTE,
   ADD_BUCKET,
-  DELETE_BUCKET
+  DELETE_BUCKET,
+  CLEAR_BUCKET
 } from '../actions/actions-sequence.js';
 
 import TracksReducer from './reducer-tracks.js';
@@ -84,6 +85,7 @@ export default function(state = mario(), action) {
   case MOVE_NOTE:
   case ADD_BUCKET:
   case DELETE_BUCKET:
+  case CLEAR_BUCKET:
     newState = { ...state };
     newState.tracks = TracksReducer(newState.tracks, action);
     return newState;
