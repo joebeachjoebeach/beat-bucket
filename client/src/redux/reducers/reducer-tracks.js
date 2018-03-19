@@ -29,6 +29,8 @@ import {
   CLEAR_BUCKET
 } from '../actions/actions-sequence.js';
 
+import { PASTE_BUCKET } from '../actions/actions-clipboard.js';
+
 import TrackReducer from './reducer-track';
 
 export default function TracksReducer(state, action) {
@@ -67,6 +69,7 @@ export default function TracksReducer(state, action) {
   case CHANGE_BASE_NOTE:
   case CHANGE_TRACK_NAME:
   case UPDATE_TRACK_VOLUME:
+  case PASTE_BUCKET:
     newState = { ...state };
     targetTrack = newState[action.payload.trackId];
     newState[action.payload.trackId] = TrackReducer(targetTrack, action);

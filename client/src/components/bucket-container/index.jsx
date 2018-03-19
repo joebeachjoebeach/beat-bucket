@@ -38,7 +38,7 @@ class BucketContainer extends Component {
 
   render() {
     const { hover, showOptions } = this.state;
-    const { trackId, bucketId } = this.props;
+    const { trackId, bucketId, notes } = this.props;
     return (
       <div
         className="bucket-container"
@@ -61,6 +61,7 @@ class BucketContainer extends Component {
           <BucketOptions
             trackId={trackId}
             bucketId={bucketId}
+            notes={notes}
             hideParentOptions={this.hideOptions}
           />
         }

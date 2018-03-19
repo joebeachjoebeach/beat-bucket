@@ -11,6 +11,8 @@ import {
   addNote
 } from '../actions/actions-sequence';
 
+import { PASTE_BUCKET } from '../actions/actions-clipboard';
+
 import BucketReducer from './reducer-bucket';
 
 export default function SequenceReducer(state, action) {
@@ -21,14 +23,10 @@ export default function SequenceReducer(state, action) {
   case ADD_NOTE:
   case DELETE_NOTE:
   case CLEAR_BUCKET:
+  case PASTE_BUCKET:
     newState = [ ...state ];
     newState[payload.bucketId] = BucketReducer(newState[payload.bucketId], action);
     return newState;
-
-  // case DELETE_NOTE:
-  //   newState = [ ...state ];
-  //   newState[payload.bucketId] = BucketReducer(newState[payload.bucketId], action);
-  //   return newState;
 
   case MOVE_NOTE:
     newState = [ ...state ];

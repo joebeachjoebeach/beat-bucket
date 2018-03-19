@@ -4,6 +4,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { deleteBucket, clearBucket } from '../../redux/actions/actions-sequence';
+import { copyBucket, pasteBucket } from '../../redux/actions/actions-clipboard';
+import { selectClipboard } from '../../redux/selectors';
 import './bucket-options.css';
 
 import BlankSquare from '../svg/blank-square';
@@ -14,9 +16,13 @@ import XSquare from '../svg/x-square';
 const BucketOptions = ({
   trackId,
   bucketId,
+  notes,
   hideParentOptions,
+  clipboard,
   deleteBucket,
-  clearBucket }) => {
+  clearBucket,
+  copyBucket,
+  pasteBucket }) => {
 
   function handleDeleteBucketClick() {
     deleteBucket({ trackId, bucketId });
@@ -28,13 +34,29 @@ const BucketOptions = ({
     hideParentOptions();
   }
 
+  function handleCopyBucketClick() {
+    copyBucket(notes);
+    hideParentOptions();
+  }
+
+  function handlePasteBucketClick() {
+    pasteBucket({ trackId, bucketId, notes: clipboard });
+    hideParentOptions();
+  }
+
   return (
     <div className="bucket-options">
-      <button className="bucket-options-item">
+      <button
+        className="bucket-options-item"
+        onClick={handlePasteBucketClick}
+      >
         <Clipboard className="bucket-options-svg" />
         <span>paste</span>
       </button>
-      <button className="bucket-options-item">
+      <button
+        className="bucket-options-item"
+        onClick={handleCopyBucketClick}
+      >
         <Copy className="bucket-options-svg" />
         <span>copy</span>
       </button>
@@ -56,8 +78,13 @@ const BucketOptions = ({
   );
 };
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ deleteBucket, clearBucket }, dispatch);
+function mapStateToProps(state) {
+  return { clipboard: selectClipboard(state) };
 }
 
-export default connect(null, mapDispatchToProps)(BucketOptions);
+function mapDispatchToProps(dispatch) {
+  const actions = { deleteBucket, clearBucket, copyBucket, pasteBucket };
+  return bindActionCreators(actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BucketOptions);

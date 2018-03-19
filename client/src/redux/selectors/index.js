@@ -73,3 +73,7 @@ export function selectShared(state) {
 export function selectProjects(state) {
   return state.user.projects;
 }
+
+export function selectClipboard(state) {
+  return state.clipboard;
+}

@@ -42,6 +42,8 @@ import {
   CLEAR_BUCKET
 } from '../actions/actions-sequence.js';
 
+import { PASTE_BUCKET } from '../actions/actions-clipboard';
+
 import TracksReducer from './reducer-tracks.js';
 
 export default function(state = mario(), action) {
@@ -86,6 +88,7 @@ export default function(state = mario(), action) {
   case ADD_BUCKET:
   case DELETE_BUCKET:
   case CLEAR_BUCKET:
+  case PASTE_BUCKET:
     newState = { ...state };
     newState.tracks = TracksReducer(newState.tracks, action);
     return newState;

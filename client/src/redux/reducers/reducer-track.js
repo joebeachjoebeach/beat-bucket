@@ -24,6 +24,8 @@ import {
   addNote
 } from '../actions/actions-sequence';
 
+import { PASTE_BUCKET } from '../actions/actions-clipboard';
+
 import SequenceReducer from './reducer-sequence';
 
 export default function TrackReducer(state = {}, action) {
@@ -57,6 +59,13 @@ export default function TrackReducer(state = {}, action) {
   case CLEAR_BUCKET:
     newState = { ...state };
     newState.sequence = SequenceReducer(newState.sequence, action);
+    return newState;
+
+  case PASTE_BUCKET:
+    action.payload.nextId = state.nextId;
+    newState = { ...state };
+    newState.sequence = SequenceReducer(newState.sequence, action);
+    newState.nextId += action.payload.notes.length;
     return newState;
 
   case MOVE_NOTE:

@@ -1,3 +1,12 @@
+import { COPY_BUCKET } from '../actions/actions-clipboard';
+
 export default function(state = [], action) {
-  return state;
+  switch (action.type) {
+
+  case COPY_BUCKET:
+    return action.payload;
+
+  default:
+    return state;
+  }
 }

@@ -6,6 +6,8 @@ import {
   MOVE_NOTE,
   CLEAR_BUCKET } from '../actions/actions-sequence';
 
+import { PASTE_BUCKET } from '../actions/actions-clipboard';
+
 export default function BucketReducer(state, action, id) {
   let newState;
   const { payload } = action;
@@ -30,6 +32,12 @@ export default function BucketReducer(state, action, id) {
 
   case CLEAR_BUCKET:
     return [];
+
+  case PASTE_BUCKET:
+    return action.payload.notes.map((value, i) => ({
+      value,
+      id: action.payload.nextId + i
+    }));
 
   default:
     return state;
