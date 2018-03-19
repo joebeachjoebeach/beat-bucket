@@ -21,7 +21,10 @@ class BucketContainer extends Component {
   }
 
   handleThreeDotsClick() {
-    this.setState({ showOptions: true });
+    // this.setState({ showOptions: true });
+    this.setState(prevState => ({
+      showOptions: !prevState.showOptions
+    }));
   }
 
   handleMouseEnter() {
@@ -47,15 +50,13 @@ class BucketContainer extends Component {
       >
         <Bucket { ...this.props } />
         <div className="deletebucket-container">
-          {hover && !showOptions &&
-            <button
-              onClick={this.handleThreeDotsClick}
-              className="button-dark delete-bucket"
-              title="delete bucket"
-            >
-              <ThreeDotsSVG className="three-dots" />
-            </button>
-          }
+          {hover && <button
+            onClick={this.handleThreeDotsClick}
+            className="button-dark delete-bucket"
+            title="delete bucket"
+          >
+            <ThreeDotsSVG className="three-dots" />
+          </button>}
         </div>
         {showOptions && hover && 
           <BucketOptions
