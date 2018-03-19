@@ -46,13 +46,13 @@ const BucketOptions = ({
 
   return (
     <div className="bucket-options">
-      <button
+      {clipboard.length > 0 && <button
         className="bucket-options-item"
         onClick={handlePasteBucketClick}
       >
         <Clipboard className="bucket-options-svg" />
         <span>paste</span>
-      </button>
+      </button>}
       <button
         className="bucket-options-item"
         onClick={handleCopyBucketClick}
