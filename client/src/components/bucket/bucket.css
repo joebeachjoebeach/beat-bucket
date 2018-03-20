@@ -1,13 +1,12 @@
 .bucket-container {
   align-items: center;
   display: flex;
-  /*flex-basis: content;*/
   flex-direction: column;
 }
 
 .bucket {
   align-items: center;
-  background-color: #666;
+  background-color: #7F8285;
   background-color: rgba(255, 255, 255, 0.3);
   border: 1px solid transparent;
   display: flex;

@@ -20,7 +20,7 @@ button, input {
 }
 
 .button-dark {
-  background-color: rgb(0, 0, 0);
+  background-color: #151719;
   background-color: rgba(0, 0, 0, 0.5);
   border: none;
   border-bottom: 1px solid transparent;
@@ -39,7 +39,7 @@ button, input {
 }
 
 .button-light {
-  background-color: rgb(255, 255, 255);
+  background-color: #7F8285;
   background-color: rgba(255, 255, 255, 0.4);
   border: none;
   border-bottom: 1px solid transparent;
