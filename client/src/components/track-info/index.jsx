@@ -15,6 +15,7 @@ import { selectTrack } from '../../redux/selectors';
 import './track-info.css';
 
 import EditableText from '../editable-text';
+import ThreeDotsSVG from '../svg/three-dots-svg';
 
 class TrackInfo extends React.Component {
   constructor(props) {
@@ -83,6 +84,13 @@ class TrackInfo extends React.Component {
           title="solo track"
         >
           s
+        </button>
+        <button
+          className="button-dark track-info-mutesolo"
+          onClick={() => console.log('more')}
+          title="more track options"
+        >
+          <ThreeDotsSVG className="track-info-more" />
         </button>
       </div>
     );

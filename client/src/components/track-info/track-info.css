@@ -33,13 +33,21 @@
   }
 
   .track-info-mutesolo {
+    align-items: center;
+    display: flex;
     height: 25px;
+    justify-content: center;
     margin: 10px 3px;
+    padding: 1px 0 2px 0;
     width: 25px;
   }
 
   .track-info-mutesolo-active {
     background-color: #F4A53F;
+  }
+
+  .track-info-more {
+    width: 80%;
   }
 
 .hidden {
