@@ -3,7 +3,7 @@
   color: inherit;
   font-size: inherit;
   height: 100%;
-  padding: 2px;
+  padding: 2px 0;
   width: 100%;
 }
 
@@ -12,6 +12,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.editable-text-div:hover {
+  border-bottom: 1px solid #AAA;
 }
 
 .editable-text-input {
@@ -23,4 +27,3 @@
   border-bottom: 1px solid #AAA;
   outline: none;
 }
-

@@ -15,9 +15,9 @@ class EditableText extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(_, prevState) {
     // focus and highlight when clicked
-    if (this.textInput && this.props.value === this.state.value)
+    if (!prevState.editing && this.state.editing)
       this.focusInput();
   }
 
@@ -71,8 +71,8 @@ class EditableText extends React.Component {
     }
     else {
       return (
-        <div className="editable-text editable-text-div">
-          <span title={title} onClick={this.handleClick}>{value}</span>
+        <div className="editable-text editable-text-div" onClick={this.handleClick}>
+          <span title={title}>{value}</span>
         </div>
       );
     }

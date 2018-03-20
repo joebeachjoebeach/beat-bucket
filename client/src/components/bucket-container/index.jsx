@@ -21,7 +21,6 @@ class BucketContainer extends Component {
   }
 
   handleThreeDotsClick() {
-    // this.setState({ showOptions: true });
     this.setState(prevState => ({
       showOptions: !prevState.showOptions
     }));
