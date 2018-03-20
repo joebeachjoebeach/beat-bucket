@@ -9,3 +9,15 @@
   margin: 10px 30px;
   width: 70px;
  }
+
+.tracks::-webkit-scrollbar {
+  background-color: inherit;
+  width: 10px;
+}
+
+.tracks::-webkit-scrollbar-thumb {
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  width: 5px;
+}
