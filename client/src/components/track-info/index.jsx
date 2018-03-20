@@ -16,11 +16,12 @@ import './track-info.css';
 
 import EditableText from '../editable-text';
 import ThreeDotsSVG from '../svg/three-dots-svg';
+import TrackOptions from '../track-options';
 
 class TrackInfo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hover: false };
+    this.state = { hover: false, showOptions: true };
     this.handleMuteClick = this.handleMuteClick.bind(this);
     this.handleSoloClick = this.handleSoloClick.bind(this);
     this.handleDeleteTrackClick = this.handleDeleteTrackClick.bind(this);
@@ -98,7 +99,7 @@ class TrackInfo extends React.Component {
 
   render() {
     const { name, volume, id, changeTrackName } = this.props;
-    const { hover } = this.state;
+    const { hover, showOptions } = this.state;
     return (
       <div className="track-info"
         onMouseEnter={() => { this.setState({ hover: true }); }}
@@ -136,6 +137,9 @@ class TrackInfo extends React.Component {
             />
           </div>
         </div>
+        {showOptions &&
+          <TrackOptions />
+        }
       </div>
     );
   }

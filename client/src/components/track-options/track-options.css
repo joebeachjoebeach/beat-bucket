@@ -1,0 +1,12 @@
+.track-options {
+  background-color: #141619;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid white;
+  box-sizing: border-box;
+  height: 145px;
+  left: 140px;
+  position: absolute;
+  top: 0;
+  width: 410px;
+  z-index: 1000;
+}
