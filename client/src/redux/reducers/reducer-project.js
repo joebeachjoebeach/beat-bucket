@@ -151,6 +151,13 @@ function simulateEmptyProject(state, action) {
   return newState;
 }
 
+const defaultEnvelope = () => ({
+  attack: 0.005,
+  decay: 0.1,
+  sustain: 0.3,
+  release: 1
+});
+
 function starterData() {
   const id1 = uuidv4();
   const id2 = uuidv4();
@@ -174,7 +181,8 @@ function starterData() {
         muted: false,
         soloed: false,
         currentNote: [],
-        volume: 0
+        volume: 0,
+        envelope: defaultEnvelope()
       },
       [id2]: {
         name: 'Track 2',
@@ -187,7 +195,8 @@ function starterData() {
         muted: false,
         soloed: false,
         currentNote: [],
-        volume: 0
+        volume: 0,
+        envelope: defaultEnvelope()
       }
     }
   };
@@ -221,7 +230,8 @@ function mario() {
           []
         ],
         soloed: false,
-        volume: -20
+        volume: -20,
+        envelope: defaultEnvelope()
       },
       'bcfbc2d3-4e04-436a-8767-37353a0c4696': {
         baseNote: 4,
@@ -281,7 +291,8 @@ function mario() {
           ]
         ],
         soloed: false,
-        volume: 2
+        volume: 2,
+        envelope: defaultEnvelope()
       },
       'cba856c2-2d3b-4fb5-b31e-0a430c713f90': {
         baseNote: 4,
@@ -340,7 +351,8 @@ function mario() {
           ]
         ],
         soloed: false,
-        volume: -6
+        volume: -6,
+        envelope: defaultEnvelope()
       },
       'cdf1002a-1c03-4f50-915d-7c7b3764d961': {
         baseNote: 8,
@@ -356,7 +368,8 @@ function mario() {
           [ { id: 27, value: 'E3' }, { id: 28, value: 'D3' } ]
         ],
         soloed: false,
-        volume: 0
+        volume: 0,
+        envelope: defaultEnvelope()
       }
     },
     playing: false,

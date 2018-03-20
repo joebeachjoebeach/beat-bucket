@@ -7,7 +7,7 @@ import {
   selectMuted,
   selectSequence,
   selectBaseNote,
-  selectTrackVolume
+  selectTrackVolume,
 } from '../redux/selectors';
 import { observeStore } from '../redux/observers';
 import { updateCurrentNote } from '../redux/actions/actions-track';
@@ -16,11 +16,13 @@ export default class Track {
   constructor(store, id) {
     this.store = store;
     this.id = id;
-    this.synth = new Tone.Synth().toMaster();
 
-    const { sequence, baseNote } = selectTrack(id)(store.getState());
+    const { sequence, baseNote, envelope } = selectTrack(id)(store.getState());
     this.sequence = sequence;
     this.baseNote = baseNote;
+    this.envelope = envelope;
+
+    this.synth = new Tone.Synth({ envelope }).toMaster();
 
     this.part = this.initPart(sequence, baseNote);
 

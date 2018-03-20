@@ -77,3 +77,7 @@ export function selectProjects(state) {
 export function selectClipboard(state) {
   return state.clipboard;
 }
+
+export function selectEnvelope(id) {
+  return state => state.project.tracks[id].envelope;
+}
