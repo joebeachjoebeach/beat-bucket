@@ -46,20 +46,26 @@ const BucketOptions = ({
 
   return (
     <div className="bucket-options">
-      {clipboard.length > 0 && <button
-        className="bucket-options-item"
-        onClick={handlePasteBucketClick}
-      >
-        <Clipboard className="bucket-options-svg" />
-        <span>paste</span>
-      </button>}
-      <button
-        className="bucket-options-item"
-        onClick={handleCopyBucketClick}
-      >
-        <Copy className="bucket-options-svg" />
-        <span>copy</span>
-      </button>
+      {clipboard.length > 0 && 
+        <button
+          className="bucket-options-item"
+          onClick={handlePasteBucketClick}
+        >
+          <Clipboard className="bucket-options-svg" />
+          <span>paste</span>
+        </button>
+      }
+
+      {notes.length > 0 &&
+        <button
+          className="bucket-options-item"
+          onClick={handleCopyBucketClick}
+        >
+          <Copy className="bucket-options-svg" />
+          <span>copy</span>
+        </button>
+      }
+
       <button
         className="bucket-options-item"
         onClick={handleDeleteBucketClick}
@@ -67,13 +73,16 @@ const BucketOptions = ({
         <XSquare className="bucket-options-svg" />
         <span>delete</span>
       </button>
-      <button
-        className="bucket-options-item"
-        onClick={handleClearBucketClick}
-      >
-        <BlankSquare className="bucket-options-svg" />
-        <span>clear</span>
-      </button>
+
+      {notes.length > 0 &&
+        <button
+          className="bucket-options-item"
+          onClick={handleClearBucketClick}
+        >
+          <BlankSquare className="bucket-options-svg" />
+          <span>clear</span>
+        </button>
+      }
     </div>
   );
 };
