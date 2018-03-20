@@ -17,7 +17,11 @@ import {
   UNSOLO,
   CHANGE_BASE_NOTE,
   CHANGE_TRACK_NAME,
-  UPDATE_TRACK_VOLUME
+  UPDATE_TRACK_VOLUME,
+  UPDATE_ATTACK,
+  UPDATE_DECAY,
+  UPDATE_SUSTAIN,
+  UPDATE_RELEASE
 } from '../actions/actions-track.js';
 
 import {
@@ -70,6 +74,10 @@ export default function TracksReducer(state, action) {
   case CHANGE_TRACK_NAME:
   case UPDATE_TRACK_VOLUME:
   case PASTE_BUCKET:
+  case UPDATE_ATTACK:
+  case UPDATE_DECAY:
+  case UPDATE_SUSTAIN:
+  case UPDATE_RELEASE:
     newState = { ...state };
     targetTrack = newState[action.payload.trackId];
     newState[action.payload.trackId] = TrackReducer(targetTrack, action);

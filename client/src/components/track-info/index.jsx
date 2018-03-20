@@ -21,11 +21,12 @@ import TrackOptions from '../track-options';
 class TrackInfo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hover: false, showOptions: true };
+    this.state = { hover: false, showOptions: false };
     this.handleMuteClick = this.handleMuteClick.bind(this);
     this.handleSoloClick = this.handleSoloClick.bind(this);
     this.handleDeleteTrackClick = this.handleDeleteTrackClick.bind(this);
     this.handleVolumeChange = this.handleVolumeChange.bind(this);
+    this.handleOptionsClick = this.handleOptionsClick.bind(this);
   }
 
   handleMuteClick() {
@@ -57,8 +58,13 @@ class TrackInfo extends React.Component {
     }
   }
 
+  handleOptionsClick() {
+    this.setState(prevState => ({ showOptions: !prevState.showOptions }));
+  }
+
   renderMuteSolo() {
     const { muted, soloed } = this.props;
+    const { showOptions } = this.state;
 
     const styleName = 'button-dark track-info-mutesolo';
 
@@ -69,6 +75,10 @@ class TrackInfo extends React.Component {
     let soloStyle = soloed
       ? styleName + ' track-info-mutesolo-active'
       : styleName;
+
+    let optionsStyle = showOptions
+      ? 'button-dark track-info-mutesolo track-info-mutesolo-active'
+      : 'button-dark track-info-mutesolo';
 
     return (
       <div className="track-info-buttons">
@@ -87,8 +97,8 @@ class TrackInfo extends React.Component {
           s
         </button>
         <button
-          className="button-dark track-info-mutesolo"
-          onClick={() => console.log('more')}
+          className={optionsStyle}
+          onClick={this.handleOptionsClick}
           title="more track options"
         >
           <ThreeDotsSVG className="track-info-more" />
@@ -128,7 +138,7 @@ class TrackInfo extends React.Component {
           <div className="volume">
             <input
               title="change track volume"
-              className="volume-slider"
+              className="slider"
               type="range"
               min="-70"
               value={volume}
@@ -138,7 +148,7 @@ class TrackInfo extends React.Component {
           </div>
         </div>
         {showOptions &&
-          <TrackOptions />
+          <TrackOptions id={id} />
         }
       </div>
     );

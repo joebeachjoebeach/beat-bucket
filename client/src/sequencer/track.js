@@ -8,6 +8,7 @@ import {
   selectSequence,
   selectBaseNote,
   selectTrackVolume,
+  selectEnvelope
 } from '../redux/selectors';
 import { observeStore } from '../redux/observers';
 import { updateCurrentNote } from '../redux/actions/actions-track';
@@ -30,7 +31,8 @@ export default class Track {
       observeStore(store, selectSequence(id), this.onSequenceChange.bind(this)),
       observeStore(store, selectMuted(id), this.onMutedChange.bind(this)),
       observeStore(store, selectBaseNote(id), this.onBaseNoteChange.bind(this)),
-      observeStore(store, selectTrackVolume(id), this.onVolumeChange.bind(this))
+      observeStore(store, selectTrackVolume(id), this.onVolumeChange.bind(this)),
+      observeStore(store, selectEnvelope(id), this.onEnvelopeChange.bind(this))
     ];
   }
 
@@ -90,4 +92,11 @@ export default class Track {
   onVolumeChange(volume) {
     this.synth.volume.value = volume;
   }
+
+  onEnvelopeChange(envelope) {
+    for (let item in envelope) {
+      this.synth.envelope[item] = envelope[item];
+    }
+  }
+
 }

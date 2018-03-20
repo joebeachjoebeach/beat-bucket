@@ -10,7 +10,11 @@ import {
   UNSOLO,
   CHANGE_BASE_NOTE,
   CHANGE_TRACK_NAME,
-  UPDATE_TRACK_VOLUME
+  UPDATE_TRACK_VOLUME,
+  UPDATE_ATTACK,
+  UPDATE_DECAY,
+  UPDATE_SUSTAIN,
+  UPDATE_RELEASE
 } from '../actions/actions-track';
 
 import {
@@ -103,6 +107,32 @@ export default function TrackReducer(state = {}, action) {
     newState = { ...state };
     newState.sequence = [[], [], [], [], [], [], [], []];
     return newState;
+
+  case UPDATE_ATTACK:
+    newState = { ...state };
+    newState.envelope = { ...newState.envelope };
+    newState.envelope.attack = action.payload.value;
+    return newState;
+
+  case UPDATE_DECAY:
+    newState = { ...state };
+    newState.envelope = { ...newState.envelope };
+    newState.envelope.decay = action.payload.value;
+    return newState;
+
+  case UPDATE_SUSTAIN:
+    newState = { ...state };
+    newState.envelope = { ...newState.envelope };
+    newState.envelope.sustain = action.payload.value;
+    return newState;
+
+  case UPDATE_RELEASE:
+    newState = { ...state };
+    newState.envelope = { ...newState.envelope };
+    newState.envelope.release = action.payload.value;
+    return newState;
+
+
 
   default:
     return state;

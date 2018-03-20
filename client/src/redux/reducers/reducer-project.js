@@ -30,7 +30,11 @@ import {
   UNSOLO,
   CHANGE_BASE_NOTE,
   CHANGE_TRACK_NAME,
-  UPDATE_TRACK_VOLUME
+  UPDATE_TRACK_VOLUME,
+  UPDATE_ATTACK,
+  UPDATE_DECAY,
+  UPDATE_SUSTAIN,
+  UPDATE_RELEASE
 } from '../actions/actions-track.js';
 
 import {
@@ -89,6 +93,10 @@ export default function(state = mario(), action) {
   case DELETE_BUCKET:
   case CLEAR_BUCKET:
   case PASTE_BUCKET:
+  case UPDATE_ATTACK:
+  case UPDATE_DECAY:
+  case UPDATE_SUSTAIN:
+  case UPDATE_RELEASE:
     newState = { ...state };
     newState.tracks = TracksReducer(newState.tracks, action);
     return newState;
