@@ -159,11 +159,13 @@ function simulateEmptyProject(state, action) {
   return newState;
 }
 
-const defaultEnvelope = () => ({
-  attack: 0.005,
-  decay: 0.1,
-  sustain: 0.3,
-  release: 1
+const defaultSynth = () => ({
+  envelope: {
+    attack: 0.005,
+    decay: 0.1,
+    sustain: 0.3,
+    release: 1
+  }
 });
 
 function starterData() {
@@ -190,7 +192,7 @@ function starterData() {
         soloed: false,
         currentNote: [],
         volume: 0,
-        envelope: defaultEnvelope()
+        synth: defaultSynth()
       },
       [id2]: {
         name: 'Track 2',
@@ -204,7 +206,7 @@ function starterData() {
         soloed: false,
         currentNote: [],
         volume: 0,
-        envelope: defaultEnvelope()
+        synth: defaultSynth()
       }
     }
   };
@@ -239,7 +241,7 @@ function mario() {
         ],
         soloed: false,
         volume: -20,
-        envelope: defaultEnvelope()
+        synth: defaultSynth()
       },
       'bcfbc2d3-4e04-436a-8767-37353a0c4696': {
         baseNote: 4,
@@ -300,7 +302,7 @@ function mario() {
         ],
         soloed: false,
         volume: 2,
-        envelope: defaultEnvelope()
+        synth: defaultSynth()
       },
       'cba856c2-2d3b-4fb5-b31e-0a430c713f90': {
         baseNote: 4,
@@ -360,7 +362,7 @@ function mario() {
         ],
         soloed: false,
         volume: -6,
-        envelope: defaultEnvelope()
+        synth: defaultSynth()
       },
       'cdf1002a-1c03-4f50-915d-7c7b3764d961': {
         baseNote: 8,
@@ -377,7 +379,7 @@ function mario() {
         ],
         soloed: false,
         volume: 0,
-        envelope: defaultEnvelope()
+        synth: defaultSynth()
       }
     },
     playing: false,

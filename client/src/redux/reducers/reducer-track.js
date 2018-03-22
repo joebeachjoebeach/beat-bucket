@@ -31,6 +31,7 @@ import {
 import { PASTE_BUCKET } from '../actions/actions-clipboard';
 
 import SequenceReducer from './reducer-sequence';
+import SynthReducer from './reducer-synth';
 
 export default function TrackReducer(state = {}, action) {
   let newState;
@@ -109,30 +110,12 @@ export default function TrackReducer(state = {}, action) {
     return newState;
 
   case UPDATE_ATTACK:
-    newState = { ...state };
-    newState.envelope = { ...newState.envelope };
-    newState.envelope.attack = action.payload.value;
-    return newState;
-
   case UPDATE_DECAY:
-    newState = { ...state };
-    newState.envelope = { ...newState.envelope };
-    newState.envelope.decay = action.payload.value;
-    return newState;
-
   case UPDATE_SUSTAIN:
-    newState = { ...state };
-    newState.envelope = { ...newState.envelope };
-    newState.envelope.sustain = action.payload.value;
-    return newState;
-
   case UPDATE_RELEASE:
     newState = { ...state };
-    newState.envelope = { ...newState.envelope };
-    newState.envelope.release = action.payload.value;
+    newState.synth = SynthReducer(newState.synth, action);
     return newState;
-
-
 
   default:
     return state;
