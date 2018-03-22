@@ -8,7 +8,8 @@ import {
   selectSequence,
   selectBaseNote,
   selectTrackVolume,
-  selectEnvelope
+  selectEnvelope,
+  selectOscillator
 } from '../redux/selectors';
 import { observeStore } from '../redux/observers';
 import { updateCurrentNote } from '../redux/actions/actions-track';
@@ -18,12 +19,14 @@ export default class Track {
     this.store = store;
     this.id = id;
 
-    const { sequence, baseNote, envelope } = selectTrack(id)(store.getState());
+    const { sequence, baseNote, synth } = selectTrack(id)(store.getState());
     this.sequence = sequence;
     this.baseNote = baseNote;
-    this.envelope = envelope;
 
-    this.synth = new Tone.Synth({ envelope }).toMaster();
+    this.synth = new Tone.Synth({ 
+      envelope: synth.envelope, 
+      oscillator: synth.oscillator 
+    }).toMaster();
 
     this.part = this.initPart(sequence, baseNote);
 
@@ -32,7 +35,8 @@ export default class Track {
       observeStore(store, selectMuted(id), this.onMutedChange.bind(this)),
       observeStore(store, selectBaseNote(id), this.onBaseNoteChange.bind(this)),
       observeStore(store, selectTrackVolume(id), this.onVolumeChange.bind(this)),
-      observeStore(store, selectEnvelope(id), this.onEnvelopeChange.bind(this))
+      observeStore(store, selectEnvelope(id), this.onEnvelopeChange.bind(this)),
+      observeStore(store, selectOscillator(id), this.onOscillatorChange.bind(this))
     ];
   }
 
@@ -97,6 +101,12 @@ export default class Track {
     for (let item in envelope) {
       this.synth.envelope[item] = envelope[item];
     }
+  }
+
+  onOscillatorChange(oscillator) {
+    const envelope = selectEnvelope(this.id)(this.store.getState());
+    this.synth.dispose();
+    this.synth = new Tone.Synth({ envelope, oscillator }).toMaster();
   }
 
 }

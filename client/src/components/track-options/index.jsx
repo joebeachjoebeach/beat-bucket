@@ -3,12 +3,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { selectEnvelope } from '../../redux/selectors';
+import { selectEnvelope, selectOscillator } from '../../redux/selectors';
 import {
   updateAttack,
   updateDecay,
   updateSustain,
-  updateRelease } from '../../redux/actions/actions-track';
+  updateRelease,
+  updateOscillatorType } from '../../redux/actions/actions-synth';
 
 import './track-options.css';
 
@@ -33,10 +34,12 @@ const TrackOptionsSlider = ({ text, ...restProps }) => {
 const TrackOptions = ({
   id,
   envelope,
+  oscillator,
   updateAttack,
   updateDecay,
   updateSustain,
-  updateRelease }) => {
+  updateRelease,
+  updateOscillatorType }) => {
 
   function handleAttackChange(event) {
     updateAttack({ value: Number(event.target.value), trackId: id });
@@ -52,6 +55,10 @@ const TrackOptions = ({
 
   function handleReleaseChange(event) {
     updateRelease({ value: Number(event.target.value), trackId: id });
+  }
+
+  function handleOscillatorClick(type) {
+    updateOscillatorType({ type, trackId: id });
   }
 
   return (
@@ -94,18 +101,38 @@ const TrackOptions = ({
       <div className="track-options-right">
         Oscillator:
         <div className="track-options-oscillator-buttons">
-          <button className="button-light oscillator-button">
+          <button
+            className="button-light oscillator-button"
+            disabled={oscillator.type === 'sine'}
+            onClick={() => handleOscillatorClick('sine')}
+          >
             <SineSVG className="wave-svg" />
           </button>
-          <button className="button-light oscillator-button">
+
+          <button
+            className="button-light oscillator-button"
+            disabled={oscillator.type === 'triangle'}
+            onClick={() => handleOscillatorClick('triangle')}
+          >
             <TriangleSVG className="wave-svg" />
           </button>
-          <button className="button-light oscillator-button">
+
+          <button
+            className="button-light oscillator-button"
+            disabled={oscillator.type === 'sawtooth'}
+            onClick={() => handleOscillatorClick('sawtooth')}
+          >
             <SawtoothSVG className="wave-svg" />
           </button>
-          <button className="button-light oscillator-button">
+
+          <button
+            className="button-light oscillator-button"
+            disabled={oscillator.type === 'square'}
+            onClick={() => handleOscillatorClick('square')}
+          >
             <SquareSVG className="wave-svg" />
           </button>
+
         </div>
       </div>
     </div>
@@ -113,7 +140,10 @@ const TrackOptions = ({
 };
 
 function mapStateToProps(state, { id }) {
-  return { envelope: selectEnvelope(id)(state) };
+  return {
+    envelope: selectEnvelope(id)(state),
+    oscillator: selectOscillator(id)(state)
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -121,7 +151,8 @@ function mapDispatchToProps(dispatch) {
     updateAttack,
     updateDecay,
     updateSustain,
-    updateRelease
+    updateRelease,
+    updateOscillatorType
   };
   return bindActionCreators(actions, dispatch);
 }

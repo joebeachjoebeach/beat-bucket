@@ -18,10 +18,6 @@ import {
   CHANGE_BASE_NOTE,
   CHANGE_TRACK_NAME,
   UPDATE_TRACK_VOLUME,
-  UPDATE_ATTACK,
-  UPDATE_DECAY,
-  UPDATE_SUSTAIN,
-  UPDATE_RELEASE
 } from '../actions/actions-track.js';
 
 import {
@@ -32,6 +28,14 @@ import {
   DELETE_BUCKET,
   CLEAR_BUCKET
 } from '../actions/actions-sequence.js';
+
+import {
+  UPDATE_ATTACK,
+  UPDATE_DECAY,
+  UPDATE_SUSTAIN,
+  UPDATE_RELEASE,
+  UPDATE_OSCILLATOR_TYPE
+} from '../actions/actions-synth';
 
 import { PASTE_BUCKET } from '../actions/actions-clipboard.js';
 
@@ -78,6 +82,7 @@ export default function TracksReducer(state, action) {
   case UPDATE_DECAY:
   case UPDATE_SUSTAIN:
   case UPDATE_RELEASE:
+  case UPDATE_OSCILLATOR_TYPE:
     newState = { ...state };
     targetTrack = newState[action.payload.trackId];
     newState[action.payload.trackId] = TrackReducer(targetTrack, action);

@@ -53,3 +53,8 @@
   justify-content: center;
   margin: 0 5px 0 0;
 }
+
+  .oscillator-button:disabled {
+    background-color: #444;
+    background-color: rgba(255, 255, 255, 0.2);
+  }

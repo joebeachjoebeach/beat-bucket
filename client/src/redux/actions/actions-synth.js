@@ -4,6 +4,7 @@ export const UPDATE_ATTACK = 'update_attack';
 export const UPDATE_DECAY = 'update_decay';
 export const UPDATE_SUSTAIN = 'update_sustain';
 export const UPDATE_RELEASE = 'update_release';
+export const UPDATE_OSCILLATOR_TYPE = 'update_oscillator_type';
 
 
 export const updateAttack = ({ value, trackId }) => ({
@@ -26,4 +27,8 @@ export const updateRelease = ({ value, trackId }) => ({
   payload: { value, trackId }
 });
 
+export const updateOscillatorType = ({ type, trackId }) => ({
+  type: UPDATE_OSCILLATOR_TYPE,
+  payload: { type, trackId }
+});
 

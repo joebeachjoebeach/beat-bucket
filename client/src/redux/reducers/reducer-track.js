@@ -11,10 +11,6 @@ import {
   CHANGE_BASE_NOTE,
   CHANGE_TRACK_NAME,
   UPDATE_TRACK_VOLUME,
-  UPDATE_ATTACK,
-  UPDATE_DECAY,
-  UPDATE_SUSTAIN,
-  UPDATE_RELEASE
 } from '../actions/actions-track';
 
 import {
@@ -27,6 +23,14 @@ import {
   deleteNote,
   addNote
 } from '../actions/actions-sequence';
+
+import {
+  UPDATE_ATTACK,
+  UPDATE_DECAY,
+  UPDATE_SUSTAIN,
+  UPDATE_RELEASE,
+  UPDATE_OSCILLATOR_TYPE
+} from '../actions/actions-synth';
 
 import { PASTE_BUCKET } from '../actions/actions-clipboard';
 
@@ -113,6 +117,7 @@ export default function TrackReducer(state = {}, action) {
   case UPDATE_DECAY:
   case UPDATE_SUSTAIN:
   case UPDATE_RELEASE:
+  case UPDATE_OSCILLATOR_TYPE:
     newState = { ...state };
     newState.synth = SynthReducer(newState.synth, action);
     return newState;

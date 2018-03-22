@@ -81,3 +81,7 @@ export function selectClipboard(state) {
 export function selectEnvelope(id) {
   return state => state.project.tracks[id].synth.envelope;
 }
+
+export function selectOscillator(id) {
+  return state => state.project.tracks[id].synth.oscillator;
+}
