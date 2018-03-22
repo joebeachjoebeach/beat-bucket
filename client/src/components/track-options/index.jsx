@@ -12,6 +12,11 @@ import {
 
 import './track-options.css';
 
+import SawtoothSVG from '../svg/sawtooth-svg';
+import SineSVG from '../svg/sine-svg';
+import TriangleSVG from '../svg/triangle-svg';
+import SquareSVG from '../svg/square-svg';
+
 const TrackOptionsSlider = ({ text, ...restProps }) => {
   return (
     <div className="track-options-slider">
@@ -51,7 +56,8 @@ const TrackOptions = ({
 
   return (
     <div className="track-options">
-      <div className="track-options-envelope">
+      <div className="track-options-left">
+        Envelope:
         <TrackOptionsSlider
           text="Attack"
           min="0.001"
@@ -84,6 +90,23 @@ const TrackOptions = ({
           value={envelope.release}
           onChange={handleReleaseChange}
         />
+      </div>
+      <div className="track-options-right">
+        Oscillator:
+        <div className="track-options-oscillator-buttons">
+          <button className="button-light oscillator-button">
+            <SineSVG className="wave-svg" />
+          </button>
+          <button className="button-light oscillator-button">
+            <TriangleSVG className="wave-svg" />
+          </button>
+          <button className="button-light oscillator-button">
+            <SawtoothSVG className="wave-svg" />
+          </button>
+          <button className="button-light oscillator-button">
+            <SquareSVG className="wave-svg" />
+          </button>
+        </div>
       </div>
     </div>
   );
