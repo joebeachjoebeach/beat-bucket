@@ -1,5 +1,10 @@
 import uuidv4 from 'uuid/v4';
 
+export const defaultFilter = () => ({
+  frequency: 20000,
+  type: 'lowpass'
+});
+
 export const defaultSynth = () => ({
   oscillator: { type: 'triangle' },
   envelope: {
@@ -34,7 +39,8 @@ export function starterData() {
         soloed: false,
         currentNote: [],
         volume: 0,
-        synth: defaultSynth()
+        synth: defaultSynth(),
+        filter: defaultFilter()
       },
       [id2]: {
         name: 'Track 2',
@@ -48,7 +54,8 @@ export function starterData() {
         soloed: false,
         currentNote: [],
         volume: 0,
-        synth: defaultSynth()
+        synth: defaultSynth(),
+        filter: defaultFilter()
       }
     }
   };
@@ -83,7 +90,8 @@ export function mario() {
         ],
         soloed: false,
         volume: -20,
-        synth: defaultSynth()
+        synth: defaultSynth(),
+        filter: defaultFilter()
       },
       'bcfbc2d3-4e04-436a-8767-37353a0c4696': {
         baseNote: 4,
@@ -144,7 +152,8 @@ export function mario() {
         ],
         soloed: false,
         volume: 2,
-        synth: defaultSynth()
+        synth: defaultSynth(),
+        filter: defaultFilter()
       },
       'cba856c2-2d3b-4fb5-b31e-0a430c713f90': {
         baseNote: 4,
@@ -204,7 +213,8 @@ export function mario() {
         ],
         soloed: false,
         volume: -6,
-        synth: defaultSynth()
+        synth: defaultSynth(),
+        filter: defaultFilter()
       },
       'cdf1002a-1c03-4f50-915d-7c7b3764d961': {
         baseNote: 8,
@@ -221,7 +231,8 @@ export function mario() {
         ],
         soloed: false,
         volume: 0,
-        synth: defaultSynth()
+        synth: defaultSynth(),
+        filter: defaultFilter()
       }
     },
     playing: false,

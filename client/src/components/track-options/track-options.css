@@ -41,6 +41,11 @@
     display: flex;
   }
 
+  .track-options-filter {
+    display: flex;
+    flex-direction: column;
+  }
+
 
 .wave-svg {
   height: 21px;

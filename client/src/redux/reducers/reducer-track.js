@@ -13,6 +13,7 @@ import {
   CHANGE_BASE_NOTE,
   CHANGE_TRACK_NAME,
   UPDATE_TRACK_VOLUME,
+  UPDATE_FILTER_FREQUENCY,
 } from '../actions/actions-track';
 
 import {
@@ -112,6 +113,12 @@ export default function TrackReducer(state = {}, action) {
   case UPDATE_TRACK_VOLUME:
     newState = { ...state };
     newState.volume = action.payload.volume;
+    return newState;
+
+  case UPDATE_FILTER_FREQUENCY:
+    newState = { ...state };
+    newState.filter = { ...newState.filter };
+    newState.filter.frequency = action.payload.value;
     return newState;
 
   case CREATE_NEW_PROJECT:

@@ -3,7 +3,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { selectEnvelope, selectOscillator } from '../../redux/selectors';
+import { selectEnvelope, selectOscillator, selectFilter } from '../../redux/selectors';
+import { updateFilterFrequency } from '../../redux/actions/actions-track';
 import {
   updateAttack,
   updateDecay,
@@ -33,13 +34,15 @@ const TrackOptionsSlider = ({ text, ...restProps }) => {
 
 const TrackOptions = ({
   id,
+  filter,
   envelope,
   oscillator,
   updateAttack,
   updateDecay,
   updateSustain,
   updateRelease,
-  updateOscillatorType }) => {
+  updateOscillatorType,
+  updateFilterFrequency }) => {
 
   function handleAttackChange(event) {
     updateAttack({ value: Number(event.target.value), trackId: id });
@@ -59,6 +62,10 @@ const TrackOptions = ({
 
   function handleOscillatorClick(type) {
     updateOscillatorType({ type, trackId: id });
+  }
+
+  function handleFrequencyChange(event) {
+    updateFilterFrequency({ value: Number(event.target.value), trackId: id });
   }
 
   return (
@@ -134,6 +141,20 @@ const TrackOptions = ({
           </button>
 
         </div>
+        <div className="track-options-filter">
+          Filter:
+          <input
+            name="frequency"
+            type="range"
+            value={filter.frequency}
+            min="0"
+            max="20000"
+            onChange={handleFrequencyChange}
+          />
+          <label htmlFor="frequency">{filter.frequency} Hz</label>
+          <div>Type: {filter.type}</div>
+
+        </div>
       </div>
     </div>
   );
@@ -142,7 +163,8 @@ const TrackOptions = ({
 function mapStateToProps(state, { id }) {
   return {
     envelope: selectEnvelope(id)(state),
-    oscillator: selectOscillator(id)(state)
+    oscillator: selectOscillator(id)(state),
+    filter: selectFilter(id)(state)
   };
 }
 
@@ -152,7 +174,8 @@ function mapDispatchToProps(dispatch) {
     updateDecay,
     updateSustain,
     updateRelease,
-    updateOscillatorType
+    updateOscillatorType,
+    updateFilterFrequency
   };
   return bindActionCreators(actions, dispatch);
 }

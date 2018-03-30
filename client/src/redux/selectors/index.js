@@ -85,3 +85,11 @@ export function selectEnvelope(id) {
 export function selectOscillator(id) {
   return state => state.project.tracks[id].synth.oscillator;
 }
+
+export function selectFilter(id) {
+  return state => state.project.tracks[id].filter;
+}
+
+export function selectFilterFrequency(id) {
+  return state => state.project.tracks[id].filter.frequency;
+}

@@ -12,6 +12,8 @@ export const UPDATE_ATTACK = 'update_attack';
 export const UPDATE_DECAY = 'update_decay';
 export const UPDATE_SUSTAIN = 'update_sustain';
 export const UPDATE_RELEASE = 'update_release';
+export const UPDATE_FILTER_FREQUENCY = 'update_filter_frequency';
+
 
 export function updateCurrentNote({ bucketId, noteIndex, trackId }) {
   return {
@@ -89,4 +91,7 @@ export const updateRelease = ({ value, trackId }) => ({
   payload: { value, trackId }
 });
 
-
+export const updateFilterFrequency = ({ value, trackId }) => ({
+  type: UPDATE_FILTER_FREQUENCY,
+  payload: { value, trackId }
+});
