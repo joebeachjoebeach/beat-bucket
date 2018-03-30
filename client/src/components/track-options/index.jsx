@@ -68,12 +68,22 @@ const TrackOptions = ({
   }
 
   function handleFrequencyChange(event) {
-    updateFilterFrequency({ value: Number(event.target.value), trackId: id });
+    const value = sliderToFilter(Number(event.target.value));
+    updateFilterFrequency({ value, trackId: id });
   }
 
   function handleFilterTypeChange(event) {
-    // console.log(event.target.value);
     updateFilterType({ type: event.target.value, trackId: id });
+  }
+
+  function sliderToFilter(position) {
+    const scale = Math.log(20000) / 200;
+    return Math.exp(1 + scale * position);
+  }
+
+  function filterToSlider(value) {
+    const scale = Math.log(20000) / 200;
+    return Math.log(value) / scale;
   }
 
   return (
@@ -155,9 +165,9 @@ const TrackOptions = ({
             <input
               name="frequency"
               type="range"
-              value={filter.frequency}
+              value={filterToSlider(filter.frequency)}
               min="0"
-              max="20000"
+              max="200"
               onChange={handleFrequencyChange}
             />
             <label htmlFor="frequency">{filter.frequency} Hz</label>
