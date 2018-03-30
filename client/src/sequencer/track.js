@@ -23,10 +23,12 @@ export default class Track {
     this.sequence = sequence;
     this.baseNote = baseNote;
 
+    this.filter = new Tone.Filter(20000, 'lowpass').toMaster();
+
     this.synth = new Tone.Synth({ 
       envelope: synth.envelope, 
       oscillator: synth.oscillator 
-    }).toMaster();
+    }).connect(this.filter);
 
     this.part = this.initPart(sequence, baseNote);
 
@@ -106,7 +108,7 @@ export default class Track {
   onOscillatorChange(oscillator) {
     const envelope = selectEnvelope(this.id)(this.store.getState());
     this.synth.dispose();
-    this.synth = new Tone.Synth({ envelope, oscillator }).toMaster();
+    this.synth = new Tone.Synth({ envelope, oscillator }).connect(this.filter);
   }
 
 }
