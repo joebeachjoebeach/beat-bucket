@@ -93,3 +93,7 @@ export function selectFilter(id) {
 export function selectFilterFrequency(id) {
   return state => state.project.tracks[id].filter.frequency;
 }
+
+export function selectFilterType(id) {
+  return state => state.project.tracks[id].filter.type;
+}

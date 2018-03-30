@@ -31,6 +31,7 @@ import {
   CHANGE_TRACK_NAME,
   UPDATE_TRACK_VOLUME,
   UPDATE_FILTER_FREQUENCY,
+  UPDATE_FILTER_TYPE
 } from '../actions/actions-track.js';
 
 import {
@@ -91,6 +92,7 @@ export default function(state = mario(), action) {
   case CHANGE_TRACK_NAME:
   case UPDATE_TRACK_VOLUME:
   case UPDATE_FILTER_FREQUENCY:
+  case UPDATE_FILTER_TYPE:
   case ADD_NOTE:
   case DELETE_NOTE:
   case MOVE_NOTE:

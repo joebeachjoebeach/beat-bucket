@@ -4,7 +4,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { selectEnvelope, selectOscillator, selectFilter } from '../../redux/selectors';
-import { updateFilterFrequency } from '../../redux/actions/actions-track';
+import {
+  updateFilterFrequency,
+  updateFilterType } from '../../redux/actions/actions-track';
 import {
   updateAttack,
   updateDecay,
@@ -42,7 +44,8 @@ const TrackOptions = ({
   updateSustain,
   updateRelease,
   updateOscillatorType,
-  updateFilterFrequency }) => {
+  updateFilterFrequency,
+  updateFilterType }) => {
 
   function handleAttackChange(event) {
     updateAttack({ value: Number(event.target.value), trackId: id });
@@ -66,6 +69,11 @@ const TrackOptions = ({
 
   function handleFrequencyChange(event) {
     updateFilterFrequency({ value: Number(event.target.value), trackId: id });
+  }
+
+  function handleFilterTypeChange(event) {
+    // console.log(event.target.value);
+    updateFilterType({ type: event.target.value, trackId: id });
   }
 
   return (
@@ -143,16 +151,27 @@ const TrackOptions = ({
         </div>
         <div className="track-options-filter">
           Filter:
-          <input
-            name="frequency"
-            type="range"
-            value={filter.frequency}
-            min="0"
-            max="20000"
-            onChange={handleFrequencyChange}
-          />
-          <label htmlFor="frequency">{filter.frequency} Hz</label>
-          <div>Type: {filter.type}</div>
+          <div className="track-options-filter-frequency">
+            <input
+              name="frequency"
+              type="range"
+              value={filter.frequency}
+              min="0"
+              max="20000"
+              onChange={handleFrequencyChange}
+            />
+            <label htmlFor="frequency">{filter.frequency} Hz</label>
+          </div>
+          <select
+            name="filter-type"
+            value={filter.type}
+            onChange={handleFilterTypeChange}
+          >
+            <option value="lowpass">low pass</option>
+            <option value="highpass">high pass</option>
+            <option value="bandpass">band pass</option>
+            <option value="notch">notch</option>
+          </select>
 
         </div>
       </div>
@@ -175,7 +194,8 @@ function mapDispatchToProps(dispatch) {
     updateSustain,
     updateRelease,
     updateOscillatorType,
-    updateFilterFrequency
+    updateFilterFrequency,
+    updateFilterType
   };
   return bindActionCreators(actions, dispatch);
 }

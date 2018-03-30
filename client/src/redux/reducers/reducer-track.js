@@ -14,6 +14,7 @@ import {
   CHANGE_TRACK_NAME,
   UPDATE_TRACK_VOLUME,
   UPDATE_FILTER_FREQUENCY,
+  UPDATE_FILTER_TYPE,
 } from '../actions/actions-track';
 
 import {
@@ -119,6 +120,12 @@ export default function TrackReducer(state = {}, action) {
     newState = { ...state };
     newState.filter = { ...newState.filter };
     newState.filter.frequency = action.payload.value;
+    return newState;
+
+  case UPDATE_FILTER_TYPE:
+    newState = { ...state };
+    newState.filter = { ...newState.filter };
+    newState.filter.type = action.payload.type;
     return newState;
 
   case CREATE_NEW_PROJECT:

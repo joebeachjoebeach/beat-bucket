@@ -10,7 +10,8 @@ import {
   selectTrackVolume,
   selectEnvelope,
   selectOscillator,
-  selectFilterFrequency
+  selectFilterFrequency,
+  selectFilterType
 } from '../redux/selectors';
 import { observeStore } from '../redux/observers';
 import { updateCurrentNote } from '../redux/actions/actions-track';
@@ -44,6 +45,11 @@ export default class Track {
         store,
         selectFilterFrequency(id),
         this.onFilterFrequencyChange.bind(this)
+      ),
+      observeStore(
+        store,
+        selectFilterType(id),
+        this.onFilterTypeChange.bind(this)
       )
     ];
   }
@@ -119,6 +125,14 @@ export default class Track {
 
   onFilterFrequencyChange(frequency) {
     this.filter.frequency.value = frequency;
+  }
+
+  onFilterTypeChange(type) {
+    const frequency = this.filter.frequency.value;
+    this.filter.disconnect();
+    this.filter.dispose();
+    this.filter = new Tone.Filter(frequency, type, -96).toMaster();
+    this.synth.connect(this.filter);
   }
 
 }
