@@ -24,7 +24,7 @@ export default class Track {
     this.sequence = sequence;
     this.baseNote = baseNote;
 
-    this.filter = new Tone.Filter(20000, 'lowpass').toMaster();
+    this.filter = new Tone.Filter(20000, 'lowpass', -96).toMaster();
 
     this.synth = new Tone.Synth({ 
       envelope: synth.envelope, 
