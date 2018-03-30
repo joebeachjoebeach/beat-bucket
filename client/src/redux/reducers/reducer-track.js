@@ -1,5 +1,7 @@
 // TRACK REDUCER
 
+import { defaultSynth } from '../default-data';
+
 import { STOP, LOAD_PROJECT, CREATE_NEW_PROJECT } from '../actions/actions-project.js';
 
 import {
@@ -101,6 +103,10 @@ export default function TrackReducer(state = {}, action) {
   case LOAD_PROJECT:
     newState = { ...state };
     newState.currentNote = [];
+    // some older projects may have been saved before the addition of `synth`
+    if (!newState.synth) {
+      newState.synth = defaultSynth();
+    }
     return newState;
 
   case UPDATE_TRACK_VOLUME:
