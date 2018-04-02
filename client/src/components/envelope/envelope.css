@@ -1,3 +1,21 @@
 .envelope {
 
 }
+
+  .envelope-slider {
+    margin: 0 0 7px 0;
+  }
+
+    .envelope-slider-label {
+      display: inline-block;
+      width: 70px;
+    }
+
+    .envelope-slider-range {
+      background-color: #555;
+      width: 150px;
+    }
+
+    .envelope-slider-range:focus {
+      background-color: #333;
+    }

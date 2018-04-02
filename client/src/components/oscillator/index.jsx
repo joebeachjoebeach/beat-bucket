@@ -28,7 +28,7 @@ const Oscillator = ({ id, oscillator, updateOscillatorType }) => {
           disabled={oscillator.type === 'sine'}
           onClick={() => handleOscillatorClick('sine')}
         >
-          <SineSVG className="wave-svg" />
+          <SineSVG className="oscillator-wave-svg" />
         </button>
 
         <button
@@ -36,7 +36,7 @@ const Oscillator = ({ id, oscillator, updateOscillatorType }) => {
           disabled={oscillator.type === 'triangle'}
           onClick={() => handleOscillatorClick('triangle')}
         >
-          <TriangleSVG className="wave-svg" />
+          <TriangleSVG className="oscillator-wave-svg" />
         </button>
 
         <button
@@ -44,14 +44,14 @@ const Oscillator = ({ id, oscillator, updateOscillatorType }) => {
           disabled={oscillator.type === 'sawtooth'}
           onClick={() => handleOscillatorClick('sawtooth')}
         >
-          <SawtoothSVG className="wave-svg" />
+          <SawtoothSVG className="oscillator-wave-svg" />
         </button>
         <button
           className="button-light oscillator-button"
           disabled={oscillator.type === 'square'}
           onClick={() => handleOscillatorClick('square')}
         >
-          <SquareSVG className="wave-svg" />
+          <SquareSVG className="oscillator-wave-svg" />
         </button>
       </div>
     </div>

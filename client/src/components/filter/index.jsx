@@ -33,7 +33,7 @@ const Filter = ({ id, filter, updateFilterType, updateFilterFrequency }) => {
         maxValue={20000}
         label={`${Math.round(filter.frequency)} Hz`}
         onChange={handleFrequencyChange}
-        className="track-options-filter-frequency"
+        className="filter-frequency"
       />
       <select
         name="filter-type"
