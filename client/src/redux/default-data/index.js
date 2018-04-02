@@ -6,7 +6,10 @@ export const defaultFilter = () => ({
 });
 
 export const defaultSynth = () => ({
-  oscillator: { type: 'triangle' },
+  oscillator: {
+    type: 'triangle',
+    detune: 0
+  },
   envelope: {
     attack: 0.005,
     decay: 0.1,

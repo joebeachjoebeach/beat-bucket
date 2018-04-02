@@ -2,23 +2,42 @@
 
 }
 
-  .oscillator-buttons {
-    display: flex;
+  .oscillator-type {
+    margin: 0 0 15px 0;
   }
 
-  .oscillator-button {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    margin: 0 5px 0 0;
-  }
-
-    .oscillator-button:disabled {
-      background-color: #FFF;
-      background-color: rgba(255, 255, 255, 0.8);
+    .oscillator-type-buttons {
+      display: flex;
+      margin: 5px 0 0 0;
     }
 
-  .oscillator-wave-svg {
-    height: 21px;
-    width: 28px;
+    .oscillator-type-button {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      margin: 0 5px 0 0;
+    }
+
+      .oscillator-type-button:disabled {
+        background-color: #FFF;
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+
+    .oscillator-type-wave-svg {
+      height: 21px;
+      width: 28px;
+    }
+
+  .oscillator-detune {
+    display: flex;
+    flex-direction: column;
   }
+
+    .oscillator-detune-slider {
+      align-items: center;
+      display: flex;
+    }
+
+      .oscillator-detune-slider-input {
+        margin: 0 10px 0 0;
+      }

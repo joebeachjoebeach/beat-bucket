@@ -48,7 +48,8 @@ import {
   UPDATE_DECAY,
   UPDATE_SUSTAIN,
   UPDATE_RELEASE,
-  UPDATE_OSCILLATOR_TYPE
+  UPDATE_OSCILLATOR_TYPE,
+  UPDATE_OSCILLATOR_DETUNE
 } from '../actions/actions-synth';
 
 import { PASTE_BUCKET } from '../actions/actions-clipboard';
@@ -105,6 +106,7 @@ export default function(state = mario(), action) {
   case UPDATE_SUSTAIN:
   case UPDATE_RELEASE:
   case UPDATE_OSCILLATOR_TYPE:
+  case UPDATE_OSCILLATOR_DETUNE:
     newState = { ...state };
     newState.tracks = TracksReducer(newState.tracks, action);
     return newState;

@@ -86,6 +86,14 @@ export function selectOscillator(id) {
   return state => state.project.tracks[id].synth.oscillator;
 }
 
+export function selectOscType(id) {
+  return state => state.project.tracks[id].synth.oscillator.type; 
+}
+
+export function selectOscDetune(id) {
+  return state => state.project.tracks[id].synth.oscillator.detune;
+}
+
 export function selectFilter(id) {
   return state => state.project.tracks[id].filter;
 }

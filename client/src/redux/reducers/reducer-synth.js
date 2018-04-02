@@ -5,7 +5,8 @@ import {
   UPDATE_DECAY,
   UPDATE_SUSTAIN,
   UPDATE_RELEASE,
-  UPDATE_OSCILLATOR_TYPE
+  UPDATE_OSCILLATOR_TYPE,
+  UPDATE_OSCILLATOR_DETUNE
 } from '../actions/actions-synth';
 
 export default function SynthReducer(state, action) {
@@ -41,6 +42,12 @@ export default function SynthReducer(state, action) {
     newState = { ...state };
     newState.oscillator = { ...newState.oscillator };
     newState.oscillator.type = action.payload.type;
+    return newState;
+
+  case UPDATE_OSCILLATOR_DETUNE:
+    newState = { ...state };
+    newState.oscillator = { ...newState.oscillator };
+    newState.oscillator.detune = action.payload.value;
     return newState;
 
   default:

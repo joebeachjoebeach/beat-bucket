@@ -9,7 +9,8 @@ import {
   selectBaseNote,
   selectTrackVolume,
   selectEnvelope,
-  selectOscillator,
+  selectOscType,
+  selectOscDetune,
   selectFilterFrequency,
   selectFilterType
 } from '../redux/selectors';
@@ -40,7 +41,8 @@ export default class Track {
       observeStore(store, selectBaseNote(id), this.onBaseNoteChange.bind(this)),
       observeStore(store, selectTrackVolume(id), this.onVolumeChange.bind(this)),
       observeStore(store, selectEnvelope(id), this.onEnvelopeChange.bind(this)),
-      observeStore(store, selectOscillator(id), this.onOscillatorChange.bind(this)),
+      observeStore(store, selectOscType(id), this.onOscTypeChange.bind(this)),
+      observeStore(store, selectOscDetune(id), this.onOscDetuneChange.bind(this)),
       observeStore(
         store,
         selectFilterFrequency(id),
@@ -117,10 +119,14 @@ export default class Track {
     }
   }
 
-  onOscillatorChange(oscillator) {
+  onOscTypeChange(type) {
     const envelope = selectEnvelope(this.id)(this.store.getState());
     this.synth.dispose();
-    this.synth = new Tone.Synth({ envelope, oscillator }).connect(this.filter);
+    this.synth = new Tone.Synth({ envelope, oscillator: { type } }).connect(this.filter);
+  }
+
+  onOscDetuneChange(detune) {
+    this.synth.oscillator.detune.value = detune;
   }
 
   onFilterFrequencyChange(frequency) {
