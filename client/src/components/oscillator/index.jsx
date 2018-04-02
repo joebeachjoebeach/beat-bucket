@@ -22,7 +22,7 @@ const Oscillator = ({ id, oscillator, updateOscillatorType }) => {
   return (
     <div className="oscillator">
       Wave Shape:
-      <div className="track-options-oscillator-buttons">
+      <div className="oscillator-buttons">
         <button
           className="button-light oscillator-button"
           disabled={oscillator.type === 'sine'}

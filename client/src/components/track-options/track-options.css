@@ -1,5 +1,4 @@
 .track-options {
-  /*align-items: center;*/
   background-color: #141619;
   background-color: rgba(0, 0, 0, 0.75);
   box-sizing: border-box;
@@ -70,10 +69,6 @@
     margin: 0 0 0 20px;    
   }
 
-  .track-options-oscillator-buttons {
-    display: flex;
-  }
-
   .track-options-filter {
     display: flex;
     flex-direction: column;
@@ -84,15 +79,3 @@
   height: 21px;
   width: 28px;
 }
-
-.oscillator-button {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  margin: 0 5px 0 0;
-}
-
-  .oscillator-button:disabled {
-    background-color: #444;
-    background-color: rgba(255, 255, 255, 0.2);
-  }
