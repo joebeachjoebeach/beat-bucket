@@ -18,7 +18,7 @@ import './track-options.css';
 
 import Oscillator from '../oscillator';
 import Filter from '../filter';
-// import Envelope from '../envelope';
+import Envelope from '../envelope';
 
 const TrackOptionsSlider = ({ text, ...restProps }) => {
   return (
@@ -222,7 +222,7 @@ export class TrackOptions extends Component {
               ? <Filter />
               : <Envelope />
           */}
-          <Filter id={id} />
+          <Envelope id={id} />
 
 
         </div>
