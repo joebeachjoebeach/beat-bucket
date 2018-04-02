@@ -23,7 +23,7 @@ const Filter = ({ id, filter, updateFilterType, updateFilterFrequency }) => {
 
   return (
     <div className="filter">
-      Filter:
+      Frequency:
       <LogarithmicSlider
         name="frequency"
         value={filter.frequency}
@@ -36,7 +36,9 @@ const Filter = ({ id, filter, updateFilterType, updateFilterFrequency }) => {
         className="filter-frequency"
         inputClassName="slider track-options-slider-range filter-slider"
       />
+      Type:
       <select
+        className="button-light filter-type"
         name="filter-type"
         value={filter.type}
         onChange={handleFilterTypeChange}
