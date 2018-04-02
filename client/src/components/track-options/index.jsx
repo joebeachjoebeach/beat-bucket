@@ -20,6 +20,7 @@ import SawtoothSVG from '../svg/sawtooth-svg';
 import SineSVG from '../svg/sine-svg';
 import TriangleSVG from '../svg/triangle-svg';
 import SquareSVG from '../svg/square-svg';
+import LogarithmicSlider from '../logarithmic-slider';
 
 const TrackOptionsSlider = ({ text, ...restProps }) => {
   return (
@@ -67,8 +68,8 @@ const TrackOptions = ({
     updateOscillatorType({ type, trackId: id });
   }
 
-  function handleFrequencyChange(event) {
-    const value = sliderToFilter(Number(event.target.value));
+  function handleFrequencyChange(value) {
+    // const value = sliderToFilter(Number(event.target.value));
     updateFilterFrequency({ value, trackId: id });
   }
 
@@ -161,7 +162,7 @@ const TrackOptions = ({
         </div>
         <div className="track-options-filter">
           Filter:
-          <div className="track-options-filter-frequency">
+          {/*<div className="track-options-filter-frequency">
             <input
               name="frequency"
               type="range"
@@ -171,7 +172,18 @@ const TrackOptions = ({
               onChange={handleFrequencyChange}
             />
             <label htmlFor="frequency">{filter.frequency} Hz</label>
-          </div>
+          </div>*/}
+          <LogarithmicSlider
+            name="frequency"
+            value={filter.frequency}
+            minPosition={1}
+            maxPosition={200}
+            minValue={26}
+            maxValue={20000}
+            label={`${Math.round(filter.frequency)} Hz`}
+            onChange={handleFrequencyChange}
+            className="track-options-filter-frequency"
+          />
           <select
             name="filter-type"
             value={filter.type}
