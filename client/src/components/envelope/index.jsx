@@ -13,10 +13,10 @@ import './envelope.css';
 
 const EnvelopeSlider = ({ text, ...restProps }) => {
   return (
-    <div className="envelope-slider">
-      <label className="envelope-slider-label">{text}</label>
+    <div className="track-options-slider">
+      <label className="track-options-slider-label">{text}</label>
       <input
-        className="slider envelope-slider-range"
+        className="slider track-options-slider-range"
         type="range"
         { ...restProps }
       />

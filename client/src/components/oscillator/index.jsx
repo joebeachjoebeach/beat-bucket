@@ -69,7 +69,7 @@ const Oscillator = ({ id, oscillator, updateOscillatorType, updateOscillatorDetu
         Detune:
         <div className="oscillator-detune-slider">
           <input
-            className="oscillator-detune-slider-input"
+            className="slider track-options-slider-range oscillator-detune-slider-input"
             type="range"
             min={-100}
             max={100}

@@ -12,7 +12,8 @@ const LogarithmicSlider = ({
   maxValue,
   label,
   onChange,
-  className }) => {
+  className,
+  inputClassName }) => {
 
   const minV = Math.log(minValue);
   const maxV = Math.log(maxValue);
@@ -40,6 +41,7 @@ const LogarithmicSlider = ({
         min={minPosition}
         max={maxPosition}
         onChange={handleChange}
+        className={inputClassName}
       />
       <label htmlFor={name}>{label}</label>
     </div>

@@ -34,6 +34,7 @@ const Filter = ({ id, filter, updateFilterType, updateFilterFrequency }) => {
         label={`${Math.round(filter.frequency)} Hz`}
         onChange={handleFrequencyChange}
         className="filter-frequency"
+        inputClassName="slider track-options-slider-range filter-slider"
       />
       <select
         name="filter-type"

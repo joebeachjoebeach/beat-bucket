@@ -44,3 +44,22 @@
   .track-options-content {
     margin: 0 0 0 8px;
   }
+
+
+  .track-options-slider {
+    margin: 0 0 7px 0;
+  }
+
+    .track-options-slider-label {
+      display: inline-block;
+      width: 70px;
+    }
+
+    .track-options-slider-range {
+      background-color: #555;
+      width: 150px;
+    }
+
+    .track-options-slider-range:focus {
+      background-color: #333;
+    }
