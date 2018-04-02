@@ -1,5 +1,5 @@
 .track-options {
-  align-items: center;
+  /*align-items: center;*/
   background-color: #141619;
   background-color: rgba(0, 0, 0, 0.75);
   box-sizing: border-box;
@@ -12,6 +12,35 @@
   width: 700px;
   z-index: 1000;
 }
+
+  .track-options-sidebar {
+    align-items: flex-start;
+    border-right: 1px solid #555;
+    display: flex;
+    flex-direction: column;
+    padding: 0 8px 0 0;
+  }
+
+    .track-options-sidebar-button {
+      background-color: inherit;
+      border: none;
+      border-bottom: 1px solid transparent;
+      color: #DDD;
+      text-align: left;
+      width: 100%;
+    }
+
+    .track-options-sidebar-button:focus {
+      border-bottom: 1px solid #555;
+      outline: none;
+    }
+
+      .track-options-sidebar-button-active {
+        background-color: #FFF;
+        background-color: rgba(255, 255, 255, 0.8);
+        color: #111;
+      }
+
 
 .track-options-slider {
   margin: 0 0 7px 0;
