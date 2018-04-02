@@ -6,19 +6,29 @@ import { bindActionCreators } from 'redux';
 import { selectFilter } from '../../redux/selectors';
 import {
   updateFilterFrequency,
-  updateFilterType } from '../../redux/actions/actions-track';
+  updateFilterType,
+  updateFilterResonance } from '../../redux/actions/actions-track';
 import './filter.css';
 
 import LogarithmicSlider  from '../logarithmic-slider';
 
-const Filter = ({ id, filter, updateFilterType, updateFilterFrequency }) => {
+const Filter = ({
+  id,
+  filter,
+  updateFilterType,
+  updateFilterFrequency,
+  updateFilterResonance }) => {
 
   function handleFrequencyChange(value) {
     updateFilterFrequency({ value, trackId: id });
   }
 
-  function handleFilterTypeChange(event) {
+  function handleTypeChange(event) {
     updateFilterType({ type: event.target.value, trackId: id });
+  }
+
+  function handleResonanceChange(event) {
+    updateFilterResonance({ value: Number(event.target.value), trackId: id });
   }
 
   return (
@@ -36,18 +46,36 @@ const Filter = ({ id, filter, updateFilterType, updateFilterFrequency }) => {
         className="filter-frequency"
         inputClassName="slider track-options-slider-range filter-slider"
       />
-      Type:
-      <select
-        className="button-light filter-type"
-        name="filter-type"
-        value={filter.type}
-        onChange={handleFilterTypeChange}
-      >
-        <option value="lowpass">low pass</option>
-        <option value="highpass">high pass</option>
-        <option value="bandpass">band pass</option>
-        <option value="notch">notch</option>
-      </select>
+      <div className="filter-bottom">
+        <div className="filter-bottom-left">
+          Type:
+          <select
+            className="button-light filter-type"
+            name="filter-type"
+            value={filter.type}
+            onChange={handleTypeChange}
+          >
+            <option value="lowpass">low pass</option>
+            <option value="highpass">high pass</option>
+            <option value="bandpass">band pass</option>
+            <option value="notch">notch</option>
+          </select>
+        </div>
+
+        <div className="filter-bottom-right">
+          Resonance:
+          <input
+            className="slider track-options-slider-range"
+            type="range"
+            min={1}
+            max={10}
+            step={0.1}
+            value={filter.resonance}
+            onChange={handleResonanceChange}
+          />
+        </div>
+
+      </div>
     </div>
   );
 };
@@ -57,7 +85,8 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateFilterType, updateFilterFrequency }, dispatch);
+  const actions = { updateFilterType, updateFilterFrequency, updateFilterResonance };
+  return bindActionCreators(actions, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);

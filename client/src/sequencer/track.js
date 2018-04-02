@@ -12,7 +12,8 @@ import {
   selectOscType,
   selectOscDetune,
   selectFilterFrequency,
-  selectFilterType
+  selectFilterType,
+  selectFilterResonance
 } from '../redux/selectors';
 import { observeStore } from '../redux/observers';
 import { updateCurrentNote } from '../redux/actions/actions-track';
@@ -52,6 +53,11 @@ export default class Track {
         store,
         selectFilterType(id),
         this.onFilterTypeChange.bind(this)
+      ),
+      observeStore(
+        store,
+        selectFilterResonance(id),
+        this.onFilterResonanceChange.bind(this)
       )
     ];
   }
@@ -139,6 +145,10 @@ export default class Track {
     this.filter.dispose();
     this.filter = new Tone.Filter(frequency, type, -96).toMaster();
     this.synth.connect(this.filter);
+  }
+
+  onFilterResonanceChange(resonance) {
+    this.filter.Q.value = resonance;
   }
 
 }

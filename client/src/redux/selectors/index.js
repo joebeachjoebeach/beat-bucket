@@ -105,3 +105,7 @@ export function selectFilterFrequency(id) {
 export function selectFilterType(id) {
   return state => state.project.tracks[id].filter.type;
 }
+
+export function selectFilterResonance(id) {
+  return state => state.project.tracks[id].filter.resonance; 
+}

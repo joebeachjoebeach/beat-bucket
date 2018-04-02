@@ -19,7 +19,8 @@ import {
   CHANGE_TRACK_NAME,
   UPDATE_TRACK_VOLUME,
   UPDATE_FILTER_FREQUENCY,
-  UPDATE_FILTER_TYPE
+  UPDATE_FILTER_TYPE,
+  UPDATE_FILTER_RESONANCE
 } from '../actions/actions-track.js';
 
 import {
@@ -82,6 +83,7 @@ export default function TracksReducer(state, action) {
   case UPDATE_TRACK_VOLUME:
   case UPDATE_FILTER_FREQUENCY:
   case UPDATE_FILTER_TYPE:
+  case UPDATE_FILTER_RESONANCE:
   case PASTE_BUCKET:
   case UPDATE_ATTACK:
   case UPDATE_DECAY:

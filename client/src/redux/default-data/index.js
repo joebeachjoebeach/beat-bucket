@@ -2,7 +2,8 @@ import uuidv4 from 'uuid/v4';
 
 export const defaultFilter = () => ({
   frequency: 20000,
-  type: 'lowpass'
+  type: 'lowpass',
+  resonance: 1
 });
 
 export const defaultSynth = () => ({
