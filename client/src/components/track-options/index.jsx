@@ -16,11 +16,9 @@ import {
 
 import './track-options.css';
 
-import SawtoothSVG from '../svg/sawtooth-svg';
-import SineSVG from '../svg/sine-svg';
-import TriangleSVG from '../svg/triangle-svg';
-import SquareSVG from '../svg/square-svg';
-import LogarithmicSlider from '../logarithmic-slider';
+import Oscillator from '../oscillator';
+// import Filter from '../filter';
+// import Envelope from '../envelope';
 
 const TrackOptionsSlider = ({ text, ...restProps }) => {
   return (
@@ -193,6 +191,7 @@ export class TrackOptions extends Component {
 
   render() {
     const { mode } = this.state;
+    const { id } = this.props;
     return (
       <div className="track-options">
         <div className="track-options-sidebar">
@@ -215,10 +214,31 @@ export class TrackOptions extends Component {
             Envelope
           </button>
         </div>
+
+        <div className="track-options-content">
+          {/*mode === 'osc'
+            ? <Oscillator />
+            : mode === 'filter'
+              ? <Filter />
+              : <Envelope />
+          */}
+          <Oscillator id={id} />
+
+
+        </div>
+
       </div>
     );
   }
 }
+
+// function TrackOptionsContent({ mode }) {
+//   return mode === 'osc'
+//     ? <Oscillator />
+//     : mode === 'filter'
+//       ? <Filter />
+//       : <Envelope />;
+// }
 
 
 function mapStateToProps(state, { id }) {
