@@ -43,6 +43,8 @@ import {
 
 import { PASTE_BUCKET } from '../actions/actions-clipboard.js';
 
+import { defaultTrack } from '../default-data';
+
 import TrackReducer from './reducer-track';
 
 export default function TracksReducer(state, action) {
@@ -159,16 +161,6 @@ function addTrack(state) {
   const newState = { ...state };
   const trackKeys = Object.keys(newState);
   const id = uuidv4();
-  newState[id] = {
-    name: `Track ${trackKeys.length + 1}`,
-    sequence: [ [], [], [], [], [], [], [], [] ],
-    nextId: 0,
-    baseNote: 4,
-    id: id,
-    muted: false,
-    soloed: false,
-    currentNote: [],
-    volume: 0
-  };
+  newState[id] = defaultTrack(trackKeys.length + 1, id);
   return newState;
 }

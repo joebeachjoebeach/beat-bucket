@@ -26,7 +26,6 @@ export class TrackOptions extends Component {
 
   render() {
     const { mode } = this.state;
-    const { id } = this.props;
     return (
       <div className="track-options">
         <div className="track-options-sidebar">

@@ -19,6 +19,20 @@ export const defaultSynth = () => ({
   }
 });
 
+export const defaultTrack = (num, id) => ({
+  name: `Track ${num}`,
+  sequence: [ [], [], [], [], [], [], [], [] ],
+  nextId: 0,
+  baseNote: 4,
+  id,
+  muted: false,
+  soloed: false,
+  currentNote: [],
+  volume: 0,
+  synth: defaultSynth(),
+  filter: defaultFilter()
+});
+
 export function starterData() {
   const id1 = uuidv4();
   const id2 = uuidv4();
