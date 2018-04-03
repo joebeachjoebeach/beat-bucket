@@ -10,7 +10,7 @@ import Envelope from '../envelope';
 export class TrackOptions extends Component {
   constructor(props) {
     super(props);
-    this.state = { mode: 'filter' };
+    this.state = { mode: 'osc' };
     this.buttonClass = 'track-options-sidebar-button';
     this.activeButtonClass = this.buttonClass + ' ' + this.buttonClass + '-active';
     this.contentMap = {

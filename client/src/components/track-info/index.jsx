@@ -21,7 +21,7 @@ import TrackOptions from '../track-options';
 class TrackInfo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hover: false, showOptions: true };
+    this.state = { hover: false, showOptions: false };
     this.handleMuteClick = this.handleMuteClick.bind(this);
     this.handleSoloClick = this.handleSoloClick.bind(this);
     this.handleDeleteTrackClick = this.handleDeleteTrackClick.bind(this);
