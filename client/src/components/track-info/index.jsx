@@ -155,7 +155,6 @@ class TrackInfo extends React.Component {
   }
 }
 
-
 function mapStateToProps(state, ownProps) {
   return selectTrack(ownProps.id)(state);
 }
