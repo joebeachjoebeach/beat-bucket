@@ -8,10 +8,6 @@ export const UNSOLO = 'unsolo';
 export const CHANGE_BASE_NOTE = 'change_base_note';
 export const CHANGE_TRACK_NAME = 'change_track_name';
 export const UPDATE_TRACK_VOLUME = 'update_track_volume';
-export const UPDATE_ATTACK = 'update_attack';
-export const UPDATE_DECAY = 'update_decay';
-export const UPDATE_SUSTAIN = 'update_sustain';
-export const UPDATE_RELEASE = 'update_release';
 export const UPDATE_FILTER_FREQUENCY = 'update_filter_frequency';
 export const UPDATE_FILTER_TYPE = 'update_filter_type';
 export const UPDATE_FILTER_RESONANCE = 'update_filter_resonance';
@@ -72,26 +68,6 @@ export function updateTrackVolume({ volume, trackId }) {
     payload: { volume, trackId }
   };
 }
-
-export const updateAttack = ({ value, trackId }) => ({
-  type: UPDATE_ATTACK,
-  payload: { value, trackId }
-});
-
-export const updateDecay = ({ value, trackId }) => ({
-  type: UPDATE_DECAY,
-  payload: { value, trackId }
-});
-
-export const updateSustain = ({ value, trackId }) => ({
-  type: UPDATE_SUSTAIN,
-  payload: { value, trackId }
-});
-
-export const updateRelease = ({ value, trackId }) => ({
-  type: UPDATE_RELEASE,
-  payload: { value, trackId }
-});
 
 export const updateFilterFrequency = ({ value, trackId }) => ({
   type: UPDATE_FILTER_FREQUENCY,

@@ -14,13 +14,24 @@ import {
   UNSOLO,
   CHANGE_BASE_NOTE,
   CHANGE_TRACK_NAME,
-  UPDATE_TRACK_VOLUME } from '../actions/actions-track.js';
+  UPDATE_TRACK_VOLUME,
+  UPDATE_FILTER_FREQUENCY,
+  UPDATE_FILTER_TYPE,
+  UPDATE_FILTER_RESONANCE } from '../actions/actions-track.js';
 import {
   ADD_NOTE,
   DELETE_NOTE,
   MOVE_NOTE,
   ADD_BUCKET,
   DELETE_BUCKET } from '../actions/actions-sequence.js';
+import {
+  UPDATE_ATTACK,
+  UPDATE_DECAY,
+  UPDATE_SUSTAIN,
+  UPDATE_RELEASE,
+  UPDATE_OSCILLATOR_TYPE,
+  UPDATE_OSCILLATOR_DETUNE
+} from '../actions/actions-synth.js';
 
 const starter = {
   email: null,
@@ -82,6 +93,15 @@ export default function(state = starter, action) {
   case MOVE_NOTE:
   case ADD_BUCKET:
   case DELETE_BUCKET:
+  case UPDATE_ATTACK:
+  case UPDATE_DECAY:
+  case UPDATE_SUSTAIN:
+  case UPDATE_RELEASE:
+  case UPDATE_OSCILLATOR_TYPE:
+  case UPDATE_OSCILLATOR_DETUNE:
+  case UPDATE_FILTER_FREQUENCY:
+  case UPDATE_FILTER_TYPE:
+  case UPDATE_FILTER_RESONANCE:
     if (state.canSave)
       return state;
     newState = { ...state };
