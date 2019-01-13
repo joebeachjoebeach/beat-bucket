@@ -19,23 +19,21 @@
 * Each track can be assigned its own beat value.
     * e.g. one track can have each beat be a half note, while another has each beat be a sixteenth note.
 
-**Current Features:**
-* Save, share, and delete projects with a user account.
-* Add and remove tracks.
-* Add and remove beats (buckets).
-* Assign beat value for individual tracks.
-* Mute and solo tracks.
-* Edit track volume.
-* Rename projects and tracks.
-* Edit project BPM.
-
-**Future Features:**
-* Sequencer editing and customization on a per-track basis:
-    * Instrument selection (e.g. AM vs FM synth etc.)
-    * ADSR envelope adjustment
-    * Filtering
-* Effects on a per-track or global basis
-    * e.g. reverb, distortion etc.
+**Features:**
+* Save, share, and delete projects with a user account
+* Modify projects
+    * Rename projects and tracks
+    * Edit project BPM
+    * Add and remove tracks
+* Modify tracks
+    * Add and remove beats (buckets)
+    * Assign beat value for individual tracks
+    * Mute and solo tracks
+    * Edit track volume
+    * Modify track synthesizer
+        * ADSR envelope
+        * Oscillator selection (sine, square, triangle, saw)
+        * Filters (high pass, low pass, band pass)
 
 ---
 
