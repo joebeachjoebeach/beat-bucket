@@ -8,6 +8,7 @@
   position: absolute;
   top: 30px;
   width: 94%;
+  z-index: 1000;
 }
 
 .sharing-url {
