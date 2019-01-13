@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Tone from 'tone';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -12,6 +13,13 @@ import './index.css';
 import App from './components/app';
 
 import Sequencer from './sequencer';
+
+// This makes sure the Tone AudioContext doesn't get prevented from starting up.
+// More details here: https://github.com/Tonejs/Tone.js/issues/341
+document.documentElement.addEventListener('mousedown', () => {
+  if (Tone.context.state !== 'running')
+    Tone.context.resume();
+});
 
 // if we're in a dev environment and have the redux devtools, use them
 let store;
